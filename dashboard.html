@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Agency Privé agency dashboard">
+    <title>Agency Dashboard | Agency Privé</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <a class="skip-link" href="#dashboardContent">Skip to dashboard</a>
+
+    <div class="dashboard-shell">
+        <aside class="dashboard-sidebar" id="dashboardSidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="dashboard-logo" aria-label="Agency Privé homepage">
+                    <img src="assets/images/logo.png" alt="Agency Privé">
+                </a>
+                <button class="sidebar-close" id="sidebarClose" type="button" aria-label="Close navigation">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="agency-mini-profile">
+                <div class="agency-avatar">NW</div>
+                <div>
+                    <strong>Northwest Studio</strong>
+                    <span><i class="fa-solid fa-circle-check"></i> Profile in review</span>
+                </div>
+            </div>
+
+            <nav class="dashboard-navigation" aria-label="Dashboard navigation">
+                <span class="navigation-label">Workspace</span>
+                <a class="active" href="#overview"><i class="fa-solid fa-border-all"></i><span>Overview</span></a>
+                <a href="#profile"><i class="fa-regular fa-building"></i><span>Agency Profile</span><small>72%</small></a>
+                <a href="#portfolio"><i class="fa-regular fa-images"></i><span>Portfolio</span></a>
+                <a href="#services"><i class="fa-solid fa-layer-group"></i><span>Services</span></a>
+                <span class="navigation-label">Activity</span>
+                <a href="#inquiries"><i class="fa-regular fa-envelope"></i><span>Inquiries</span><b>3</b></a>
+                <a href="#analytics"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></a>
+                <a href="#verification"><i class="fa-solid fa-shield-halved"></i><span>Verification</span></a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a href="#subscription"><i class="fa-regular fa-gem"></i><span>Plan & Billing</span></a>
+                <a href="#settings"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+                <button type="button" id="logoutButton"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Log out</span></button>
+            </div>
+        </aside>
+
+        <div class="dashboard-main">
+            <header class="dashboard-topbar">
+                <button class="sidebar-open" id="sidebarOpen" type="button" aria-label="Open navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="topbar-title">
+                    <span>AGENCY WORKSPACE</span>
+                    <strong>Dashboard</strong>
+                </div>
+                <div class="topbar-actions">
+                    <a class="preview-link" href="agency-profile.html"><i class="fa-regular fa-eye"></i> Preview profile</a>
+                    <button class="notification-button" type="button" aria-label="Notifications">
+                        <i class="fa-regular fa-bell"></i><span>2</span>
+                    </button>
+                    <button class="account-button" type="button" aria-label="Open account menu">CW</button>
+                </div>
+            </header>
+
+            <main class="dashboard-content" id="dashboardContent">
+                <section class="welcome-row" id="overview">
+                    <div>
+                        <span class="eyebrow">WEDNESDAY, SEPTEMBER 16</span>
+                        <h1>Good afternoon, Charles.</h1>
+                        <p>Here is what is happening with your agency profile today.</p>
+                    </div>
+                    <a href="#profile" class="primary-button"><span>Complete profile</span><i class="fa-solid fa-arrow-right"></i></a>
+                </section>
+
+                <section class="trial-banner">
+                    <div class="trial-icon"><i class="fa-regular fa-gem"></i></div>
+                    <div class="trial-copy">
+                        <span>PRIVÉ PREMIUM TRIAL</span>
+                        <strong>6 days remaining</strong>
+                        <p>Premium presentation, analytics, portfolio tools, and enhanced directory visibility are active.</p>
+                    </div>
+                    <div class="trial-progress" aria-label="One of seven trial days used">
+                        <div><span style="width: 14%"></span></div>
+                        <small>Day 1 of 7</small>
+                    </div>
+                    <a href="#subscription">View plan</a>
+                </section>
+
+                <section class="metrics-grid" aria-label="Profile statistics">
+                    <article class="metric-card"><div><span>PROFILE VIEWS</span><i class="fa-regular fa-eye"></i></div><strong>248</strong><p><b>+18%</b> from last week</p></article>
+                    <article class="metric-card"><div><span>INQUIRIES</span><i class="fa-regular fa-envelope"></i></div><strong>12</strong><p><b>+3</b> this week</p></article>
+                    <article class="metric-card"><div><span>PROFILE SAVES</span><i class="fa-regular fa-bookmark"></i></div><strong>36</strong><p><b>+9%</b> from last week</p></article>
+                    <article class="metric-card"><div><span>SEARCH APPEARANCES</span><i class="fa-solid fa-magnifying-glass"></i></div><strong>1,482</strong><p><b>+24%</b> from last week</p></article>
+                </section>
+
+                <section class="dashboard-grid">
+                    <article class="dashboard-card profile-card" id="profile">
+                        <div class="card-heading">
+                            <div><span>PROFILE STRENGTH</span><h2>Complete your agency profile</h2></div>
+                            <div class="completion-ring" style="--progress:72"><strong>72%</strong></div>
+                        </div>
+                        <p class="card-intro">Complete these details to improve visibility and build trust with prospective clients.</p>
+                        <div class="completion-list">
+                            <button class="completed" type="button"><i class="fa-solid fa-check"></i><span><strong>Agency information</strong><small>Name, website, and primary location</small></span><em>Complete</em></button>
+                            <button class="completed" type="button"><i class="fa-solid fa-check"></i><span><strong>Services and expertise</strong><small>Services, creator niches, and regions</small></span><em>Complete</em></button>
+                            <button type="button"><i class="fa-solid fa-plus"></i><span><strong>Add portfolio work</strong><small>Showcase results and case studies</small></span><em>Add now</em></button>
+                            <button type="button"><i class="fa-solid fa-plus"></i><span><strong>Request verification</strong><small>Submit business information for review</small></span><em>Start</em></button>
+                        </div>
+                    </article>
+
+                    <article class="dashboard-card activity-card" id="analytics">
+                        <div class="card-heading compact"><div><span>LAST 7 DAYS</span><h2>Profile activity</h2></div><button type="button" aria-label="More options"><i class="fa-solid fa-ellipsis"></i></button></div>
+                        <div class="chart-summary"><strong>248</strong><span>TOTAL PROFILE VIEWS</span></div>
+                        <div class="bar-chart" aria-label="Mock profile views chart">
+                            <div style="--value:42%"><span>M</span></div><div style="--value:58%"><span>T</span></div><div style="--value:47%"><span>W</span></div><div style="--value:76%"><span>T</span></div><div style="--value:65%"><span>F</span></div><div style="--value:91%"><span>S</span></div><div class="current" style="--value:82%"><span>S</span></div>
+                        </div>
+                        <div class="chart-footer"><span><i></i> Profile views</span><a href="#analytics">Full analytics <i class="fa-solid fa-arrow-right"></i></a></div>
+                    </article>
+
+                    <article class="dashboard-card inquiries-card" id="inquiries">
+                        <div class="card-heading compact"><div><span>LEAD MANAGEMENT</span><h2>Recent inquiries</h2></div><a href="#inquiries">View all</a></div>
+                        <div class="inquiry-list">
+                            <button type="button"><span class="lead-avatar">AM</span><span><strong>Alex Morgan</strong><small>Interested in full-service management</small></span><time>12 min</time></button>
+                            <button type="button"><span class="lead-avatar">SK</span><span><strong>Sam King</strong><small>Asked about marketing and growth</small></span><time>2 hr</time></button>
+                            <button type="button"><span class="lead-avatar">JR</span><span><strong>Jordan Reed</strong><small>Requested a consultation</small></span><time>1 day</time></button>
+                        </div>
+                    </article>
+
+                    <article class="dashboard-card verification-card" id="verification">
+                        <div class="verification-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        <span>VERIFICATION</span><h2>Build more trust</h2>
+                        <p>Verified agencies receive a trust badge and additional visibility throughout the directory.</p>
+                        <button class="secondary-button" type="button">Begin verification <i class="fa-solid fa-arrow-right"></i></button>
+                    </article>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="dashboard-toast" id="dashboardToast" role="status" aria-live="polite"></div>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

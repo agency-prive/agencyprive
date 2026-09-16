@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Explore transparent Agency Privé rankings for professional creator, talent, influencer, and social-media agencies."
+    >
+
+    <title>Agency Rankings | Agency Privé</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/rankings.css">
+</head>
+
+<body>
+
+    <a href="#mainContent" class="skip-link">
+        Skip to rankings
+    </a>
+
+    <!-- =============================================
+         HEADER
+    ============================================== -->
+
+    <header class="site-header scrolled" id="siteHeader">
+        <div class="container header-container">
+
+            <a
+                href="index.html"
+                class="brand brand-image-link"
+                aria-label="Agency Privé homepage"
+            >
+                <img
+                    src="assets/images/logo.png"
+                    alt="Agency Privé"
+                    class="brand-logo-image"
+                >
+            </a>
+
+            <nav
+                class="desktop-navigation"
+                aria-label="Primary navigation"
+            >
+                <a href="agencies.html">Agencies</a>
+                <a href="rankings.html" class="active">Rankings</a>
+                <a href="compare.html">Compare</a>
+                <a href="insights.html">Insights</a>
+                <a href="for-agencies.html">For Agencies</a>
+            </nav>
+
+            <div class="header-actions">
+
+                <a href="login.html" class="header-login">
+                    Log In
+                </a>
+
+                <a
+                    href="demo.html"
+                    class="button button-outline header-demo"
+                >
+                    Get a Demo
+                </a>
+
+                <a
+                    href="register.html"
+                    class="button button-black header-trial"
+                >
+                    Start Free Trial
+                </a>
+
+                <button
+                    type="button"
+                    class="mobile-menu-button"
+                    id="mobileMenuButton"
+                    aria-label="Open navigation"
+                    aria-expanded="false"
+                >
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+            </div>
+        </div>
+
+        <div class="mobile-navigation" id="mobileNavigation">
+            <a href="agencies.html">Agencies</a>
+            <a href="rankings.html">Rankings</a>
+            <a href="compare.html">Compare</a>
+            <a href="insights.html">Insights</a>
+            <a href="for-agencies.html">For Agencies</a>
+            <a href="login.html">Log In</a>
+
+            <a href="register.html" class="button button-black">
+                Start Free Trial
+            </a>
+        </div>
+    </header>
+
+    <main id="mainContent">
+
+        <!-- =============================================
+             HERO
+        ============================================== -->
+
+        <section class="rankings-hero">
+            <div class="container rankings-hero-layout">
+
+                <div>
+                    <span class="eyebrow">
+                        INDEPENDENT AGENCY RANKINGS
+                    </span>
+
+                    <h1>
+                        Performance,
+                        <em>made visible.</em>
+                    </h1>
+                </div>
+
+                <div class="rankings-hero-copy">
+                    <p>
+                        Explore agencies using transparent indicators
+                        including verified reviews, experience, profile
+                        completeness, and demonstrated expertise.
+                    </p>
+
+                    <a href="#methodology" class="button button-text">
+                        View Methodology
+                        <i class="fa-solid fa-arrow-down"></i>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- =============================================
+             RANKING CONTROLS
+        ============================================== -->
+
+        <section class="ranking-controls-section">
+            <div class="container">
+
+                <form class="ranking-controls" id="rankingForm">
+
+                    <div class="ranking-control">
+                        <label for="rankingCategory">
+                            Ranking category
+                        </label>
+
+                        <select id="rankingCategory">
+                            <option value="overall">
+                                Overall ranking
+                            </option>
+
+                            <option value="Creator Management">
+                                Creator Management
+                            </option>
+
+                            <option value="Talent Management">
+                                Talent Management
+                            </option>
+
+                            <option value="Influencer Marketing">
+                                Influencer Marketing
+                            </option>
+
+                            <option value="Social Media">
+                                Social Media
+                            </option>
+
+                            <option value="Brand Partnerships">
+                                Brand Partnerships
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="ranking-control">
+                        <label for="rankingRegion">
+                            Region
+                        </label>
+
+                        <select id="rankingRegion">
+                            <option value="">Worldwide</option>
+                            <option value="Asia-Pacific">Asia-Pacific</option>
+                            <option value="Europe">Europe</option>
+                            <option value="North America">North America</option>
+                        </select>
+                    </div>
+
+                    <div class="ranking-control ranking-search-control">
+                        <label for="rankingSearch">
+                            Search agency
+                        </label>
+
+                        <div>
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+                            <input
+                                type="search"
+                                id="rankingSearch"
+                                placeholder="Search by agency name"
+                                autocomplete="off"
+                            >
+                        </div>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="button button-outline"
+                        id="resetRankings"
+                    >
+                        Reset
+                    </button>
+
+                </form>
+
+            </div>
+        </section>
+
+        <!-- =============================================
+             TOP THREE
+        ============================================== -->
+
+        <section class="ranking-results-section">
+            <div class="container">
+
+                <div class="ranking-section-heading">
+                    <div>
+                        <span class="eyebrow">CURRENT LEADERS</span>
+
+                        <h2 id="rankingTitle">
+                            Top agencies worldwide
+                        </h2>
+                    </div>
+
+                    <p>
+                        Rankings are recalculated from the current
+                        sample directory data.
+                    </p>
+                </div>
+
+                <div class="ranking-podium" id="rankingPodium"></div>
+
+                <!-- Full ranking list -->
+                <div class="ranking-table-wrapper">
+
+                    <div class="ranking-table-heading">
+                        <div>
+                            <span>FULL RANKING</span>
+
+                            <strong>
+                                <span id="rankingCount">0</span>
+                                agencies
+                            </strong>
+                        </div>
+
+                        <span class="ranking-updated">
+                            Updated September 2026
+                        </span>
+                    </div>
+
+                    <div
+                        class="ranking-table"
+                        id="rankingTable"
+                    ></div>
+
+                    <div
+                        class="ranking-empty"
+                        id="rankingEmpty"
+                        hidden
+                    >
+                        <i class="fa-regular fa-folder-open"></i>
+
+                        <h3>No agencies found</h3>
+
+                        <p>
+                            Try another category, region, or agency name.
+                        </p>
+
+                        <button
+                            type="button"
+                            class="button button-black"
+                            id="emptyResetRankings"
+                        >
+                            Reset Rankings
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- =============================================
+             METHODOLOGY
+        ============================================== -->
+
+        <section class="ranking-methodology" id="methodology">
+            <div class="container">
+
+                <div class="methodology-heading">
+                    <span class="eyebrow">
+                        HOW RANKINGS WORK
+                    </span>
+
+                    <h2>
+                        Transparent by design.
+                    </h2>
+
+                    <p>
+                        Rankings use consistent sample scoring criteria.
+                        Paid placement does not automatically determine
+                        ranking position.
+                    </p>
+                </div>
+
+                <div class="methodology-grid">
+
+                    <article>
+                        <span>01</span>
+                        <i class="fa-regular fa-star"></i>
+                        <h3>Client reputation</h3>
+                        <p>
+                            Rating quality, review volume, and review
+                            consistency contribute to the score.
+                        </p>
+                        <strong>35%</strong>
+                    </article>
+
+                    <article>
+                        <span>02</span>
+                        <i class="fa-solid fa-briefcase"></i>
+                        <h3>Experience</h3>
+                        <p>
+                            Years in operation and demonstrated service
+                            experience are considered.
+                        </p>
+                        <strong>25%</strong>
+                    </article>
+
+                    <article>
+                        <span>03</span>
+                        <i class="fa-solid fa-circle-check"></i>
+                        <h3>Verification</h3>
+                        <p>
+                            Verified business information strengthens
+                            directory trust.
+                        </p>
+                        <strong>20%</strong>
+                    </article>
+
+                    <article>
+                        <span>04</span>
+                        <i class="fa-solid fa-address-card"></i>
+                        <h3>Profile quality</h3>
+                        <p>
+                            Complete services, locations, company
+                            details, and portfolio information matter.
+                        </p>
+                        <strong>20%</strong>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- =============================================
+             CTA
+        ============================================== -->
+
+        <section class="rankings-cta">
+            <div class="container rankings-cta-layout">
+                <div>
+                    <span class="eyebrow">FOR AGENCY OWNERS</span>
+
+                    <h2>
+                        Build a profile worth ranking.
+                    </h2>
+                </div>
+
+                <a
+                    href="register.html"
+                    class="button button-white"
+                >
+                    Create Your Profile
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- =============================================
+         FOOTER
+    ============================================== -->
+
+    <footer class="site-footer">
+        <div class="container">
+
+            <div class="footer-grid">
+
+                <div class="footer-main">
+                    <a
+                        href="index.html"
+                        class="brand footer-brand brand-image-link"
+                    >
+                        <img
+                            src="assets/images/logo.png"
+                            alt="Agency Privé"
+                            class="footer-logo-image"
+                        >
+                    </a>
+
+                    <p class="footer-description">
+                        An independent global directory for discovering
+                        and comparing professional agencies.
+                    </p>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Discover</h3>
+                    <a href="agencies.html">Agencies</a>
+                    <a href="rankings.html">Rankings</a>
+                    <a href="compare.html">Compare</a>
+                    <a href="insights.html">Insights</a>
+                </div>
+
+                <div class="footer-column">
+                    <h3>For Agencies</h3>
+                    <a href="register.html">Create Profile</a>
+                    <a href="for-agencies.html">Verification</a>
+                    <a href="pricing.html">Pricing</a>
+                    <a href="login.html">Agency Login</a>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <a href="#">About</a>
+                    <a href="#methodology">Methodology</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Report a Concern</a>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>
+                    © <span id="currentYear"></span> Agency Privé.
+                    All rights reserved.
+                </p>
+
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                    <a href="#">Cookie Settings</a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/rankings.js"></script>
+</body>
+</html>

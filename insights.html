@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Research, analysis, guides, and industry insights from Agency Privé."
+    >
+
+    <title>Insights | Agency Privé</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/insights.css">
+</head>
+
+<body>
+
+    <a href="#mainContent" class="skip-link">
+        Skip to insights
+    </a>
+
+    <!-- =============================================
+         HEADER
+    ============================================== -->
+
+    <header class="site-header scrolled" id="siteHeader">
+        <div class="container header-container">
+
+            <a
+                href="index.html"
+                class="brand brand-image-link"
+                aria-label="Agency Privé homepage"
+            >
+                <img
+                    src="assets/images/logo.png"
+                    alt="Agency Privé"
+                    class="brand-logo-image"
+                >
+            </a>
+
+            <nav
+                class="desktop-navigation"
+                aria-label="Primary navigation"
+            >
+                <a href="agencies.html">Agencies</a>
+                <a href="rankings.html">Rankings</a>
+                <a href="compare.html">Compare</a>
+                <a href="insights.html" class="active">Insights</a>
+                <a href="for-agencies.html">For Agencies</a>
+            </nav>
+
+            <div class="header-actions">
+
+                <a href="login.html" class="header-login">
+                    Log In
+                </a>
+
+                <a
+                    href="demo.html"
+                    class="button button-outline header-demo"
+                >
+                    Get a Demo
+                </a>
+
+                <a
+                    href="register.html"
+                    class="button button-black header-trial"
+                >
+                    Start Free Trial
+                </a>
+
+                <button
+                    type="button"
+                    class="mobile-menu-button"
+                    id="mobileMenuButton"
+                    aria-label="Open navigation"
+                    aria-expanded="false"
+                >
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+            </div>
+        </div>
+
+        <div class="mobile-navigation" id="mobileNavigation">
+            <a href="agencies.html">Agencies</a>
+            <a href="rankings.html">Rankings</a>
+            <a href="compare.html">Compare</a>
+            <a href="insights.html">Insights</a>
+            <a href="for-agencies.html">For Agencies</a>
+            <a href="login.html">Log In</a>
+
+            <a href="register.html" class="button button-black">
+                Start Free Trial
+            </a>
+        </div>
+    </header>
+
+    <main id="mainContent">
+
+        <!-- =============================================
+             HERO
+        ============================================== -->
+
+        <section class="insights-hero">
+            <div class="container insights-hero-layout">
+
+                <div>
+                    <span class="eyebrow">
+                        RESEARCH & PERSPECTIVE
+                    </span>
+
+                    <h1>
+                        Insight for a
+                        <em>changing industry.</em>
+                    </h1>
+                </div>
+
+                <div class="insights-hero-copy">
+                    <p>
+                        Independent analysis, practical guides, and
+                        informed perspectives for agencies, creators,
+                        brands, and digital-business leaders.
+                    </p>
+
+                    <div class="insight-statistics">
+                        <span>
+                            <strong>30+</strong>
+                            Published insights
+                        </span>
+
+                        <span>
+                            <strong>6</strong>
+                            Research categories
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- =============================================
+             FEATURED ARTICLE
+        ============================================== -->
+
+        <section class="featured-insight-section">
+            <div class="container">
+
+                <article class="featured-insight">
+
+                    <div class="featured-insight-visual">
+                        <span class="featured-number">01</span>
+
+                        <div class="featured-visual-content">
+                            <small>AGENCY PRIVÉ REPORT</small>
+                            <strong>2026</strong>
+                            <span>CREATOR ECONOMY OUTLOOK</span>
+                        </div>
+                    </div>
+
+                    <div class="featured-insight-content">
+                        <span class="article-category">
+                            FEATURED RESEARCH
+                        </span>
+
+                        <h2>
+                            What clients now expect from modern agencies
+                        </h2>
+
+                        <p>
+                            Transparency, specialization, measurable
+                            performance, and clear communication are
+                            becoming central to agency selection.
+                        </p>
+
+                        <div class="article-meta">
+                            <span>8 minute read</span>
+                            <span>September 2026</span>
+                        </div>
+
+                        <a
+                            href="insight-article.html?id=1"
+                            class="button button-black"
+                        >
+                            Read the Report
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+
+                </article>
+
+            </div>
+        </section>
+
+        <!-- =============================================
+             FILTERS
+        ============================================== -->
+
+        <section class="insight-filter-section">
+            <div class="container insight-filter-layout">
+
+                <div
+                    class="insight-categories"
+                    id="insightCategories"
+                >
+                    <button
+                        type="button"
+                        class="active"
+                        data-category="All"
+                    >
+                        All Insights
+                    </button>
+
+                    <button
+                        type="button"
+                        data-category="Research"
+                    >
+                        Research
+                    </button>
+
+                    <button
+                        type="button"
+                        data-category="Agency Growth"
+                    >
+                        Agency Growth
+                    </button>
+
+                    <button
+                        type="button"
+                        data-category="Creator Strategy"
+                    >
+                        Creator Strategy
+                    </button>
+
+                    <button
+                        type="button"
+                        data-category="Brand Partnerships"
+                    >
+                        Brand Partnerships
+                    </button>
+
+                    <button
+                        type="button"
+                        data-category="Operations"
+                    >
+                        Operations
+                    </button>
+                </div>
+
+                <label class="insight-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="search"
+                        id="insightSearch"
+                        placeholder="Search insights"
+                        autocomplete="off"
+                    >
+                </label>
+
+            </div>
+        </section>
+
+        <!-- =============================================
+             ARTICLE GRID
+        ============================================== -->
+
+        <section class="insight-library-section">
+            <div class="container">
+
+                <div class="insight-library-heading">
+                    <div>
+                        <span class="eyebrow">
+                            INSIGHT LIBRARY
+                        </span>
+
+                        <h2>Latest thinking</h2>
+                    </div>
+
+                    <p>
+                        Showing
+                        <strong id="insightCount">0</strong>
+                        articles
+                    </p>
+                </div>
+
+                <div
+                    class="insight-grid"
+                    id="insightGrid"
+                ></div>
+
+                <div
+                    class="insight-empty"
+                    id="insightEmpty"
+                    hidden
+                >
+                    <i class="fa-regular fa-folder-open"></i>
+
+                    <h3>No insights found</h3>
+
+                    <p>
+                        Try another category or search term.
+                    </p>
+
+                    <button
+                        type="button"
+                        class="button button-black"
+                        id="clearInsightFilters"
+                    >
+                        Clear Filters
+                    </button>
+                </div>
+
+                <div class="insight-load-more">
+                    <button
+                        type="button"
+                        class="button button-outline"
+                        id="loadMoreInsights"
+                    >
+                        Load More Insights
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- =============================================
+             NEWSLETTER
+        ============================================== -->
+
+        <section class="insight-newsletter">
+            <div class="container newsletter-layout">
+
+                <div>
+                    <span class="eyebrow">
+                        THE PRIVÉ BRIEFING
+                    </span>
+
+                    <h2>
+                        Thoughtful updates,
+                        delivered selectively.
+                    </h2>
+
+                    <p>
+                        Receive new reports, guides, and industry
+                        perspectives. No daily noise.
+                    </p>
+                </div>
+
+                <form
+                    class="newsletter-form"
+                    id="newsletterForm"
+                    novalidate
+                >
+                    <label for="newsletterEmail">
+                        Business email
+                    </label>
+
+                    <div>
+                        <input
+                            type="email"
+                            id="newsletterEmail"
+                            placeholder="name@company.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                        <button
+                            type="submit"
+                            class="button button-white"
+                        >
+                            Subscribe
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <small
+                        class="newsletter-message"
+                        id="newsletterMessage"
+                        role="status"
+                    ></small>
+                </form>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- =============================================
+         FOOTER
+    ============================================== -->
+
+    <footer class="site-footer">
+        <div class="container">
+
+            <div class="footer-grid">
+
+                <div class="footer-main">
+
+                    <a
+                        href="index.html"
+                        class="brand footer-brand brand-image-link"
+                    >
+                        <img
+                            src="assets/images/logo.png"
+                            alt="Agency Privé"
+                            class="footer-logo-image"
+                        >
+                    </a>
+
+                    <p class="footer-description">
+                        Independent research and practical perspectives
+                        for the professional agency ecosystem.
+                    </p>
+
+                </div>
+
+                <div class="footer-column">
+                    <h3>Discover</h3>
+                    <a href="agencies.html">Agencies</a>
+                    <a href="rankings.html">Rankings</a>
+                    <a href="compare.html">Compare</a>
+                    <a href="insights.html">Insights</a>
+                </div>
+
+                <div class="footer-column">
+                    <h3>For Agencies</h3>
+                    <a href="register.html">Create Profile</a>
+                    <a href="for-agencies.html">Verification</a>
+                    <a href="pricing.html">Pricing</a>
+                    <a href="login.html">Agency Login</a>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <a href="#">About</a>
+                    <a href="#">Methodology</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Report a Concern</a>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>
+                    © <span id="currentYear"></span> Agency Privé.
+                    All rights reserved.
+                </p>
+
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                    <a href="#">Cookie Settings</a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/insights.js"></script>
+</body>
+</html>

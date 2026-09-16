@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Explore agency services, expertise, locations, and company information on Agency Privé."
+    >
+
+    <title>Agency Profile | Agency Privé</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/agency-profile.css">
+</head>
+
+<body>
+
+    <a href="#mainContent" class="skip-link">
+        Skip to agency profile
+    </a>
+
+    <!-- HEADER -->
+    <header class="site-header scrolled">
+        <div class="container header-container">
+
+            <a
+                href="index.html"
+                class="brand brand-image-link"
+                aria-label="Agency Privé homepage"
+            >
+                <img
+                    src="assets/images/logo.png"
+                    alt="Agency Privé"
+                    class="brand-logo-image"
+                >
+            </a>
+
+            <nav
+                class="desktop-navigation"
+                aria-label="Main navigation"
+            >
+                <a href="agencies.html">Agencies</a>
+                <a href="rankings.html">Rankings</a>
+                <a href="compare.html">Compare</a>
+                <a href="insights.html">Insights</a>
+                <a href="for-agencies.html">For Agencies</a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="login.html" class="header-login">
+                    Log In
+                </a>
+
+                <a
+                    href="register.html"
+                    class="button button-black header-trial"
+                >
+                    Start Free Trial
+                </a>
+
+                <button
+                    type="button"
+                    class="mobile-menu-button"
+                    id="mobileMenuButton"
+                    aria-label="Open navigation"
+                    aria-expanded="false"
+                >
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <nav
+            class="mobile-navigation"
+            id="mobileNavigation"
+            aria-label="Mobile navigation"
+        >
+            <a href="agencies.html">Agencies</a>
+            <a href="rankings.html">Rankings</a>
+            <a href="compare.html">Compare</a>
+            <a href="insights.html">Insights</a>
+            <a href="for-agencies.html">For Agencies</a>
+            <a href="login.html">Log In</a>
+
+            <a
+                href="register.html"
+                class="button button-black"
+            >
+                Start Free Trial
+            </a>
+        </nav>
+    </header>
+
+    <main id="mainContent" class="agency-profile-page">
+
+        <!-- PROFILE HERO -->
+        <section class="profile-hero">
+            <div class="container">
+
+                <nav
+                    class="profile-breadcrumb"
+                    aria-label="Breadcrumb"
+                >
+                    <a href="index.html">Home</a>
+                    <i class="fa-solid fa-chevron-right"></i>
+                    <a href="agencies.html">Agencies</a>
+                    <i class="fa-solid fa-chevron-right"></i>
+                    <span id="breadcrumbAgencyName">
+                        Agency Profile
+                    </span>
+                </nav>
+
+                <div class="profile-hero-grid">
+
+                    <div class="profile-identity">
+
+                        <div
+                            class="profile-logo"
+                            id="agencyLogo"
+                            aria-hidden="true"
+                        >
+                            NV
+                        </div>
+
+                        <div class="profile-title-area">
+
+                            <div class="profile-labels">
+                                <span class="profile-verified">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                    Verified Agency
+                                </span>
+
+                                <span class="profile-featured">
+                                    Privé Select
+                                </span>
+                            </div>
+
+                            <h1 id="agencyName">
+                                Northstar Vision
+                            </h1>
+
+                            <p
+                                class="profile-tagline"
+                                id="agencyTagline"
+                            >
+                                Creator management and digital growth,
+                                built around measurable performance.
+                            </p>
+
+                            <div class="profile-meta">
+                                <span>
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    <span id="agencyLocation">
+                                        Los Angeles, United States
+                                    </span>
+                                </span>
+
+                                <span>
+                                    <i class="fa-solid fa-calendar"></i>
+                                    <span id="agencyExperience">
+                                        6 years in business
+                                    </span>
+                                </span>
+
+                                <span>
+                                    <i class="fa-solid fa-users"></i>
+                                    <span id="agencySize">
+                                        11–50 team members
+                                    </span>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <aside class="profile-actions-card">
+                        <p>Interested in this agency?</p>
+
+                        <button
+                            type="button"
+                            class="button button-black button-full"
+                            id="contactAgencyButton"
+                        >
+                            <span>Contact Agency</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+
+                        <a
+                            href="#"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="button button-outline button-full"
+                            id="agencyWebsite"
+                        >
+                            <span>Visit Website</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+
+                        <button
+                            type="button"
+                            class="save-agency-button"
+                            id="saveAgencyButton"
+                            aria-pressed="false"
+                        >
+                            <i class="fa-regular fa-bookmark"></i>
+                            <span>Save Agency</span>
+                        </button>
+
+                        <small>
+                            Contact details are shared only when you
+                            choose to send an inquiry.
+                        </small>
+                    </aside>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- PROFILE NAVIGATION -->
+        <div class="profile-navigation-wrapper">
+            <div class="container">
+                <nav
+                    class="profile-navigation"
+                    aria-label="Agency profile sections"
+                >
+                    <a href="#overview" class="active">Overview</a>
+                    <a href="#services">Services</a>
+                    <a href="#expertise">Expertise</a>
+                    <a href="#locations">Locations</a>
+                    <a href="#verification">Verification</a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- PROFILE CONTENT -->
+        <section class="profile-content">
+            <div class="container profile-content-grid">
+
+                <div class="profile-main-column">
+
+                    <!-- ABOUT -->
+                    <article
+                        class="profile-section"
+                        id="overview"
+                    >
+                        <span class="eyebrow">
+                            Company Overview
+                        </span>
+
+                        <h2>About the agency</h2>
+
+                        <p id="agencyDescription">
+                            Northstar Vision helps creators build
+                            structured, sustainable digital businesses.
+                            Its team combines account management,
+                            creative planning, audience development,
+                            brand positioning, and performance reporting
+                            in one coordinated service.
+                        </p>
+
+                        <p id="agencyDescriptionSecondary">
+                            The agency works closely with each client to
+                            develop an individual strategy based on their
+                            audience, objectives, and preferred platforms.
+                        </p>
+
+                        <div class="profile-stat-grid">
+
+                            <div>
+                                <strong id="profileFounded">2019</strong>
+                                <span>Founded</span>
+                            </div>
+
+                            <div>
+                                <strong id="profileTeamSize">24</strong>
+                                <span>Team members</span>
+                            </div>
+
+                            <div>
+                                <strong id="profileCountries">12</strong>
+                                <span>Countries served</span>
+                            </div>
+
+                            <div>
+                                <strong id="profileResponse">1 day</strong>
+                                <span>Typical response</span>
+                            </div>
+
+                        </div>
+                    </article>
+
+                    <!-- SERVICES -->
+                    <article
+                        class="profile-section"
+                        id="services"
+                    >
+                        <span class="eyebrow">
+                            Capabilities
+                        </span>
+
+                        <h2>Services</h2>
+
+                        <p class="profile-section-intro">
+                            Services currently listed and confirmed by
+                            the agency.
+                        </p>
+
+                        <div
+                            class="service-card-grid"
+                            id="servicesGrid"
+                        ></div>
+                    </article>
+
+                    <!-- EXPERTISE -->
+                    <article
+                        class="profile-section"
+                        id="expertise"
+                    >
+                        <span class="eyebrow">
+                            Industry Knowledge
+                        </span>
+
+                        <h2>Creator expertise</h2>
+
+                        <p class="profile-section-intro">
+                            Creator categories and business areas the
+                            agency commonly supports.
+                        </p>
+
+                        <div
+                            class="profile-tag-list"
+                            id="expertiseTags"
+                        ></div>
+                    </article>
+
+                    <!-- LOCATIONS -->
+                    <article
+                        class="profile-section"
+                        id="locations"
+                    >
+                        <span class="eyebrow">
+                            Global Coverage
+                        </span>
+
+                        <h2>Countries and regions served</h2>
+
+                        <div
+                            class="location-list"
+                            id="locationList"
+                        ></div>
+                    </article>
+
+                    <!-- VERIFICATION -->
+                    <article
+                        class="profile-section verification-section"
+                        id="verification"
+                    >
+                        <div class="verification-heading">
+                            <div>
+                                <span class="eyebrow">
+                                    Trust and Transparency
+                                </span>
+
+                                <h2>Agency verification</h2>
+                            </div>
+
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+
+                        <p>
+                            Agency Privé verification helps confirm
+                            essential company information. Verification
+                            does not guarantee results and clients should
+                            always perform their own assessment before
+                            signing an agreement.
+                        </p>
+
+                        <div class="verification-checklist">
+
+                            <div>
+                                <i class="fa-solid fa-check"></i>
+
+                                <span>
+                                    <strong>Business identity</strong>
+                                    Company information reviewed
+                                </span>
+                            </div>
+
+                            <div>
+                                <i class="fa-solid fa-check"></i>
+
+                                <span>
+                                    <strong>Website ownership</strong>
+                                    Official website confirmed
+                                </span>
+                            </div>
+
+                            <div>
+                                <i class="fa-solid fa-check"></i>
+
+                                <span>
+                                    <strong>Representative</strong>
+                                    Authorized contact confirmed
+                                </span>
+                            </div>
+
+                        </div>
+                    </article>
+
+                </div>
+
+                <!-- SIDEBAR -->
+                <aside class="profile-sidebar">
+
+                    <section class="sidebar-card">
+                        <span class="eyebrow">
+                            Agency Details
+                        </span>
+
+                        <dl class="agency-detail-list">
+                            <div>
+                                <dt>Headquarters</dt>
+                                <dd id="sidebarHeadquarters">
+                                    Los Angeles, United States
+                                </dd>
+                            </div>
+
+                            <div>
+                                <dt>Agency size</dt>
+                                <dd id="sidebarSize">
+                                    11–50
+                                </dd>
+                            </div>
+
+                            <div>
+                                <dt>Years active</dt>
+                                <dd id="sidebarYears">
+                                    6 years
+                                </dd>
+                            </div>
+
+                            <div>
+                                <dt>Languages</dt>
+                                <dd id="sidebarLanguages">
+                                    English, Spanish
+                                </dd>
+                            </div>
+                        </dl>
+                    </section>
+
+                    <section class="sidebar-card">
+                        <span class="eyebrow">
+                            Social Profiles
+                        </span>
+
+                        <div class="profile-socials">
+                            <a
+                                href="#"
+                                aria-label="Instagram"
+                            >
+                                <i class="fa-brands fa-instagram"></i>
+                                Instagram
+                            </a>
+
+                            <a
+                                href="#"
+                                aria-label="X"
+                            >
+                                <i class="fa-brands fa-x-twitter"></i>
+                                X
+                            </a>
+
+                            <a
+                                href="#"
+                                aria-label="LinkedIn"
+                            >
+                                <i class="fa-brands fa-linkedin-in"></i>
+                                LinkedIn
+                            </a>
+                        </div>
+                    </section>
+
+                    <section class="sidebar-card profile-report-card">
+                        <h3>Is this information incorrect?</h3>
+
+                        <p>
+                            Help us maintain a transparent and accurate
+                            directory.
+                        </p>
+
+                        <button
+                            type="button"
+                            id="reportProfileButton"
+                        >
+                            Report an update
+                        </button>
+                    </section>
+
+                </aside>
+            </div>
+        </section>
+
+        <!-- RELATED AGENCIES -->
+        <section class="related-agencies section">
+            <div class="container">
+
+                <div class="related-heading">
+                    <div>
+                        <span class="eyebrow">
+                            Continue Exploring
+                        </span>
+
+                        <h2>Similar agencies</h2>
+                    </div>
+
+                    <a
+                        href="agencies.html"
+                        class="button button-outline"
+                    >
+                        View All Agencies
+                    </a>
+                </div>
+
+                <div class="related-agency-grid">
+
+                    <article class="related-agency-card">
+                        <div class="related-agency-logo">LM</div>
+
+                        <span class="badge badge-verified">
+                            Verified
+                        </span>
+
+                        <h3>Luminary Media</h3>
+
+                        <p>
+                            Digital strategy, creator management, and
+                            brand development.
+                        </p>
+
+                        <a href="agency-profile.html?id=2">
+                            View Profile
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </article>
+
+                    <article class="related-agency-card">
+                        <div class="related-agency-logo">AA</div>
+
+                        <span class="badge badge-verified">
+                            Verified
+                        </span>
+
+                        <h3>Atlas Agency</h3>
+
+                        <p>
+                            International talent representation and
+                            audience growth.
+                        </p>
+
+                        <a href="agency-profile.html?id=3">
+                            View Profile
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </article>
+
+                    <article class="related-agency-card">
+                        <div class="related-agency-logo">SK</div>
+
+                        <span class="badge">
+                            Listed
+                        </span>
+
+                        <h3>Studio Kindred</h3>
+
+                        <p>
+                            Creative direction, content production, and
+                            brand positioning.
+                        </p>
+
+                        <a href="agency-profile.html?id=4">
+                            View Profile
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- CONTACT MODAL -->
+    <div
+        class="profile-modal-overlay"
+        id="contactModal"
+        aria-hidden="true"
+    >
+        <div
+            class="profile-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="contactModalTitle"
+        >
+            <div class="profile-modal-heading">
+                <div>
+                    <span class="eyebrow">
+                        Send an Inquiry
+                    </span>
+
+                    <h2 id="contactModalTitle">
+                        Contact this agency
+                    </h2>
+                </div>
+
+                <button
+                    type="button"
+                    class="profile-modal-close"
+                    id="closeContactModal"
+                    aria-label="Close contact form"
+                >
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="agencyContactForm" novalidate>
+
+                <div class="form-group">
+                    <label class="form-label" for="contactName">
+                        Your name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="contactName"
+                        class="form-input"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="contactEmail">
+                        Email address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="contactEmail"
+                        class="form-input"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="contactMessage">
+                        How can the agency help?
+                    </label>
+
+                    <textarea
+                        id="contactMessage"
+                        class="form-textarea"
+                        required
+                    ></textarea>
+                </div>
+
+                <div
+                    class="contact-form-message"
+                    id="contactFormMessage"
+                    role="status"
+                    aria-live="polite"
+                ></div>
+
+                <button
+                    type="submit"
+                    class="button button-black button-full"
+                >
+                    <span>Send Inquiry</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/agency-profile.js"></script>
+</body>
+</html>

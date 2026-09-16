@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Create your Agency Privé company profile and select the plan that fits your agency."
+    >
+
+    <title>Create Company Profile | Agency Privé</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+
+<body class="auth-page">
+
+    <a href="#registrationForm" class="skip-link">
+        Skip to registration form
+    </a>
+
+    <main class="auth-layout registration-page">
+
+        <!-- LEFT INFORMATION PANEL -->
+
+        <section class="auth-brand-panel registration-brand-panel">
+
+            <div class="auth-grid-background"></div>
+
+            <a
+                href="index.html"
+                class="registration-mobile-logo"
+                aria-label="Agency Privé homepage"
+            >
+                <img
+                    src="assets/images/logo.png?v=5"
+                    alt="Agency Privé — The Global Agency Directory"
+                >
+            </a>
+
+            <div class="auth-brand-content registration-brand-content">
+
+                <span class="eyebrow">
+                    CREATE YOUR COMPANY PROFILE
+                </span>
+
+                <h1>
+                    Start free.<br>
+                    Grow with<br>
+                    <em>Privé.</em>
+                </h1>
+
+                <p>
+                    Build your agency profile, showcase your expertise,
+                    and choose the visibility plan that fits your goals.
+                </p>
+
+                <div class="registration-benefits">
+
+                    <article>
+                        <div class="registration-benefit-heading">
+                            <span>FREE PROFILE</span>
+                            <strong>FOREVER</strong>
+                        </div>
+
+                        <ul>
+                            <li>
+                                <i class="fa-solid fa-check"></i>
+                                Agency profile and description
+                            </li>
+
+                            <li>
+                                <i class="fa-solid fa-check"></i>
+                                Services and location
+                            </li>
+
+                            <li>
+                                <i class="fa-solid fa-check"></i>
+                                Website and social links
+                            </li>
+
+                            <li>
+                                <i class="fa-solid fa-check"></i>
+                                Basic portfolio and reviews
+                            </li>
+
+                            <li>
+                                <i class="fa-solid fa-check"></i>
+                                Apply for verification
+                            </li>
+                        </ul>
+                    </article>
+
+                    <article class="premium-benefit">
+                        <div class="registration-benefit-heading">
+                            <span>PRIVÉ</span>
+                            <strong>7-DAY TRIAL</strong>
+                        </div>
+
+                        <ul>
+                            <li>
+                                <i class="fa-solid fa-check"></i>
+                                Enhanced agency profile
+                            </li>
+
+                            <li>
+                                <i class="fa-solid fa-check"></i>
+                                Portfolio and case studies
+                            </li>
+
+                            <li>
+                                <i class="fa-solid fa-check"></i>
+                                Profile analytics
+                            </li>
+
+                            <li>
+                                <i class="fa-solid fa-check"></i>
+                                Lead and contact tools
+                            </li>
+                        </ul>
+                    </article>
+
+                </div>
+
+                <div class="registration-assurance">
+                    <i class="fa-regular fa-credit-card"></i>
+
+                    <div>
+                        <strong>No credit card required</strong>
+
+                        <small>
+                            Your free agency profile remains available
+                            after the trial ends.
+                        </small>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="auth-brand-footer">
+                <span>FREE PROFILE</span>
+                <span>SEVEN-DAY TRIAL</span>
+                <span>NO CREDIT CARD</span>
+            </div>
+
+        </section>
+
+        <!-- REGISTRATION FORM -->
+
+        <section class="auth-form-panel registration-form-panel">
+
+            <div class="mobile-auth-header">
+
+                <a
+                    href="index.html"
+                    class="brand"
+                    aria-label="Agency Privé homepage"
+                >
+                    <img
+                        src="assets/images/logo.png?v=5"
+                        alt="Agency Privé"
+                    >
+                </a>
+
+                <a
+                    href="index.html"
+                    class="mobile-close"
+                    aria-label="Return to homepage"
+                >
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+
+            </div>
+
+            <div class="auth-form-wrapper registration-form">
+
+                <a href="index.html" class="auth-back">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Return to homepage
+                </a>
+
+                <div class="auth-heading">
+                    <span class="eyebrow">
+                        AGENCY REGISTRATION
+                    </span>
+
+                    <h2>Create your profile.</h2>
+
+                    <p>
+                        Add your agency details, services, expertise,
+                        and public profile information.
+                    </p>
+                </div>
+
+                <div
+                    class="auth-message"
+                    id="authMessage"
+                    role="status"
+                    aria-live="polite"
+                ></div>
+
+                <form
+                    id="registrationForm"
+                    class="agency-wizard"
+                    novalidate
+                >
+
+                    <!-- PROGRESS -->
+
+                    <nav
+                        class="wizard-progress"
+                        aria-label="Registration progress"
+                    >
+                        <button
+                            type="button"
+                            class="wizard-progress-item active"
+                            data-step-target="1"
+                        >
+                            <span>01</span>
+                            <strong>Agency Details</strong>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="wizard-progress-item"
+                            data-step-target="2"
+                        >
+                            <span>02</span>
+                            <strong>Services</strong>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="wizard-progress-item"
+                            data-step-target="3"
+                        >
+                            <span>03</span>
+                            <strong>Expertise</strong>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="wizard-progress-item"
+                            data-step-target="4"
+                        >
+                            <span>04</span>
+                            <strong>About</strong>
+                        </button>
+                    </nav>
+
+                    <!-- STEP 1 -->
+
+                    <section
+                        class="wizard-step active"
+                        data-step="1"
+                    >
+
+                        <div class="wizard-step-heading">
+                            <span>STEP 01 OF 04</span>
+                            <h3>Agency details</h3>
+
+                            <p>
+                                Select your plan and add the essential
+                                information for your agency.
+                            </p>
+                        </div>
+
+                        <div class="auth-form-group registration-plan-group">
+                            <label for="registrationPlan">
+                                Selected plan
+                            </label>
+
+                            <select
+                                id="registrationPlan"
+                                name="registrationPlan"
+                                class="auth-select"
+                                required
+                            >
+                                <option value="">
+                                    Select a plan
+                                </option>
+
+                                <option value="free">
+                                    Free — $0 forever
+                                </option>
+
+                                <option value="prive">
+                                    Privé — $59/month
+                                </option>
+
+                                <option value="select">
+                                    Privé Select — $149/month
+                                </option>
+
+                                <option value="elite">
+                                    Privé Elite — $399/month
+                                </option>
+                            </select>
+
+                            <small
+                                class="registration-plan-note"
+                                id="registrationPlanNote"
+                            >
+                                You can change your plan before
+                                completing registration.
+                            </small>
+
+                            <small
+                                class="auth-error"
+                                id="registrationPlanError"
+                            ></small>
+                        </div>
+
+                        <div class="registration-grid">
+
+                            <div class="auth-form-group">
+                                <label for="firstName">
+                                    First name
+                                </label>
+
+                                <div class="auth-input-wrapper">
+                                    <i class="fa-regular fa-user"></i>
+
+                                    <input
+                                        type="text"
+                                        id="firstName"
+                                        name="firstName"
+                                        placeholder="First name"
+                                        autocomplete="given-name"
+                                        required
+                                    >
+                                </div>
+
+                                <small
+                                    class="auth-error"
+                                    id="firstNameError"
+                                ></small>
+                            </div>
+
+                            <div class="auth-form-group">
+                                <label for="lastName">
+                                    Last name
+                                </label>
+
+                                <div class="auth-input-wrapper">
+                                    <i class="fa-regular fa-user"></i>
+
+                                    <input
+                                        type="text"
+                                        id="lastName"
+                                        name="lastName"
+                                        placeholder="Last name"
+                                        autocomplete="family-name"
+                                        required
+                                    >
+                                </div>
+
+                                <small
+                                    class="auth-error"
+                                    id="lastNameError"
+                                ></small>
+                            </div>
+
+                        </div>
+
+                        <div class="auth-form-group">
+                            <label for="registrationEmail">
+                                Business email address
+                            </label>
+
+                            <div class="auth-input-wrapper">
+                                <i class="fa-regular fa-envelope"></i>
+
+                                <input
+                                    type="email"
+                                    id="registrationEmail"
+                                    name="email"
+                                    placeholder="name@agency.com"
+                                    autocomplete="email"
+                                    required
+                                >
+                            </div>
+
+                            <small
+                                class="auth-error"
+                                id="registrationEmailError"
+                            ></small>
+                        </div>
+
+                        <div class="registration-grid">
+
+                            <div class="auth-form-group">
+                                <label for="registrationPassword">
+                                    Password
+                                </label>
+
+                                <div class="auth-input-wrapper">
+                                    <i class="fa-solid fa-lock"></i>
+
+                                    <input
+                                        type="password"
+                                        id="registrationPassword"
+                                        name="password"
+                                        placeholder="Minimum 8 characters"
+                                        autocomplete="new-password"
+                                        minlength="8"
+                                        required
+                                    >
+
+                                    <button
+                                        type="button"
+                                        class="password-toggle"
+                                        id="registrationPasswordToggle"
+                                        aria-label="Show password"
+                                    >
+                                        <i class="fa-regular fa-eye"></i>
+                                    </button>
+                                </div>
+
+                                <small
+                                    class="auth-error"
+                                    id="registrationPasswordError"
+                                ></small>
+                            </div>
+
+                            <div class="auth-form-group">
+                                <label for="confirmPassword">
+                                    Confirm password
+                                </label>
+
+                                <div class="auth-input-wrapper">
+                                    <i class="fa-solid fa-lock"></i>
+
+                                    <input
+                                        type="password"
+                                        id="confirmPassword"
+                                        name="confirmPassword"
+                                        placeholder="Repeat password"
+                                        autocomplete="new-password"
+                                        required
+                                    >
+
+                                    <button
+                                        type="button"
+                                        class="password-toggle"
+                                        id="confirmPasswordToggle"
+                                        aria-label="Show password"
+                                    >
+                                        <i class="fa-regular fa-eye"></i>
+                                    </button>
+                                </div>
+
+                                <small
+                                    class="auth-error"
+                                    id="confirmPasswordError"
+                                ></small>
+                            </div>
+
+                        </div>
+
+                        <div class="auth-form-group">
+                            <label for="companyName">
+                                Agency name
+                            </label>
+
+                            <div class="auth-input-wrapper">
+                                <i class="fa-regular fa-building"></i>
+
+                                <input
+                                    type="text"
+                                    id="companyName"
+                                    name="companyName"
+                                    placeholder="Your agency name"
+                                    autocomplete="organization"
+                                    required
+                                >
+                            </div>
+
+                            <small
+                                class="auth-error"
+                                id="companyNameError"
+                            ></small>
+                        </div>
+
+                        <div class="registration-grid">
+
+                            <div class="auth-form-group">
+                                <label for="country">
+                                    Primary location
+                                </label>
+
+                                <select
+                                    id="country"
+                                    name="country"
+                                    class="auth-select"
+                                    required
+                                >
+                                    <option value="">
+                                        Select country
+                                    </option>
+                                    <option value="australia">Australia</option>
+                                    <option value="canada">Canada</option>
+                                    <option value="france">France</option>
+                                    <option value="germany">Germany</option>
+                                    <option value="philippines">Philippines</option>
+                                    <option value="singapore">Singapore</option>
+                                    <option value="spain">Spain</option>
+                                    <option value="uae">United Arab Emirates</option>
+                                    <option value="uk">United Kingdom</option>
+                                    <option value="usa">United States</option>
+                                    <option value="other">Other</option>
+                                </select>
+
+                                <small
+                                    class="auth-error"
+                                    id="countryError"
+                                ></small>
+                            </div>
+
+                            <div class="auth-form-group">
+                                <label for="companyWebsite">
+                                    Website
+                                    <span class="optional-label">
+                                        Optional
+                                    </span>
+                                </label>
+
+                                <div class="auth-input-wrapper">
+                                    <i class="fa-solid fa-globe"></i>
+
+                                    <input
+                                        type="url"
+                                        id="companyWebsite"
+                                        name="companyWebsite"
+                                        placeholder="https://youragency.com"
+                                        autocomplete="url"
+                                    >
+                                </div>
+
+                                <small
+                                    class="auth-error"
+                                    id="companyWebsiteError"
+                                ></small>
+                            </div>
+
+                        </div>
+
+                        <div class="auth-form-group">
+                            <label for="agencyLogo">
+                                Agency logo
+                                <span class="optional-label">
+                                    Optional
+                                </span>
+                            </label>
+
+                            <label
+                                class="logo-upload"
+                                for="agencyLogo"
+                            >
+                                <span
+                                    class="logo-preview"
+                                    id="logoPreview"
+                                >
+                                    <i class="fa-regular fa-image"></i>
+                                </span>
+
+                                <span>
+                                    <strong>Upload agency logo</strong>
+
+                                    <small>
+                                        PNG, JPG or WEBP · Maximum 5 MB
+                                    </small>
+                                </span>
+
+                                <span class="logo-upload-action">
+                                    Choose file
+                                </span>
+                            </label>
+
+                            <input
+                                type="file"
+                                id="agencyLogo"
+                                name="agencyLogo"
+                                class="visually-hidden"
+                                accept="image/png,image/jpeg,image/webp"
+                            >
+
+                            <small
+                                class="auth-error"
+                                id="agencyLogoError"
+                            ></small>
+                        </div>
+
+                        <div class="wizard-actions wizard-actions-end">
+                            <button
+                                type="button"
+                                class="button button-black wizard-next"
+                            >
+                                Continue to Services
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+
+                    </section>
+
+                    <!-- STEP 2 -->
+
+                    <section
+                        class="wizard-step"
+                        data-step="2"
+                        hidden
+                    >
+
+                        <div class="wizard-step-heading">
+                            <span>STEP 02 OF 04</span>
+                            <h3>Services</h3>
+
+                            <p>
+                                Select all services currently offered
+                                by your agency.
+                            </p>
+                        </div>
+
+                        <div class="selection-summary">
+                            <span>Services selected</span>
+                            <strong id="servicesSelectedCount">0</strong>
+                        </div>
+
+                        <div class="option-groups">
+
+                            <fieldset class="option-group">
+                                <legend>Management &amp; Operations</legend>
+
+                                <div class="option-grid">
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="full-service-management"
+                                        >
+                                        <span>Full-Service Management</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="account-management"
+                                        >
+                                        <span>Account Management</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="creator-management"
+                                        >
+                                        <span>Creator Management</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="account-setup"
+                                        >
+                                        <span>Account Setup &amp; Onboarding</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="strategy-consulting"
+                                        >
+                                        <span>Strategy &amp; Consulting</span>
+                                    </label>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="option-group">
+                                <legend>Audience &amp; Monetization</legend>
+
+                                <div class="option-grid">
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="community-management"
+                                        >
+                                        <span>Community Management</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="sales-conversion"
+                                        >
+                                        <span>Sales &amp; Conversion</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="membership-strategy"
+                                        >
+                                        <span>Membership Strategy</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="audience-retention"
+                                        >
+                                        <span>Audience Retention</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="revenue-optimization"
+                                        >
+                                        <span>Revenue Optimization</span>
+                                    </label>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="option-group">
+                                <legend>Marketing &amp; Growth</legend>
+
+                                <div class="option-grid">
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="social-media-marketing"
+                                        >
+                                        <span>Social Media Marketing</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="audience-growth"
+                                        >
+                                        <span>Audience Growth</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="instagram-marketing"
+                                        >
+                                        <span>Instagram Marketing</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="tiktok-marketing"
+                                        >
+                                        <span>TikTok Marketing</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="x-marketing"
+                                        >
+                                        <span>X Marketing</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="cross-platform-promotion"
+                                        >
+                                        <span>Cross-Platform Promotion</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="paid-advertising"
+                                        >
+                                        <span>Paid Advertising</span>
+                                    </label>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="option-group">
+                                <legend>Content</legend>
+
+                                <div class="option-grid">
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="content-strategy"
+                                        >
+                                        <span>Content Strategy</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="content-planning"
+                                        >
+                                        <span>Content Planning</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="content-production"
+                                        >
+                                        <span>Content Production</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="photo-video-editing"
+                                        >
+                                        <span>Photo &amp; Video Editing</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="creative-direction"
+                                        >
+                                        <span>Creative Direction</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="brand-development"
+                                        >
+                                        <span>Brand Development</span>
+                                    </label>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="option-group">
+                                <legend>Branding &amp; Business</legend>
+
+                                <div class="option-grid">
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="personal-branding"
+                                        >
+                                        <span>Personal Branding</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="brand-positioning"
+                                        >
+                                        <span>Brand Positioning</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="pricing-strategy"
+                                        >
+                                        <span>Pricing Strategy</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="analytics-reporting"
+                                        >
+                                        <span>Analytics &amp; Reporting</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="business-strategy"
+                                        >
+                                        <span>Business Strategy</span>
+                                    </label>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="option-group">
+                                <legend>Additional Services</legend>
+
+                                <div class="option-grid">
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="creator-recruitment"
+                                        >
+                                        <span>Creator Recruitment</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="talent-management"
+                                        >
+                                        <span>Talent Management</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="collaboration-management"
+                                        >
+                                        <span>Collaboration Management</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            name="services"
+                                            value="legal-compliance"
+                                        >
+                                        <span>Legal / Compliance Support</span>
+                                    </label>
+
+                                    <label class="selection-card">
+                                        <input
+                                            type="checkbox"
+                                            id="otherServiceCheckbox"
+                                            name="services"
+                                            value="other"
+                                        >
+                                        <span>Other</span>
+                                    </label>
+                                </div>
+
+                                <div
+                                    class="conditional-field"
+                                    id="otherServiceField"
+                                    hidden
+                                >
+                                    <label for="otherService">
+                                        Please specify
+                                    </label>
+
+                                    <input
+                                        type="text"
+                                        id="otherService"
+                                        name="otherService"
+                                        class="wizard-text-input"
+                                        placeholder="Describe the additional service"
+                                    >
+                                </div>
+                            </fieldset>
+
+                        </div>
+
+                        <small
+                            class="auth-error group-error"
+                            id="servicesError"
+                        ></small>
+
+                        <div class="wizard-actions">
+                            <button
+                                type="button"
+                                class="button button-outline wizard-back"
+                            >
+                                <i class="fa-solid fa-arrow-left"></i>
+                                Back
+                            </button>
+
+                            <button
+                                type="button"
+                                class="button button-black wizard-next"
+                            >
+                                Continue to Expertise
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+
+                    </section>
+
+                    <!-- STEP 3 -->
+
+                    <section
+                        class="wizard-step"
+                        data-step="3"
+                        hidden
+                    >
+
+                        <div class="wizard-step-heading">
+                            <span>STEP 03 OF 04</span>
+                            <h3>Expertise</h3>
+
+                            <p>
+                                Describe the creator categories, markets,
+                                and scale your agency supports.
+                            </p>
+                        </div>
+
+                        <fieldset class="option-group">
+                            <legend>Creator niches</legend>
+
+                            <p class="option-help">
+                                Select all that apply.
+                            </p>
+
+                            <div class="option-grid">
+
+                                <label class="selection-card">
+                                    <input
+                                        type="checkbox"
+                                        name="creatorNiches"
+                                        value="digital-creators"
+                                    >
+                                    <span>Digital Creators</span>
+                                </label>
+
+                                <label class="selection-card">
+                                    <input
+                                        type="checkbox"
+                                        name="creatorNiches"
+                                        value="influencers"
+                                    >
+                                    <span>Influencers</span>
+                                </label>
+
+                                <label class="selection-card">
+                                    <input
+                                        type="checkbox"
+                                        name="creatorNiches"
+                                        value="models"
+                                    >
+                                    <span>Models</span>
+                                </label>
+
+                                <label class="selection-card">
+                                    <input
+                                        type="checkbox"
+                                        name="creatorNiches"
+                                        value="fitness"
+                                    >
+                                    <span>Fitness Creators</span>
+                                </label>
+
+                                <label class="selection-card">
+                                    <input
+                                        type="checkbox"
+                                        name="creatorNiches"
+                                        value="lifestyle"
+                                    >
+                                    <span>Lifestyle Creators</span>
+                                </label>
+
+                                <label class="selection-card">
+                                    <input
+                                        type="checkbox"
+                                        name="creatorNiches"
+                                        value="fashion"
+                                    >
+                                    <span>Fashion Creators</span>
+                                </label>
+
+                                <label class="selection-card">
+                                    <input
+                                        type="checkbox"
+                                        name="creatorNiches"
+                                        value="gaming"
+                                    >
+                                    <span>Gaming Creators</span>
+                                </label>
+
+                                <label class="selection-card">
+                                    <input
+                                        type="checkbox"
+                                        name="creatorNiches"
+                                        value="technology"
+                                    >
+                                    <span>Technology Creators</span>
+                                </label>
+
+                                <label class="selection-card">
+                                    <input
+                                        type="checkbox"
+                                        name="creatorNiches"
+                                        value="beauty"
+                                    >
+                                    <span>Beauty Creators</span>
+                                </label>
+
+                                <label class="selection-card">
+                                    <input
+                                        type="checkbox"
+                                        name="creatorNiches"
+                                        value="travel"
+                                    >
+                                    <span>Travel Creators</span>
+                                </label>
+
+                                <label class="selection-card">
+                                    <input
+                                        type="checkbox"
+                                        name="creatorNiches"
+                                        value="food"
+                                    >
+                                    <span>Food Creators</span>
+                                </label>
+
+                                <label class="selection-card">
+                                    <input
+                                        type="checkbox"
+                                        name="creatorNiches"
+                                        value="education"
+                                    >
+                                    <span>Education Creators</span>
+                                </label>
+
+                                <label class="selection-card">
+                                    <input
+                                        type="checkbox"
+                                        id="otherNicheCheckbox"
+                                        name="creatorNiches"
+                                        value="other"
+                                    >
+                                    <span>Other</span>
+                                </label>
+
+                            </div>
+
+                            <div
+                                class="conditional-field"
+                                id="otherNicheField"
+                                hidden
+                            >
+                                <label for="otherNiche">
+                                    Please specify
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="otherNiche"
+                                    name="otherNiche"
+                                    class="wizard-text-input"
+                                    placeholder="Enter another creator niche"
+                                >
+                            </div>
+                        </fieldset>
+
+                        <small
+                            class="auth-error group-error"
+                            id="creatorNichesError"
+                        ></small>
+
+                        <fieldset class="option-group countries-group">
+                            <legend>Countries / Regions Served</legend>
+
+                            <div class="country-search">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+
+                                <input
+                                    type="search"
+                                    id="countrySearch"
+                                    placeholder="Search countries or regions"
+                                    autocomplete="off"
+                                >
+                            </div>
+
+                            <div
+                                class="country-options"
+                                id="countryOptions"
+                            >
+                                <label
+                                    class="selection-card"
+                                    data-country="Australia"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        name="countriesServed"
+                                        value="australia"
+                                    >
+                                    <span>Australia</span>
+                                </label>
+
+                                <label
+                                    class="selection-card"
+                                    data-country="Canada"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        name="countriesServed"
+                                        value="canada"
+                                    >
+                                    <span>Canada</span>
+                                </label>
+
+                                <label
+                                    class="selection-card"
+                                    data-country="France"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        name="countriesServed"
+                                        value="france"
+                                    >
+                                    <span>France</span>
+                                </label>
+
+                                <label
+                                    class="selection-card"
+                                    data-country="Germany"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        name="countriesServed"
+                                        value="germany"
+                                    >
+                                    <span>Germany</span>
+                                </label>
+
+                                <label
+                                    class="selection-card"
+                                    data-country="Philippines"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        name="countriesServed"
+                                        value="philippines"
+                                    >
+                                    <span>Philippines</span>
+                                </label>
+
+                                <label
+                                    class="selection-card"
+                                    data-country="Singapore"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        name="countriesServed"
+                                        value="singapore"
+                                    >
+                                    <span>Singapore</span>
+                                </label>
+
+                                <label
+                                    class="selection-card"
+                                    data-country="Spain"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        name="countriesServed"
+                                        value="spain"
+                                    >
+                                    <span>Spain</span>
+                                </label>
+
+                                <label
+                                    class="selection-card"
+                                    data-country="United Arab Emirates"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        name="countriesServed"
+                                        value="uae"
+                                    >
+                                    <span>United Arab Emirates</span>
+                                </label>
+
+                                <label
+                                    class="selection-card"
+                                    data-country="United Kingdom"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        name="countriesServed"
+                                        value="uk"
+                                    >
+                                    <span>United Kingdom</span>
+                                </label>
+
+                                <label
+                                    class="selection-card"
+                                    data-country="United States"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        name="countriesServed"
+                                        value="usa"
+                                    >
+                                    <span>United States</span>
+                                </label>
+
+                                <label
+                                    class="selection-card"
+                                    data-country="Worldwide Global"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        name="countriesServed"
+                                        value="worldwide"
+                                    >
+                                    <span>Worldwide</span>
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <small
+                            class="auth-error group-error"
+                            id="countriesServedError"
+                        ></small>
+
+                        <fieldset class="option-group">
+                            <legend>Agency size</legend>
+
+                            <div class="option-grid agency-size-grid">
+                                <label class="selection-card">
+                                    <input
+                                        type="radio"
+                                        name="agencySize"
+                                        value="solo"
+                                    >
+                                    <span>Solo / Boutique</span>
+                                </label>
+
+                                <label class="selection-card">
+                                    <input
+                                        type="radio"
+                                        name="agencySize"
+                                        value="2-10"
+                                    >
+                                    <span>2–10</span>
+                                </label>
+
+                                <label class="selection-card">
+                                    <input
+                                        type="radio"
+                                        name="agencySize"
+                                        value="11-50"
+                                    >
+                                    <span>11–50</span>
+                                </label>
+
+                                <label class="selection-card">
+                                    <input
+                                        type="radio"
+                                        name="agencySize"
+                                        value="51-100"
+                                    >
+                                    <span>51–100</span>
+                                </label>
+
+                                <label class="selection-card">
+                                    <input
+                                        type="radio"
+                                        name="agencySize"
+                                        value="100-plus"
+                                    >
+                                    <span>100+</span>
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <small
+                            class="auth-error group-error"
+                            id="agencySizeError"
+                        ></small>
+
+                        <div class="auth-form-group">
+                            <label for="yearsInBusiness">
+                                Years in business
+                            </label>
+
+                            <select
+                                id="yearsInBusiness"
+                                name="yearsInBusiness"
+                                class="auth-select"
+                                required
+                            >
+                                <option value="">Select range</option>
+                                <option value="less-than-1">Less than 1 year</option>
+                                <option value="1-2">1–2 years</option>
+                                <option value="3-5">3–5 years</option>
+                                <option value="6-10">6–10 years</option>
+                                <option value="11-plus">11+ years</option>
+                            </select>
+
+                            <small
+                                class="auth-error"
+                                id="yearsInBusinessError"
+                            ></small>
+                        </div>
+
+                        <div class="wizard-actions">
+                            <button
+                                type="button"
+                                class="button button-outline wizard-back"
+                            >
+                                <i class="fa-solid fa-arrow-left"></i>
+                                Back
+                            </button>
+
+                            <button
+                                type="button"
+                                class="button button-black wizard-next"
+                            >
+                                Continue to About
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+
+                    </section>
+
+                    <!-- STEP 4 -->
+
+                    <section
+                        class="wizard-step"
+                        data-step="4"
+                        hidden
+                    >
+
+                        <div class="wizard-step-heading">
+                            <span>STEP 04 OF 04</span>
+                            <h3>About &amp; verification</h3>
+
+                            <p>
+                                Describe your agency and provide the
+                                information required for review.
+                            </p>
+                        </div>
+
+                        <div class="auth-form-group">
+                            <label for="agencyAbout">
+                                About your agency
+                            </label>
+
+                            <textarea
+                                id="agencyAbout"
+                                name="agencyAbout"
+                                class="wizard-textarea"
+                                rows="8"
+                                maxlength="1200"
+                                placeholder="Describe your agency, expertise, approach, and what makes your services different."
+                                required
+                            ></textarea>
+
+                            <div class="textarea-footer">
+                                <small
+                                    class="auth-error"
+                                    id="agencyAboutError"
+                                ></small>
+
+                                <small>
+                                    <span id="aboutCharacterCount">0</span>/1200
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="social-fields">
+
+                            <div class="auth-form-group">
+                                <label for="instagram">
+                                    Instagram
+                                    <span class="optional-label">
+                                        Optional
+                                    </span>
+                                </label>
+
+                                <div class="auth-input-wrapper">
+                                    <i class="fa-brands fa-instagram"></i>
+
+                                    <input
+                                        type="url"
+                                        id="instagram"
+                                        name="instagram"
+                                        placeholder="https://instagram.com/agency"
+                                    >
+                                </div>
+
+                                <small
+                                    class="auth-error"
+                                    id="instagramError"
+                                ></small>
+                            </div>
+
+                            <div class="auth-form-group">
+                                <label for="xProfile">
+                                    X
+                                    <span class="optional-label">
+                                        Optional
+                                    </span>
+                                </label>
+
+                                <div class="auth-input-wrapper">
+                                    <i class="fa-brands fa-x-twitter"></i>
+
+                                    <input
+                                        type="url"
+                                        id="xProfile"
+                                        name="xProfile"
+                                        placeholder="https://x.com/agency"
+                                    >
+                                </div>
+
+                                <small
+                                    class="auth-error"
+                                    id="xProfileError"
+                                ></small>
+                            </div>
+
+                            <div class="auth-form-group">
+                                <label for="tiktok">
+                                    TikTok
+                                    <span class="optional-label">
+                                        Optional
+                                    </span>
+                                </label>
+
+                                <div class="auth-input-wrapper">
+                                    <i class="fa-brands fa-tiktok"></i>
+
+                                    <input
+                                        type="url"
+                                        id="tiktok"
+                                        name="tiktok"
+                                        placeholder="https://tiktok.com/@agency"
+                                    >
+                                </div>
+
+                                <small
+                                    class="auth-error"
+                                    id="tiktokError"
+                                ></small>
+                            </div>
+
+                            <div class="auth-form-group">
+                                <label for="linkedin">
+                                    LinkedIn
+                                    <span class="optional-label">
+                                        Optional
+                                    </span>
+                                </label>
+
+                                <div class="auth-input-wrapper">
+                                    <i class="fa-brands fa-linkedin-in"></i>
+
+                                    <input
+                                        type="url"
+                                        id="linkedin"
+                                        name="linkedin"
+                                        placeholder="https://linkedin.com/company/agency"
+                                    >
+                                </div>
+
+                                <small
+                                    class="auth-error"
+                                    id="linkedinError"
+                                ></small>
+                            </div>
+
+                        </div>
+
+                        <div class="verification-box">
+                            <div>
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+
+                            <div>
+                                <strong>Agency verification</strong>
+
+                                <p>
+                                    Profiles may be reviewed before receiving
+                                    a verified badge. Additional business
+                                    documents may be requested after submission.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="terms-row">
+                            <label class="custom-checkbox">
+                                <input
+                                    type="checkbox"
+                                    id="authorizedRepresentative"
+                                    name="authorizedRepresentative"
+                                    required
+                                >
+
+                                <span class="checkbox-control">
+                                    <i class="fa-solid fa-check"></i>
+                                </span>
+
+                                <span>
+                                    I confirm that I am legally authorized
+                                    to represent this agency and submit its
+                                    business information.
+                                </span>
+                            </label>
+
+                            <small
+                                class="auth-error"
+                                id="authorizedRepresentativeError"
+                            ></small>
+                        </div>
+
+                        <div class="terms-row">
+                            <label class="custom-checkbox">
+                                <input
+                                    type="checkbox"
+                                    id="acceptTerms"
+                                    name="acceptTerms"
+                                    required
+                                >
+
+                                <span class="checkbox-control">
+                                    <i class="fa-solid fa-check"></i>
+                                </span>
+
+                                <span>
+                                    I agree to the
+                                    <a href="terms.html">Terms of Service</a>,
+                                    <a href="privacy.html">Privacy Policy</a>,
+                                    and acceptable-use requirements.
+                                </span>
+                            </label>
+
+                            <small
+                                class="auth-error"
+                                id="acceptTermsError"
+                            ></small>
+                        </div>
+
+                        <div class="wizard-actions">
+                            <button
+                                type="button"
+                                class="button button-outline wizard-back"
+                            >
+                                <i class="fa-solid fa-arrow-left"></i>
+                                Back
+                            </button>
+
+                            <button
+                                type="submit"
+                                class="button button-black auth-submit"
+                                id="registrationButton"
+                            >
+                                <span>Submit Agency</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+
+                    </section>
+
+                </form>
+
+                <p class="auth-register">
+                    Already have an account?
+
+                    <a href="login.html">
+                        Log in
+                    </a>
+                </p>
+
+                <p class="auth-security">
+                    <i class="fa-solid fa-lock"></i>
+
+                    Your information is securely handled and is
+                    never sold as a public contact list.
+                </p>
+
+            </div>
+        </section>
+
+    </main>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>
