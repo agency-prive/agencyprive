@@ -1870,3 +1870,113 @@
         padding-inline: 10px;
     }
 }
+/* Hero layout corrections */
+.homepage-hero {
+    min-height: 850px;
+    padding-top: 160px;
+    overflow: hidden;
+}
+
+.hero-layout {
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    align-items: center;
+}
+
+.hero-copy,
+.hero-preview {
+    min-width: 0;
+}
+
+.hero-copy .display-title {
+    font-size: clamp(3.5rem, 5vw, 6rem);
+    line-height: 0.94;
+}
+
+.hero-secondary-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    margin-top: 18px;
+    color: var(--black);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.hero-secondary-link:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 1120px) {
+    .hero-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .homepage-hero {
+        min-height: auto;
+        padding-top: 140px;
+    }
+}
+
+@media (max-width: 680px) {
+    .homepage-hero {
+        padding: 120px 0 80px;
+    }
+
+    .hero-copy .display-title {
+        font-size: clamp(3.2rem, 12vw, 5rem);
+    }
+}
+
+/* Mission and vision */
+.mission-vision-section {
+    padding: clamp(72px, 9vw, 120px) 0;
+    background: var(--ivory, #f8f6f1);
+    scroll-margin-top: 100px;
+}
+.mission-vision-heading { max-width: 760px; margin-bottom: 42px; }
+.mission-vision-heading h2 {
+    margin: 15px 0 0;
+    font-family: var(--font-display, Georgia, serif);
+    font-size: clamp(2.6rem, 5vw, 4.5rem);
+    font-weight: 500;
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+}
+.mission-vision-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+.mission-vision-card {
+    padding: clamp(30px, 4vw, 56px);
+    border: 1px solid var(--stone, #ddd8ce);
+    background: #fff;
+}
+.mission-vision-number {
+    color: #917a59;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+}
+.mission-vision-card h3 {
+    margin: 24px 0 15px;
+    font-family: var(--font-display, Georgia, serif);
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 600;
+    line-height: 1.1;
+}
+.mission-vision-card p {
+    max-width: 540px;
+    margin: 0;
+    color: var(--text-secondary, #55534e);
+    font-size: 1rem;
+    line-height: 1.8;
+}
+.mission-vision-card p + p { margin-top: 16px; }
+
+@media (max-width: 700px) {
+    .mission-vision-grid { grid-template-columns: 1fr; }
+    .mission-vision-heading { margin-bottom: 28px; }
+}

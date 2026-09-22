@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
     initializeLanguageSelector();
     initializeOwnerTabs();
     initializeWorkspaceButtons();
-    initializeHomepagePricing();
     initializeHomepageSearch();
     initializeScrollReveal();
     initializeCurrentYear();

@@ -1,5 +1,12 @@
 /* =========================================================
    AGENCY PRIVÉ — RANKINGS
+
+   Rankings are not published until:
+   - Agencies are approved for publication
+   - Review and verification data is available
+   - Ranking eligibility and scoring are documented
+
+   Paid placement must not determine ranking order.
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -9,7 +16,10 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =========================================================
    RANKING DATA
 
-   Real approved agencies will be loaded from Supabase.
+   Add eligible, approved OnlyFans management agencies
+   after the ranking methodology is finalized.
+
+   No sample agencies or provisional scores are displayed.
 ========================================================= */
 
 const rankingAgencies = [];
@@ -29,48 +39,32 @@ function initializeRankings() {
 
     const elements = {
         category:
-            document.getElementById(
-                "rankingCategory"
-            ),
+            document.getElementById("rankingCategory"),
 
         region:
-            document.getElementById(
-                "rankingRegion"
-            ),
+            document.getElementById("rankingRegion"),
 
         search:
-            document.getElementById(
-                "rankingSearch"
-            ),
+            document.getElementById("rankingSearch"),
 
         reset:
-            document.getElementById(
-                "resetRankings"
-            ),
+            document.getElementById("resetRankings"),
 
         emptyReset:
-            document.getElementById(
-                "emptyResetRankings"
-            ),
+            document.getElementById("emptyResetRankings"),
 
         title:
-            document.getElementById(
-                "rankingTitle"
-            ),
+            document.getElementById("rankingTitle"),
 
         count:
-            document.getElementById(
-                "rankingCount"
-            ),
+            document.getElementById("rankingCount"),
 
         podium,
 
         table,
 
         empty:
-            document.getElementById(
-                "rankingEmpty"
-            )
+            document.getElementById("rankingEmpty")
     };
 
     const update = () => {
@@ -110,81 +104,29 @@ function initializeRankings() {
 }
 
 /* =========================================================
-   SCORE
-
-   This will calculate ranking scores after Supabase returns
-   real approved agency information.
-========================================================= */
-
-function calculateRankingScore(agency) {
-    const ratingScore =
-        (agency.rating / 5) * 35;
-
-    const reviewConfidence =
-        Math.min(
-            agency.reviews / 100,
-            1
-        );
-
-    const reputationScore =
-        ratingScore *
-        (
-            0.75 +
-            reviewConfidence * 0.25
-        );
-
-    const experienceScore =
-        Math.min(
-            agency.years / 10,
-            1
-        ) * 25;
-
-    const verificationScore =
-        agency.verified
-            ? 20
-            : 0;
-
-    const profileScore =
-        (
-            agency.profileQuality /
-            100
-        ) * 20;
-
-    return Number(
-        (
-            reputationScore +
-            experienceScore +
-            verificationScore +
-            profileScore
-        ).toFixed(1)
-    );
-}
-
-/* =========================================================
    FILTER
+
+   This prepares the controls for approved ranking data.
+   Agencies must have an explicitly published rank assigned
+   under the documented methodology.
 ========================================================= */
 
 function getRankingResults(elements) {
     const category =
-        elements.category?.value ||
-        "overall";
+        elements.category?.value || "overall";
 
     const region =
-        elements.region?.value ||
-        "";
+        elements.region?.value || "";
 
     const search =
         elements.search?.value
             .trim()
-            .toLowerCase() ||
-        "";
+            .toLowerCase() || "";
 
     return rankingAgencies
         .filter((agency) => {
             const services =
-                Array.isArray(
-                    agency.services
-                )
+                Array.isArray(agency.services)
                     ? agency.services
                     : [];
 
@@ -198,32 +140,21 @@ function getRankingResults(elements) {
 
             const matchesSearch =
                 !search ||
-                agency.name
+                String(agency.name || "")
                     .toLowerCase()
                     .includes(search);
 
             return (
+                agency.rankingPublished === true &&
+                Number.isInteger(agency.rank) &&
+                agency.rank > 0 &&
                 matchesCategory &&
                 matchesRegion &&
                 matchesSearch
             );
         })
-        .map((agency) => {
-            return {
-                ...agency,
-                score:
-                    calculateRankingScore(
-                        agency
-                    )
-            };
-        })
         .sort((first, second) => {
-            return (
-                second.score -
-                    first.score ||
-                second.rating -
-                    first.rating
-            );
+            return first.rank - second.rank;
         });
 }
 
@@ -237,7 +168,7 @@ function renderRankings(elements) {
 
     if (elements.count) {
         elements.count.textContent =
-            results.length;
+            String(results.length);
     }
 
     updateRankingTitle(elements);
@@ -245,10 +176,8 @@ function renderRankings(elements) {
     const noResults =
         results.length === 0;
 
-    if (elements.empty) {
-        elements.empty.hidden =
-            !noResults;
-    }
+    elements.empty.hidden =
+        !noResults;
 
     elements.podium.hidden =
         noResults;
@@ -260,9 +189,7 @@ function renderRankings(elements) {
         elements.podium.innerHTML = "";
         elements.table.innerHTML = "";
 
-        updateEmptyRankingMessage(
-            elements
-        );
+        updateEmptyRankingMessage(elements);
 
         return;
     }
@@ -270,21 +197,15 @@ function renderRankings(elements) {
     elements.podium.innerHTML =
         results
             .slice(0, 3)
-            .map((agency, index) => {
-                return createPodiumCard(
-                    agency,
-                    index + 1
-                );
+            .map((agency) => {
+                return createPodiumCard(agency);
             })
             .join("");
 
     elements.table.innerHTML =
         results
-            .map((agency, index) => {
-                return createRankingRow(
-                    agency,
-                    index + 1
-                );
+            .map((agency) => {
+                return createRankingRow(agency);
             })
             .join("");
 }
@@ -293,141 +214,105 @@ function updateRankingTitle(elements) {
     if (!elements.title) return;
 
     const category =
-        elements.category?.value ||
-        "overall";
+        elements.category?.value || "overall";
 
     const region =
-        elements.region?.value ||
-        "";
+        elements.region?.value || "";
 
-    let title =
+    const subject =
         category === "overall"
-            ? "Agency rankings"
-            : `${category} agency rankings`;
+            ? "OnlyFans agencies"
+            : `${category} agencies`;
 
-    if (region) {
-        title += ` in ${region}`;
-    } else {
-        title += " worldwide";
-    }
-
-    elements.title.textContent = title;
+    elements.title.textContent =
+        region
+            ? `${subject} in ${region}`
+            : `${subject} worldwide`;
 }
 
 function updateEmptyRankingMessage(elements) {
     if (!elements.empty) return;
 
     const heading =
-        elements.empty.querySelector(
-            "h2, h3"
-        );
+        elements.empty.querySelector("h2, h3");
 
     const description =
         elements.empty.querySelector("p");
 
+    const resetButton =
+        elements.emptyReset;
+
+    const hasFilters =
+        Boolean(
+            elements.category?.value !== "overall" ||
+            elements.region?.value ||
+            elements.search?.value.trim()
+        );
+
     if (heading) {
         heading.textContent =
-            "Rankings are not available yet.";
+            hasFilters
+                ? "No published rankings match your search"
+                : "Rankings are coming soon";
     }
 
     if (description) {
         description.textContent =
-            "Rankings will appear when sufficient verified agency data becomes available.";
+            hasFilters
+                ? "Try a different category, region, or agency name."
+                : "Eligible OnlyFans management agencies will appear here once the ranking methodology and supporting data are ready.";
+    }
+
+    if (resetButton) {
+        resetButton.hidden =
+            !hasFilters;
     }
 }
 
 /* =========================================================
    PODIUM
+
+   Published ranking records supply the position.
+   No client ratings or scores are generated here.
 ========================================================= */
 
-function createPodiumCard(
-    agency,
-    position
-) {
+function createPodiumCard(agency) {
     const positions = [
         "position-one",
         "position-two",
         "position-three"
     ];
 
-    const location =
-        agency.location || "";
-
-    const name =
-        agency.name || "Unnamed Agency";
-
-    const rating =
-        Number(agency.rating) || 0;
-
-    const score =
-        Number(agency.score) || 0;
+    const positionClass =
+        positions[agency.rank - 1] || "";
 
     return `
-        <article
-            class="podium-card
-            ${positions[position - 1]}"
-        >
+        <article class="podium-card ${positionClass}">
 
             <span class="podium-position">
-                ${String(position).padStart(
-                    2,
-                    "0"
-                )}
+                ${String(agency.rank).padStart(2, "0")}
             </span>
 
             <span class="podium-label">
-                ${
-                    position === 1
-                        ? "TOP RANKED AGENCY"
-                        : "GLOBAL RANKING"
-                }
+                PUBLISHED RANKING
             </span>
 
             <div class="podium-agency">
-
                 <h3>
-                    ${escapeRankingHtml(name)}
+                    ${escapeRankingHtml(agency.name)}
                 </h3>
 
                 <span>
-                    ${escapeRankingHtml(location)}
+                    ${escapeRankingHtml(agency.location || "")}
                 </span>
 
-                <div class="podium-score">
-
-                    <div>
-                        <strong>
-                            ${score.toFixed(1)}
-                        </strong>
-
-                        <span>
-                            Ranking score
-                        </span>
-                    </div>
-
-                    <div>
-                        <strong>
-                            ${rating.toFixed(1)}
-                        </strong>
-
-                        <span>
-                            Client rating
-                        </span>
-                    </div>
-
-                </div>
-
                 <a
-                    href="agency-profile.html?id=${
-                        agency.id
-                    }"
+                    href="agency-profile.html?id=${encodeURIComponent(agency.id)}"
                     class="podium-link"
                 >
                     View Agency
-
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
-
             </div>
 
         </article>
@@ -438,120 +323,84 @@ function createPodiumCard(
    TABLE ROW
 ========================================================= */
 
-function createRankingRow(
-    agency,
-    position
-) {
-    const initials =
-        agency.initials || "AP";
-
-    const name =
-        agency.name || "Unnamed Agency";
-
-    const location =
-        agency.location || "";
-
-    const rating =
-        Number(agency.rating) || 0;
-
-    const reviews =
-        Number(agency.reviews) || 0;
+function createRankingRow(agency) {
+    const reviewCount =
+        Number.isInteger(agency.reviews) &&
+        agency.reviews >= 0
+            ? agency.reviews
+            : null;
 
     const years =
-        Number(agency.years) || 0;
-
-    const score =
-        Number(agency.score) || 0;
+        Number.isFinite(agency.years) &&
+        agency.years >= 0
+            ? agency.years
+            : null;
 
     return `
         <article class="ranking-row">
 
             <span class="ranking-number">
-                ${String(position).padStart(
-                    2,
-                    "0"
-                )}
+                ${String(agency.rank).padStart(2, "0")}
             </span>
 
             <div class="ranking-agency">
-
                 <span class="ranking-monogram">
-                    ${escapeRankingHtml(
-                        initials
-                    )}
+                    ${escapeRankingHtml(agency.initials || "AP")}
                 </span>
 
                 <div>
                     <strong>
-                        ${escapeRankingHtml(
-                            name
-                        )}
+                        ${escapeRankingHtml(agency.name)}
                     </strong>
 
                     <span>
-                        ${escapeRankingHtml(
-                            location
-                        )}
+                        ${escapeRankingHtml(agency.location || "")}
                     </span>
                 </div>
-
             </div>
 
             <div class="ranking-value">
                 <strong>
-                    ${rating.toFixed(1)}
-                </strong>
-
-                <span>
-                    ${reviews}
                     ${
-                        reviews === 1
-                            ? "review"
-                            : "reviews"
-                    }
-                </span>
-            </div>
-
-            <div class="ranking-value">
-                <strong>
-                    ${years}
-                    ${
-                        years === 1
-                            ? "year"
-                            : "years"
+                        reviewCount === null
+                            ? "—"
+                            : reviewCount
                     }
                 </strong>
 
-                <span>
-                    Experience
-                </span>
+                <span>Published reviews</span>
             </div>
 
             <div class="ranking-value">
                 <strong>
                     ${
-                        agency.verified
+                        years === null
+                            ? "—"
+                            : `${years} years`
+                    }
+                </strong>
+
+                <span>Experience</span>
+            </div>
+
+            <div class="ranking-value">
+                <strong>
+                    ${
+                        agency.verified === true
                             ? "Verified"
-                            : "Unverified"
+                            : "Not verified"
                     }
                 </strong>
 
-                <span>
-                    Trust status
-                </span>
+                <span>Verification status</span>
             </div>
 
             <strong class="ranking-total">
-                ${score.toFixed(1)}
+                ${agency.rank}
             </strong>
 
-            <a
-                href="agency-profile.html?id=${
-                    agency.id
-                }"
-            >
+            <a href="agency-profile.html?id=${encodeURIComponent(agency.id)}">
                 View
-
                 <i class="fa-solid fa-arrow-right"></i>
             </a>
 

@@ -1,5 +1,5 @@
 /* =========================================================
-   AGENCY PRIVÉ — INSIGHTS
+   AGENCY PRIVÉ — ONLYFANS INDUSTRY INSIGHTS
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -10,7 +10,14 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =========================================================
    INSIGHT ARTICLES
 
-   Published articles will be loaded from Supabase.
+   Add published articles here or load them from Supabase.
+
+   Each public article must have:
+   - A real published page
+   - published: true
+   - A category matching a filter in insights.html
+
+   No unpublished or sample articles appear in the library.
 ========================================================= */
 
 const insightArticles = [];
@@ -21,9 +28,7 @@ const insightArticles = [];
 
 function initializeInsights() {
     const grid =
-        document.getElementById(
-            "insightGrid"
-        );
+        document.getElementById("insightGrid");
 
     if (!grid) return;
 
@@ -38,23 +43,17 @@ function initializeInsights() {
         grid,
 
         count:
-            document.getElementById(
-                "insightCount"
-            ),
+            document.getElementById("insightCount"),
 
         empty:
-            document.getElementById(
-                "insightEmpty"
-            ),
+            document.getElementById("insightEmpty"),
 
         search:
-            document.getElementById(
-                "insightSearch"
-            ),
+            document.getElementById("insightSearch"),
 
         categories:
             document.querySelectorAll(
-                "[data-category]"
+                "#insightCategories [data-category]"
             ),
 
         clear:
@@ -69,41 +68,16 @@ function initializeInsights() {
     };
 
     elements.categories.forEach((button) => {
-        button.addEventListener(
-            "click",
-            () => {
-                elements.categories.forEach(
-                    (categoryButton) => {
-                        categoryButton.classList.remove(
-                            "active"
-                        );
+        button.addEventListener("click", () => {
+            state.category =
+                button.dataset.category || "All";
 
-                        categoryButton.setAttribute(
-                            "aria-pressed",
-                            "false"
-                        );
-                    }
-                );
+            state.visible = 6;
 
-                button.classList.add("active");
+            updateCategoryButtons(elements);
 
-                button.setAttribute(
-                    "aria-pressed",
-                    "true"
-                );
-
-                state.category =
-                    button.dataset.category ||
-                    "All";
-
-                state.visible = 6;
-
-                renderInsights(
-                    state,
-                    elements
-                );
-            }
-        );
+            renderInsights(state, elements);
+        });
     });
 
     elements.search?.addEventListener(
@@ -116,10 +90,7 @@ function initializeInsights() {
 
             state.visible = 6;
 
-            renderInsights(
-                state,
-                elements
-            );
+            renderInsights(state, elements);
         }
     );
 
@@ -146,15 +117,44 @@ function initializeInsights() {
         }
     );
 
+    updateCategoryButtons(elements);
     renderInsights(state, elements);
+
+    function updateCategoryButtons() {
+        elements.categories.forEach((button) => {
+            const isActive =
+                button.dataset.category ===
+                state.category;
+
+            button.classList.toggle(
+                "active",
+                isActive
+            );
+
+            button.setAttribute(
+                "aria-pressed",
+                String(isActive)
+            );
+        });
+    }
 }
 
 /* =========================================================
    FILTER
 ========================================================= */
 
+function getPublishedInsights() {
+    return insightArticles.filter((article) => {
+        return (
+            article.published === true &&
+            article.id !== undefined &&
+            Boolean(article.title)
+        );
+    });
+}
+
 function getFilteredInsights(state) {
-    return insightArticles.filter(
+    return getPublishedInsights().filter(
         (article) => {
             const matchesCategory =
                 state.category === "All" ||
@@ -188,6 +188,9 @@ function getFilteredInsights(state) {
 ========================================================= */
 
 function renderInsights(state, elements) {
+    const publishedArticles =
+        getPublishedInsights();
+
     const results =
         getFilteredInsights(state);
 
@@ -199,7 +202,7 @@ function renderInsights(state, elements) {
 
     if (elements.count) {
         elements.count.textContent =
-            results.length;
+            String(results.length);
     }
 
     elements.grid.innerHTML =
@@ -221,25 +224,22 @@ function renderInsights(state, elements) {
     if (elements.loadMore) {
         elements.loadMore.hidden =
             noResults ||
-            state.visible >=
-                results.length;
+            state.visible >= results.length;
     }
 
     updateEmptyInsightMessage(
         state,
         elements,
-        noResults
+        publishedArticles.length
     );
 }
 
 function updateEmptyInsightMessage(
     state,
     elements,
-    noResults
+    publishedCount
 ) {
-    if (!noResults || !elements.empty) {
-        return;
-    }
+    if (!elements.empty) return;
 
     const heading =
         elements.empty.querySelector(
@@ -253,10 +253,28 @@ function updateEmptyInsightMessage(
         state.category !== "All" ||
         Boolean(state.search);
 
+    if (publishedCount === 0) {
+        if (heading) {
+            heading.textContent =
+                "Insights are coming soon";
+        }
+
+        if (description) {
+            description.textContent =
+                "OnlyFans industry guides and agency research will appear here when they are published.";
+        }
+
+        if (elements.clear) {
+            elements.clear.hidden = true;
+        }
+
+        return;
+    }
+
     if (hasActiveFilters) {
         if (heading) {
             heading.textContent =
-                "No insights match your search.";
+                "No insights match your search";
         }
 
         if (description) {
@@ -264,17 +282,25 @@ function updateEmptyInsightMessage(
                 "Try another search term or clear the selected category.";
         }
 
+        if (elements.clear) {
+            elements.clear.hidden = false;
+        }
+
         return;
     }
 
     if (heading) {
         heading.textContent =
-            "No insights have been published yet.";
+            "No insights available";
     }
 
     if (description) {
         description.textContent =
-            "Research, agency guidance, and industry updates will appear here after publication.";
+            "Published articles will appear here.";
+    }
+
+    if (elements.clear) {
+        elements.clear.hidden = true;
     }
 }
 
@@ -283,39 +309,23 @@ function updateEmptyInsightMessage(
 ========================================================= */
 
 function createInsightCard(article) {
+    const allowedThemes = [
+        "light",
+        "gold"
+    ];
+
     const themeClass =
-        article.theme === "dark"
-            ? ""
-            : article.theme || "";
-
-    const number =
-        article.number || "";
-
-    const category =
-        article.category || "Insights";
-
-    const title =
-        article.title ||
-        "Untitled article";
-
-    const description =
-        article.description || "";
-
-    const readTime =
-        article.readTime || "";
+        allowedThemes.includes(article.theme)
+            ? article.theme
+            : "";
 
     return `
         <article class="insight-card">
 
-            <div
-                class="insight-card-visual
-                ${escapeInsightHtml(
-                    themeClass
-                )}"
-            >
+            <div class="insight-card-visual ${themeClass}">
                 <span>
                     ${escapeInsightHtml(
-                        number
+                        article.number || ""
                     )}
                 </span>
             </div>
@@ -324,40 +334,37 @@ function createInsightCard(article) {
 
                 <span class="insight-card-category">
                     ${escapeInsightHtml(
-                        category
+                        article.category || "Insights"
                     )}
                 </span>
 
                 <h3>
                     ${escapeInsightHtml(
-                        title
+                        article.title
                     )}
                 </h3>
 
                 <p>
                     ${escapeInsightHtml(
-                        description
+                        article.description || ""
                     )}
                 </p>
 
                 <div class="insight-card-footer">
-
                     <span>
                         ${escapeInsightHtml(
-                            readTime
+                            article.readTime || ""
                         )}
                     </span>
 
                     <a
-                        href="insight-article.html?id=${
+                        href="insight-article.html?id=${encodeURIComponent(
                             article.id
-                        }"
+                        )}"
                     >
                         Read
-
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
-
                 </div>
 
             </div>
@@ -383,20 +390,17 @@ function clearInsightFilters(
     }
 
     elements.categories.forEach((button) => {
-        const isAllCategory =
-            button.dataset.category ===
-            "All";
+        const isActive =
+            button.dataset.category === "All";
 
         button.classList.toggle(
             "active",
-            isAllCategory
+            isActive
         );
 
         button.setAttribute(
             "aria-pressed",
-            isAllCategory
-                ? "true"
-                : "false"
+            String(isActive)
         );
     });
 
@@ -406,8 +410,8 @@ function clearInsightFilters(
 /* =========================================================
    NEWSLETTER
 
-   This validates the interface only.
-   Subscriptions will later be stored through Supabase.
+   Subscriptions are closed until a real signup service
+   is connected. Do not collect email addresses locally.
 ========================================================= */
 
 function initializeNewsletter() {
@@ -430,47 +434,24 @@ function initializeNewsletter() {
         return;
     }
 
+    email.disabled = true;
+
+    const submitButton =
+        form.querySelector(
+            'button[type="submit"]'
+        );
+
+    if (submitButton) {
+        submitButton.disabled = true;
+    }
+
+    message.textContent =
+        "Newsletter subscriptions are not open yet.";
+
     form.addEventListener(
         "submit",
         (event) => {
             event.preventDefault();
-
-            const emailValue =
-                email.value.trim();
-
-            const emailPattern =
-                /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-            if (
-                !emailPattern.test(
-                    emailValue
-                )
-            ) {
-                message.textContent =
-                    "Enter a valid business email address.";
-
-                message.className =
-                    "newsletter-message error";
-
-                email.focus();
-                return;
-            }
-
-            message.textContent =
-                "Newsletter subscriptions will become available after Supabase is connected.";
-
-            message.className =
-                "newsletter-message information";
-        }
-    );
-
-    email.addEventListener(
-        "input",
-        () => {
-            message.textContent = "";
-
-            message.className =
-                "newsletter-message";
         }
     );
 }

@@ -1,1 +1,135 @@
-document.addEventListener("DOMContentLoaded",()=>{const sidebar=document.getElementById("dashboardSidebar"),overlay=document.getElementById("sidebarOverlay"),toast=document.getElementById("dashboardToast");const toggleSidebar=open=>{sidebar?.classList.toggle("open",open);overlay?.classList.toggle("show",open);document.body.style.overflow=open?"hidden":""};document.getElementById("sidebarOpen")?.addEventListener("click",()=>toggleSidebar(true));document.getElementById("sidebarClose")?.addEventListener("click",()=>toggleSidebar(false));overlay?.addEventListener("click",()=>toggleSidebar(false));document.querySelectorAll(".dashboard-navigation a").forEach(link=>link.addEventListener("click",()=>{document.querySelectorAll(".dashboard-navigation a").forEach(item=>item.classList.remove("active"));link.classList.add("active");if(innerWidth<=820)toggleSidebar(false)}));const showToast=message=>{if(!toast)return;toast.textContent=message;toast.classList.add("show");clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>toast.classList.remove("show"),2600)};document.querySelectorAll(".completion-list button:not(.completed)").forEach(button=>button.addEventListener("click",()=>showToast("This editor will be connected in the next dashboard step.")));document.querySelector(".secondary-button")?.addEventListener("click",()=>showToast("Verification workflow will be added after the profile editor."));document.querySelector(".notification-button")?.addEventListener("click",()=>showToast("You have two sample notifications."));document.getElementById("logoutButton")?.addEventListener("click",()=>{if(confirm("Log out of the dashboard?"))location.href="login.html"});});
+/* =========================================================
+   AGENCY PRIVÉ — DASHBOARD PREVIEW
+
+   The dashboard is a public interface preview.
+   Authentication, profile editing, analytics, and billing
+   will be connected after the backend is ready.
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+    initializeDashboardSidebar();
+    initializeDashboardNavigation();
+    initializeDashboardPreviewActions();
+});
+
+/* =========================================================
+   MOBILE SIDEBAR
+========================================================= */
+
+function initializeDashboardSidebar() {
+    const sidebar = document.getElementById(
+        "dashboardSidebar"
+    );
+
+    const overlay = document.getElementById(
+        "sidebarOverlay"
+    );
+
+    const openButton = document.getElementById(
+        "sidebarOpen"
+    );
+
+    const closeButton = document.getElementById(
+        "sidebarClose"
+    );
+
+    if (!sidebar) return;
+
+    function setSidebarOpen(open) {
+        sidebar.classList.toggle("open", open);
+        overlay?.classList.toggle("show", open);
+
+        openButton?.setAttribute(
+            "aria-expanded",
+            String(open)
+        );
+
+        document.body.style.overflow = open
+            ? "hidden"
+            : "";
+
+        if (open) {
+            closeButton?.focus();
+        } else if (
+            sidebar.contains(document.activeElement)
+        ) {
+            openButton?.focus();
+        }
+    }
+
+    openButton?.setAttribute("aria-expanded", "false");
+    openButton?.setAttribute(
+        "aria-controls",
+        "dashboardSidebar"
+    );
+
+    openButton?.addEventListener("click", () => {
+        setSidebarOpen(true);
+    });
+
+    closeButton?.addEventListener("click", () => {
+        setSidebarOpen(false);
+    });
+
+    overlay?.addEventListener("click", () => {
+        setSidebarOpen(false);
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (
+            event.key === "Escape" &&
+            sidebar.classList.contains("open")
+        ) {
+            setSidebarOpen(false);
+        }
+    });
+
+    sidebar.addEventListener("click", (event) => {
+        if (
+            event.target.closest("a") &&
+            window.innerWidth <= 820
+        ) {
+            setSidebarOpen(false);
+        }
+    });
+}
+
+/* =========================================================
+   SECTION NAVIGATION
+========================================================= */
+
+function initializeDashboardNavigation() {
+    const links = Array.from(
+        document.querySelectorAll(
+            ".dashboard-navigation a"
+        )
+    );
+
+    links.forEach((link) => {
+        link.addEventListener("click", () => {
+            links.forEach((item) => {
+                item.classList.remove("active");
+            });
+
+            link.classList.add("active");
+        });
+    });
+}
+
+/* =========================================================
+   PREVIEW ACTIONS
+========================================================= */
+
+function initializeDashboardPreviewActions() {
+    const logoutButton = document.getElementById(
+        "logoutButton"
+    );
+
+    logoutButton?.addEventListener("click", () => {
+        /*
+         * There is no authenticated session to end yet.
+         * Return to the login page without claiming a logout.
+         */
+        window.location.href = "login.html";
+    });
+}

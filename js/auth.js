@@ -1,8 +1,8 @@
 /* =========================================================
-   AGENCY PRIVÉ — AUTHENTICATION JAVASCRIPT
+   AGENCY PRIVÉ — AUTHENTICATION
 
    Frontend validation and interface behavior.
-   Registration data is not stored until Supabase is connected.
+   No accounts, agency profiles, or subscriptions are created yet.
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -18,172 +18,120 @@ document.addEventListener("DOMContentLoaded", () => {
    SHARED HELPERS
 ========================================================= */
 
-function getElement(elementId) {
-    return document.getElementById(elementId);
+function getElement(id) {
+    return document.getElementById(id);
 }
 
-function simulateRequest(duration = 800) {
-    return new Promise((resolve) => {
-        window.setTimeout(resolve, duration);
-    });
+function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
 }
 
-function isValidEmail(emailAddress) {
-    const emailPattern =
-        /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-    return emailPattern.test(
-        emailAddress.trim()
-    );
-}
-
-function isValidWebsite(websiteAddress) {
-    if (!websiteAddress.trim()) {
-        return true;
-    }
+function isValidWebsite(value) {
+    if (!value.trim()) return true;
 
     try {
-        const website =
-            new URL(websiteAddress.trim());
-
-        return (
-            website.protocol === "http:" ||
-            website.protocol === "https:"
-        );
+        const url = new URL(value.trim());
+        return url.protocol === "http:" || url.protocol === "https:";
     } catch {
         return false;
     }
 }
 
-function setInputError(
-    input,
-    errorElementId,
-    message
-) {
-    const errorElement =
-        getElement(errorElementId);
-
+function setInputError(input, errorId, message) {
     if (input) {
         input.classList.add("invalid");
-        input.setAttribute(
-            "aria-invalid",
-            "true"
-        );
+        input.setAttribute("aria-invalid", "true");
     }
 
-    if (errorElement) {
-        errorElement.textContent = message;
-    }
+    const error = getElement(errorId);
+    if (error) error.textContent = message;
 }
 
-function clearInputError(
-    input,
-    errorElementId
-) {
-    const errorElement =
-        getElement(errorElementId);
-
+function clearInputError(input, errorId) {
     if (input) {
         input.classList.remove("invalid");
         input.removeAttribute("aria-invalid");
     }
 
-    if (errorElement) {
-        errorElement.textContent = "";
-    }
+    const error = getElement(errorId);
+    if (error) error.textContent = "";
 }
 
-function showAuthMessage(
-    message,
-    messageType = "information"
-) {
-    const authMessage =
-        getElement("authMessage");
+function setGroupError(errorId, message) {
+    const error = getElement(errorId);
+    if (error) error.textContent = message;
+}
 
-    if (!authMessage) return;
+function showAuthMessage(message, type = "information") {
+    const element = getElement("authMessage");
+    if (!element) return;
 
-    authMessage.textContent = message;
-
-    authMessage.className =
-        `auth-message show ${messageType}`;
-
-    authMessage.scrollIntoView({
+    element.textContent = message;
+    element.className = `auth-message show ${type}`;
+    element.scrollIntoView({
         behavior: "smooth",
         block: "nearest"
     });
 }
 
 function clearAuthMessage() {
-    const authMessage =
-        getElement("authMessage");
+    const element = getElement("authMessage");
+    if (!element) return;
 
-    if (!authMessage) return;
+    element.textContent = "";
+    element.className = "auth-message";
+}
 
-    authMessage.textContent = "";
-    authMessage.className = "auth-message";
+function setButtonLoading(id, loading, label) {
+    const button = getElement(id);
+    if (!button) return;
+
+    button.disabled = loading;
+
+    const text = button.querySelector("span");
+    if (text) text.textContent = label;
+
+    const icon = button.querySelector("i");
+    if (icon) {
+        icon.className = loading
+            ? "fa-solid fa-spinner fa-spin"
+            : "fa-solid fa-arrow-right";
+    }
 }
 
 /* =========================================================
-   PASSWORD TOGGLES
+   PASSWORD VISIBILITY
 ========================================================= */
 
 function initializePasswordToggles() {
-    const configurations = [
-        {
-            buttonId: "passwordToggle",
-            inputId: "password"
-        },
-        {
-            buttonId: "registrationPasswordToggle",
-            inputId: "registrationPassword"
-        },
-        {
-            buttonId: "confirmPasswordToggle",
-            inputId: "confirmPassword"
-        }
+    const pairs = [
+        ["passwordToggle", "password"],
+        ["registrationPasswordToggle", "registrationPassword"],
+        ["confirmPasswordToggle", "confirmPassword"]
     ];
 
-    configurations.forEach((configuration) => {
-        const toggleButton =
-            getElement(configuration.buttonId);
+    pairs.forEach(([buttonId, inputId]) => {
+        const button = getElement(buttonId);
+        const input = getElement(inputId);
+        if (!button || !input) return;
 
-        const passwordInput =
-            getElement(configuration.inputId);
+        button.addEventListener("click", () => {
+            const showing = input.type === "password";
+            input.type = showing ? "text" : "password";
 
-        if (!toggleButton || !passwordInput) {
-            return;
-        }
-
-        toggleButton.addEventListener(
-            "click",
-            () => {
-                const passwordIsHidden =
-                    passwordInput.type ===
-                    "password";
-
-                passwordInput.type =
-                    passwordIsHidden
-                        ? "text"
-                        : "password";
-
-                const icon =
-                    toggleButton.querySelector("i");
-
-                if (icon) {
-                    icon.className =
-                        passwordIsHidden
-                            ? "fa-regular fa-eye-slash"
-                            : "fa-regular fa-eye";
-                }
-
-                toggleButton.setAttribute(
-                    "aria-label",
-                    passwordIsHidden
-                        ? "Hide password"
-                        : "Show password"
-                );
+            const icon = button.querySelector("i");
+            if (icon) {
+                icon.className = showing
+                    ? "fa-regular fa-eye-slash"
+                    : "fa-regular fa-eye";
             }
-        );
+
+            button.setAttribute(
+                "aria-label",
+                showing ? "Hide password" : "Show password"
+            );
+            button.setAttribute("aria-pressed", String(showing));
+        });
     });
 }
 
@@ -192,614 +140,362 @@ function initializePasswordToggles() {
 ========================================================= */
 
 function initializeLoginForm() {
-    const loginForm =
-        getElement("loginForm");
+    const form = getElement("loginForm");
+    if (!form) return;
 
-    if (!loginForm) return;
+    const email = getElement("email");
+    const password = getElement("password");
 
-    const emailInput =
-        getElement("email");
+    email?.addEventListener("input", () => {
+        clearInputError(email, "emailError");
+        clearAuthMessage();
+    });
 
-    const passwordInput =
-        getElement("password");
+    password?.addEventListener("input", () => {
+        clearInputError(password, "passwordError");
+        clearAuthMessage();
+    });
 
-    const rememberMe =
-        getElement("rememberMe");
+    email?.addEventListener("blur", validateLoginEmail);
+    password?.addEventListener("blur", validateLoginPassword);
 
-    emailInput?.addEventListener(
-        "input",
-        () => {
-            clearInputError(
-                emailInput,
-                "emailError"
-            );
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        clearAuthMessage();
 
-            clearAuthMessage();
-        }
-    );
+        const validEmail = validateLoginEmail();
+        const validPassword = validateLoginPassword();
 
-    passwordInput?.addEventListener(
-        "input",
-        () => {
-            clearInputError(
-                passwordInput,
-                "passwordError"
-            );
-
-            clearAuthMessage();
-        }
-    );
-
-    emailInput?.addEventListener(
-        "blur",
-        validateLoginEmail
-    );
-
-    passwordInput?.addEventListener(
-        "blur",
-        validateLoginPassword
-    );
-
-    loginForm.addEventListener(
-        "submit",
-        async (event) => {
-            event.preventDefault();
-            clearAuthMessage();
-
-            const emailIsValid =
-                validateLoginEmail();
-
-            const passwordIsValid =
-                validateLoginPassword();
-
-            if (
-                !emailIsValid ||
-                !passwordIsValid
-            ) {
-                showAuthMessage(
-                    "Please review the highlighted fields.",
-                    "error"
-                );
-
-                return;
-            }
-
-            saveRememberedEmail(
-                emailInput,
-                rememberMe
-            );
-
-            setButtonLoading(
-                "loginButton",
-                true,
-                "Checking account..."
-            );
-
-            /*
-             * Replace this delay with:
-             *
-             * supabase.auth.signInWithPassword()
-             */
-            await simulateRequest(900);
-
-            setButtonLoading(
-                "loginButton",
-                false,
-                "Log In to Dashboard"
-            );
-
+        if (!validEmail || !validPassword) {
             showAuthMessage(
-                "The login interface is ready. Connect Supabase before accepting real logins.",
-                "information"
+                "Please review the highlighted fields.",
+                "error"
             );
+            return;
         }
-    );
+
+        saveRememberedEmail(
+            email,
+            getElement("rememberMe")
+        );
+
+        showAuthMessage(
+            "Login is not available yet. Authentication must be connected before accounts can be accessed.",
+            "information"
+        );
+    });
 }
 
 function validateLoginEmail() {
-    const emailInput =
-        getElement("email");
+    const input = getElement("email");
+    if (!input) return false;
 
-    if (!emailInput) return false;
-
-    const emailValue =
-        emailInput.value.trim();
-
-    if (!emailValue) {
+    if (!input.value.trim()) {
         setInputError(
-            emailInput,
+            input,
             "emailError",
             "Email address is required."
         );
-
         return false;
     }
 
-    if (!isValidEmail(emailValue)) {
+    if (!isValidEmail(input.value)) {
         setInputError(
-            emailInput,
+            input,
             "emailError",
             "Enter a valid email address."
         );
-
         return false;
     }
 
-    clearInputError(
-        emailInput,
-        "emailError"
-    );
-
+    clearInputError(input, "emailError");
     return true;
 }
 
 function validateLoginPassword() {
-    const passwordInput =
-        getElement("password");
+    const input = getElement("password");
+    if (!input) return false;
 
-    if (!passwordInput) return false;
-
-    if (!passwordInput.value) {
+    if (!input.value) {
         setInputError(
-            passwordInput,
+            input,
             "passwordError",
             "Password is required."
         );
-
         return false;
     }
 
-    if (passwordInput.value.length < 8) {
-        setInputError(
-            passwordInput,
-            "passwordError",
-            "Password must contain at least eight characters."
-        );
-
-        return false;
-    }
-
-    clearInputError(
-        passwordInput,
-        "passwordError"
-    );
-
+    clearInputError(input, "passwordError");
     return true;
 }
 
 /* =========================================================
    REMEMBER EMAIL
+
+   Only the email address is saved in this browser.
 ========================================================= */
 
-function saveRememberedEmail(
-    emailInput,
-    rememberCheckbox
-) {
-    if (!emailInput || !rememberCheckbox) {
-        return;
+function saveRememberedEmail(emailInput, checkbox) {
+    if (!emailInput || !checkbox) return;
+
+    try {
+        if (checkbox.checked) {
+            localStorage.setItem(
+                "agencyPriveRememberedEmail",
+                emailInput.value.trim()
+            );
+        } else {
+            localStorage.removeItem(
+                "agencyPriveRememberedEmail"
+            );
+        }
+    } catch {
+        // Login validation still works if browser storage is unavailable.
     }
-
-    if (rememberCheckbox.checked) {
-        localStorage.setItem(
-            "agencyPriveRememberedEmail",
-            emailInput.value.trim()
-        );
-
-        return;
-    }
-
-    localStorage.removeItem(
-        "agencyPriveRememberedEmail"
-    );
 }
 
 function loadRememberedEmail() {
-    const emailInput =
-        getElement("email");
+    const email = getElement("email");
+    const checkbox = getElement("rememberMe");
+    if (!email || !checkbox) return;
 
-    const rememberMe =
-        getElement("rememberMe");
-
-    if (!emailInput || !rememberMe) {
-        return;
-    }
-
-    const rememberedEmail =
-        localStorage.getItem(
+    try {
+        const remembered = localStorage.getItem(
             "agencyPriveRememberedEmail"
         );
 
-    if (!rememberedEmail) return;
-
-    emailInput.value = rememberedEmail;
-    rememberMe.checked = true;
+        if (remembered) {
+            email.value = remembered;
+            checkbox.checked = true;
+        }
+    } catch {
+        // Browser storage may be disabled.
+    }
 }
 
 /* =========================================================
-   FORGOT PASSWORD
+   PASSWORD RECOVERY AND GOOGLE LOGIN
 ========================================================= */
 
 function initializeForgotPassword() {
-    const forgotPassword =
-        getElement("forgotPassword");
+    const link = getElement("forgotPassword");
+    const email = getElement("email");
+    if (!link || !email) return;
 
-    const emailInput =
-        getElement("email");
+    link.addEventListener("click", (event) => {
+        event.preventDefault();
+        clearAuthMessage();
 
-    if (!forgotPassword || !emailInput) {
-        return;
-    }
-
-    forgotPassword.addEventListener(
-        "click",
-        (event) => {
-            event.preventDefault();
-            clearAuthMessage();
-
-            const emailValue =
-                emailInput.value.trim();
-
-            if (!emailValue) {
-                showAuthMessage(
-                    "Enter your account email before requesting password recovery.",
-                    "information"
-                );
-
-                emailInput.focus();
-                return;
-            }
-
-            if (!isValidEmail(emailValue)) {
-                setInputError(
-                    emailInput,
-                    "emailError",
-                    "Enter a valid email address."
-                );
-
-                showAuthMessage(
-                    "Enter a valid email before requesting password recovery.",
-                    "error"
-                );
-
-                emailInput.focus();
-                return;
-            }
-
-            /*
-             * Replace with:
-             *
-             * supabase.auth.resetPasswordForEmail()
-             */
+        if (!email.value.trim()) {
             showAuthMessage(
-                `Password recovery will be sent to ${emailValue} after Supabase is connected.`,
-                "information"
+                "Enter your account email before requesting password recovery."
             );
+            email.focus();
+            return;
         }
-    );
-}
 
-/* =========================================================
-   GOOGLE LOGIN
-========================================================= */
+        if (!isValidEmail(email.value)) {
+            setInputError(
+                email,
+                "emailError",
+                "Enter a valid email address."
+            );
+            showAuthMessage(
+                "Enter a valid email before requesting password recovery.",
+                "error"
+            );
+            email.focus();
+            return;
+        }
+
+        showAuthMessage(
+            "Password recovery is not available until authentication is connected."
+        );
+    });
+}
 
 function initializeGoogleLogin() {
-    const googleLogin =
-        getElement("googleLogin");
+    const button = getElement("googleLogin");
+    if (!button) return;
 
-    if (!googleLogin) return;
+    button.addEventListener("click", (event) => {
+        event.preventDefault();
+        clearAuthMessage();
 
-    googleLogin.addEventListener(
-        "click",
-        async () => {
-            clearAuthMessage();
-
-            const originalContent =
-                googleLogin.innerHTML;
-
-            googleLogin.disabled = true;
-
-            googleLogin.innerHTML = `
-                <i class="fa-solid fa-spinner fa-spin"></i>
-                Connecting to Google...
-            `;
-
-            /*
-             * Replace with:
-             *
-             * supabase.auth.signInWithOAuth()
-             */
-            await simulateRequest(850);
-
-            googleLogin.disabled = false;
-            googleLogin.innerHTML =
-                originalContent;
-
-            showAuthMessage(
-                "Google login will become available after Supabase is connected.",
-                "information"
-            );
-        }
-    );
+        showAuthMessage(
+            "Google login is not available until authentication is connected."
+        );
+    });
 }
 
 /* =========================================================
-   REGISTRATION
+   REGISTRATION WIZARD
 ========================================================= */
 
 function initializeRegistrationForm() {
-    const form =
-        getElement("registrationForm");
-
+    const form = getElement("registrationForm");
     if (!form) return;
-
-    let currentStep = 1;
-    const totalSteps = 4;
 
     const steps = Array.from(
         form.querySelectorAll(".wizard-step")
     );
-
     const progressItems = Array.from(
-        form.querySelectorAll(
-            ".wizard-progress-item"
-        )
+        form.querySelectorAll(".wizard-progress-item")
     );
+    const totalSteps = 4;
 
-    const nextButtons =
-        form.querySelectorAll(".wizard-next");
-
-    const backButtons =
-        form.querySelectorAll(".wizard-back");
+    let currentStep = 1;
 
     initializeRegistrationPlan();
-
     initializeConditionalField(
         "otherServiceCheckbox",
         "otherServiceField",
-        "otherService"
+        "otherService",
+        "servicesError"
     );
-
     initializeConditionalField(
         "otherNicheCheckbox",
         "otherNicheField",
-        "otherNiche"
+        "otherNiche",
+        "creatorNichesError"
     );
-
     initializeSelectionCounters();
     initializeCountrySearch();
     initializeLogoUpload();
     initializeAboutCounter();
     initializeRegistrationFieldClearing();
 
-    showRegistrationStep(currentStep);
+    function showStep(number) {
+        currentStep = number;
 
-    nextButtons.forEach((button) => {
-        button.addEventListener(
-            "click",
-            () => {
-                clearAuthMessage();
+        steps.forEach((step) => {
+            const active = Number(step.dataset.step) === number;
+            step.classList.toggle("active", active);
+            step.hidden = !active;
+        });
 
-                if (
-                    !validateRegistrationStep(
-                        currentStep
-                    )
-                ) {
-                    showAuthMessage(
-                        "Please complete the required information before continuing.",
-                        "error"
-                    );
+        progressItems.forEach((item) => {
+            const stepNumber = Number(item.dataset.stepTarget);
+            item.classList.toggle("active", stepNumber === number);
+            item.classList.toggle("completed", stepNumber < number);
 
-                    focusFirstInvalidField();
-                    return;
-                }
-
-                if (currentStep < totalSteps) {
-                    currentStep += 1;
-
-                    showRegistrationStep(
-                        currentStep
-                    );
-
-                    scrollRegistrationToTop();
-                }
+            if (stepNumber === number) {
+                item.setAttribute("aria-current", "step");
+            } else {
+                item.removeAttribute("aria-current");
             }
-        );
-    });
+        });
+    }
 
-    backButtons.forEach((button) => {
-        button.addEventListener(
-            "click",
-            () => {
-                clearAuthMessage();
-
-                if (currentStep > 1) {
-                    currentStep -= 1;
-
-                    showRegistrationStep(
-                        currentStep
-                    );
-
-                    scrollRegistrationToTop();
-                }
-            }
-        );
-    });
-
-    progressItems.forEach((item) => {
-        item.addEventListener(
-            "click",
-            () => {
-                const targetStep =
-                    Number(
-                        item.dataset.stepTarget
-                    );
-
-                if (
-                    targetStep < currentStep &&
-                    item.classList.contains(
-                        "completed"
-                    )
-                ) {
-                    currentStep = targetStep;
-
-                    showRegistrationStep(
-                        currentStep
-                    );
-
-                    scrollRegistrationToTop();
-                }
-            }
-        );
-    });
-
-    form.addEventListener(
-        "submit",
-        async (event) => {
-            event.preventDefault();
+    form.querySelectorAll(".wizard-next").forEach((button) => {
+        button.addEventListener("click", () => {
             clearAuthMessage();
 
-            if (!validateRegistrationStep(4)) {
+            if (!validateRegistrationStep(currentStep)) {
                 showAuthMessage(
-                    "Please complete the required verification information.",
+                    "Please complete the required information before continuing.",
                     "error"
                 );
-
                 focusFirstInvalidField();
                 return;
             }
 
-            const selectedPlan =
-                getSelectedPlanInformation();
-
-            setButtonLoading(
-                "registrationButton",
-                true,
-                "Submitting Agency..."
-            );
-
-            /*
-             * Replace this demonstration with:
-             *
-             * 1. Supabase Auth signUp()
-             * 2. Upload logo to Supabase Storage
-             * 3. Insert agency profile
-             * 4. Insert selected plan
-             * 5. Insert services and expertise
-             * 6. Insert countries served
-             * 7. Insert social links
-             *
-             * No registration data is currently stored.
-             */
-            await simulateRequest(1100);
-
-            setButtonLoading(
-                "registrationButton",
-                false,
-                "Submit Agency"
-            );
-
-            showAuthMessage(
-                `${selectedPlan.label} was selected. Connect Supabase before accepting real registrations.`,
-                "information"
-            );
-        }
-    );
-
-    function showRegistrationStep(
-        stepNumber
-    ) {
-        steps.forEach((step) => {
-            const stepValue =
-                Number(step.dataset.step);
-
-            const isActive =
-                stepValue === stepNumber;
-
-            step.classList.toggle(
-                "active",
-                isActive
-            );
-
-            step.hidden = !isActive;
+            if (currentStep < totalSteps) {
+                showStep(currentStep + 1);
+                scrollRegistrationToTop();
+            }
         });
+    });
 
-        progressItems.forEach((item) => {
-            const itemStep =
-                Number(
-                    item.dataset.stepTarget
+    form.querySelectorAll(".wizard-back").forEach((button) => {
+        button.addEventListener("click", () => {
+            clearAuthMessage();
+
+            if (currentStep > 1) {
+                showStep(currentStep - 1);
+                scrollRegistrationToTop();
+            }
+        });
+    });
+
+    progressItems.forEach((item) => {
+        item.addEventListener("click", () => {
+            const target = Number(item.dataset.stepTarget);
+
+            if (
+                target < currentStep &&
+                item.classList.contains("completed")
+            ) {
+                clearAuthMessage();
+                showStep(target);
+                scrollRegistrationToTop();
+            }
+        });
+    });
+
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        clearAuthMessage();
+
+        /*
+         * Validate every step again. Users can return to earlier
+         * steps and change values before submitting.
+         */
+        for (let step = 1; step <= totalSteps; step += 1) {
+            if (!validateRegistrationStep(step)) {
+                showStep(step);
+                showAuthMessage(
+                    "Please review the highlighted fields before submitting.",
+                    "error"
                 );
+                focusFirstInvalidField();
+                return;
+            }
+        }
 
-            item.classList.toggle(
-                "active",
-                itemStep === stepNumber
-            );
+        const selectedPlan = getSelectedPlanInformation();
 
-            item.classList.toggle(
-                "completed",
-                itemStep < stepNumber
-            );
+        showAuthMessage(
+            `${selectedPlan.label} is selected. Registration is a preview: no account, agency profile, trial, or subscription has been created. Connect Supabase before accepting registrations.`,
+            "information"
+        );
+    });
 
-            item.setAttribute(
-                "aria-current",
-                itemStep === stepNumber
-                    ? "step"
-                    : "false"
-            );
-        });
-    }
+    showStep(currentStep);
 }
 
 /* =========================================================
-   REGISTRATION PLAN
+   PLAN SELECTION
 ========================================================= */
 
+const registrationPlans = {
+    free: {
+        label: "Free",
+        note: "$0/month. Basic agency listing. No payment is taken here."
+    },
+    prive: {
+        label: "Privé",
+        note: "$49/month. Plan selection does not start billing."
+    },
+    select: {
+        label: "Privé Select",
+        note: "$129/month. Plan selection does not start billing."
+    },
+    elite: {
+        label: "Privé Elite",
+        note: "$299/month launch price. Plan selection does not start billing."
+    }
+};
+
 function initializeRegistrationPlan() {
-    const planSelect =
-        getElement("registrationPlan");
+    const select = getElement("registrationPlan");
+    const note = getElement("registrationPlanNote");
+    if (!select) return;
 
-    const planNote =
-        getElement("registrationPlanNote");
-
-    if (!planSelect) return;
-
-    const planConfigurations = {
-        free: {
-            value: "free",
-            label: "Free",
-            note: "$0 forever. Create a permanent basic agency profile."
-        },
-        prive: {
-            value: "prive",
-            label: "Privé",
-            note: "$59/month with a seven-day free trial."
-        },
-        select: {
-            value: "select",
-            label: "Privé Select",
-            note: "$149/month with featured visibility and lead tools."
-        },
-        elite: {
-            value: "elite",
-            label: "Privé Elite",
-            note: "$399/month. Application and approval may be required."
-        }
-    };
-
-    const urlParameters =
-        new URLSearchParams(
-            window.location.search
-        );
-
-    const requestedPlan =
-        urlParameters
-            .get("plan")
-            ?.trim()
-            .toLowerCase();
-
-    const planAliases = {
+    const aliases = {
         free: "free",
         prive: "prive",
-        privé: "prive",
+        "privé": "prive",
         premium: "prive",
         pro: "prive",
         select: "select",
@@ -811,71 +507,37 @@ function initializeRegistrationPlan() {
         "privé-elite": "elite"
     };
 
-    const normalizedPlan =
-        planAliases[requestedPlan];
+    const requested = new URLSearchParams(
+        window.location.search
+    ).get("plan")?.trim().toLowerCase();
 
-    if (normalizedPlan) {
-        planSelect.value = normalizedPlan;
+    const selected = aliases[requested];
+    if (selected) select.value = selected;
+
+    function updateNote() {
+        if (note) {
+            note.textContent =
+                registrationPlans[select.value]?.note ||
+                "Choose the plan that fits your agency.";
+        }
     }
 
-    const updatePlanNote = () => {
-        const selectedPlan =
-            planConfigurations[
-                planSelect.value
-            ];
+    select.addEventListener("change", () => {
+        clearInputError(select, "registrationPlanError");
+        clearAuthMessage();
+        updateNote();
+    });
 
-        if (!planNote) return;
-
-        planNote.textContent =
-            selectedPlan
-                ? selectedPlan.note
-                : "Choose the plan that best fits your agency.";
-    };
-
-    planSelect.addEventListener(
-        "change",
-        () => {
-            clearInputError(
-                planSelect,
-                "registrationPlanError"
-            );
-
-            clearAuthMessage();
-            updatePlanNote();
-        }
-    );
-
-    updatePlanNote();
+    updateNote();
 }
 
 function getSelectedPlanInformation() {
-    const planSelect =
-        getElement("registrationPlan");
-
-    const planLabels = {
-        free: "Free",
-        prive: "Privé",
-        select: "Privé Select",
-        elite: "Privé Elite"
-    };
-
-    const planValue =
-        planSelect?.value || "";
+    const value = getElement("registrationPlan")?.value || "";
 
     return {
-        value: planValue,
-        label:
-            planLabels[planValue] ||
-            "Your plan"
+        value,
+        label: registrationPlans[value]?.label || "Your plan"
     };
-}
-
-function validateRegistrationPlan() {
-    return validateRequiredSelect(
-        "registrationPlan",
-        "registrationPlanError",
-        "Select a registration plan."
-    );
 }
 
 /* =========================================================
@@ -884,94 +546,66 @@ function validateRegistrationPlan() {
 
 function initializeConditionalField(
     checkboxId,
-    fieldContainerId,
-    textInputId
+    containerId,
+    inputId,
+    errorId
 ) {
-    const checkbox =
-        getElement(checkboxId);
+    const checkbox = getElement(checkboxId);
+    const container = getElement(containerId);
+    const input = getElement(inputId);
 
-    const container =
-        getElement(fieldContainerId);
+    if (!checkbox || !container || !input) return;
 
-    const input =
-        getElement(textInputId);
+    function update() {
+        container.hidden = !checkbox.checked;
+        input.required = checkbox.checked;
 
-    if (!checkbox || !container || !input) {
-        return;
+        if (!checkbox.checked) {
+            input.value = "";
+            clearInputError(input, errorId);
+        }
     }
 
-    const updateField = () => {
-        container.hidden =
-            !checkbox.checked;
+    checkbox.addEventListener("change", update);
+    input.addEventListener("input", () => {
+        input.classList.remove("invalid");
+        input.removeAttribute("aria-invalid");
+        setGroupError(errorId, "");
+        clearAuthMessage();
+    });
 
-        if (checkbox.checked) {
-            input.setAttribute(
-                "required",
-                ""
-            );
-
-            return;
-        }
-
-        input.removeAttribute("required");
-        input.value = "";
-
-        clearInputError(
-            input,
-            checkboxId ===
-                "otherServiceCheckbox"
-                ? "servicesError"
-                : "creatorNichesError"
-        );
-    };
-
-    checkbox.addEventListener(
-        "change",
-        updateField
-    );
-
-    updateField();
+    update();
 }
 
 /* =========================================================
-   SERVICE COUNTER
+   SERVICE COUNTER AND GROUP ERRORS
 ========================================================= */
 
 function initializeSelectionCounters() {
-    const serviceInputs =
-        document.querySelectorAll(
-            'input[name="services"]'
-        );
+    const counter = getElement("servicesSelectedCount");
 
-    const counter =
-        getElement("servicesSelectedCount");
-
-    const updateCounter = () => {
-        if (!counter) return;
-
-        counter.textContent =
-            document.querySelectorAll(
+    function update() {
+        if (counter) {
+            counter.textContent = document.querySelectorAll(
                 'input[name="services"]:checked'
             ).length;
-    };
+        }
 
-    serviceInputs.forEach((input) => {
-        input.addEventListener(
-            "change",
-            () => {
-                updateCounter();
+        setGroupError("servicesError", "");
+        clearAuthMessage();
+    }
 
-                const error =
-                    getElement("servicesError");
-
-                if (error) {
-                    error.textContent = "";
-                }
-            }
-        );
+    document.querySelectorAll(
+        'input[name="services"]'
+    ).forEach((input) => {
+        input.addEventListener("change", update);
     });
 
-    updateCounter();
+    if (counter) {
+        counter.textContent = document.querySelectorAll(
+            'input[name="services"]:checked'
+        ).length;
+    }
 }
 
 /* =========================================================
@@ -979,159 +613,98 @@ function initializeSelectionCounters() {
 ========================================================= */
 
 function initializeCountrySearch() {
-    const searchInput =
-        getElement("countrySearch");
+    const search = getElement("countrySearch");
+    const options = getElement("countryOptions");
 
-    const countryOptions =
-        getElement("countryOptions");
-
-    if (!searchInput || !countryOptions) {
-        return;
-    }
+    if (!search || !options) return;
 
     const cards = Array.from(
-        countryOptions.querySelectorAll(
-            "[data-country]"
-        )
+        options.querySelectorAll("[data-country]")
     );
 
-    searchInput.addEventListener(
-        "input",
-        () => {
-            const searchValue =
-                searchInput.value
-                    .trim()
-                    .toLowerCase();
+    search.addEventListener("input", () => {
+        const query = search.value.trim().toLowerCase();
 
-            cards.forEach((card) => {
-                const countryName =
-                    card.dataset.country
-                        .toLowerCase();
+        cards.forEach((card) => {
+            card.classList.toggle(
+                "filtered-out",
+                !card.dataset.country.toLowerCase().includes(query)
+            );
+        });
+    });
 
-                card.classList.toggle(
-                    "filtered-out",
-                    !countryName.includes(
-                        searchValue
-                    )
-                );
-            });
-        }
-    );
-
-    countryOptions.addEventListener(
-        "change",
-        () => {
-            const error =
-                getElement(
-                    "countriesServedError"
-                );
-
-            if (error) {
-                error.textContent = "";
-            }
-        }
-    );
+    options.addEventListener("change", () => {
+        setGroupError("countriesServedError", "");
+        clearAuthMessage();
+    });
 }
 
 /* =========================================================
-   LOGO UPLOAD
+   LOGO PREVIEW
 ========================================================= */
 
 function initializeLogoUpload() {
-    const fileInput =
-        getElement("agencyLogo");
+    const input = getElement("agencyLogo");
+    const preview = getElement("logoPreview");
+    if (!input || !preview) return;
 
-    const preview =
-        getElement("logoPreview");
+    let previewUrl = null;
 
-    const error =
-        getElement("agencyLogoError");
-
-    if (!fileInput || !preview) return;
-
-    fileInput.addEventListener(
-        "change",
-        () => {
-            const file =
-                fileInput.files?.[0];
-
-            if (error) {
-                error.textContent = "";
-            }
-
-            fileInput.classList.remove(
-                "invalid"
-            );
-
-            if (!file) {
-                resetLogoPreview(preview);
-                return;
-            }
-
-            const allowedTypes = [
-                "image/png",
-                "image/jpeg",
-                "image/webp"
-            ];
-
-            if (!allowedTypes.includes(file.type)) {
-                fileInput.value = "";
-
-                setInputError(
-                    fileInput,
-                    "agencyLogoError",
-                    "Upload a PNG, JPG, or WEBP image."
-                );
-
-                resetLogoPreview(preview);
-                return;
-            }
-
-            const maximumSize =
-                5 * 1024 * 1024;
-
-            if (file.size > maximumSize) {
-                fileInput.value = "";
-
-                setInputError(
-                    fileInput,
-                    "agencyLogoError",
-                    "The logo must be smaller than 5 MB."
-                );
-
-                resetLogoPreview(preview);
-                return;
-            }
-
-            const reader =
-                new FileReader();
-
-            reader.addEventListener(
-                "load",
-                () => {
-                    preview.innerHTML = "";
-
-                    const image =
-                        document.createElement(
-                            "img"
-                        );
-
-                    image.src = reader.result;
-                    image.alt =
-                        "Agency logo preview";
-
-                    preview.appendChild(image);
-                }
-            );
-
-            reader.readAsDataURL(file);
+    function resetPreview() {
+        if (previewUrl) {
+            URL.revokeObjectURL(previewUrl);
+            previewUrl = null;
         }
-    );
-}
 
-function resetLogoPreview(preview) {
-    preview.innerHTML =
-        '<i class="fa-regular fa-image"></i>';
+        preview.innerHTML =
+            '<i class="fa-regular fa-image"></i>';
+    }
+
+    input.addEventListener("change", () => {
+        clearInputError(input, "agencyLogoError");
+
+        const file = input.files?.[0];
+        if (!file) {
+            resetPreview();
+            return;
+        }
+
+        const acceptedTypes = [
+            "image/png",
+            "image/jpeg",
+            "image/webp"
+        ];
+
+        if (!acceptedTypes.includes(file.type)) {
+            input.value = "";
+            resetPreview();
+            setInputError(
+                input,
+                "agencyLogoError",
+                "Upload a PNG, JPG, or WEBP image."
+            );
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            input.value = "";
+            resetPreview();
+            setInputError(
+                input,
+                "agencyLogoError",
+                "The logo must be 5 MB or smaller."
+            );
+            return;
+        }
+
+        resetPreview();
+        previewUrl = URL.createObjectURL(file);
+
+        const image = document.createElement("img");
+        image.src = previewUrl;
+        image.alt = "Agency logo preview";
+        preview.appendChild(image);
+    });
 }
 
 /* =========================================================
@@ -1139,68 +712,34 @@ function resetLogoPreview(preview) {
 ========================================================= */
 
 function initializeAboutCounter() {
-    const textarea =
-        getElement("agencyAbout");
-
-    const counter =
-        getElement("aboutCharacterCount");
-
+    const textarea = getElement("agencyAbout");
+    const counter = getElement("aboutCharacterCount");
     if (!textarea || !counter) return;
 
-    const updateCounter = () => {
-        counter.textContent =
-            textarea.value.length;
-    };
+    function update() {
+        counter.textContent = textarea.value.length;
+    }
 
-    textarea.addEventListener(
-        "input",
-        () => {
-            updateCounter();
-
-            clearInputError(
-                textarea,
-                "agencyAboutError"
-            );
-        }
-    );
-
-    updateCounter();
+    textarea.addEventListener("input", update);
+    update();
 }
 
 /* =========================================================
-   CLEAR REGISTRATION ERRORS
+   CLEAR ERRORS WHILE EDITING
 ========================================================= */
 
 function initializeRegistrationFieldClearing() {
     const fields = [
-        [
-            "registrationPlan",
-            "registrationPlanError"
-        ],
+        ["registrationPlan", "registrationPlanError"],
         ["firstName", "firstNameError"],
         ["lastName", "lastNameError"],
-        [
-            "registrationEmail",
-            "registrationEmailError"
-        ],
-        [
-            "registrationPassword",
-            "registrationPasswordError"
-        ],
-        [
-            "confirmPassword",
-            "confirmPasswordError"
-        ],
+        ["registrationEmail", "registrationEmailError"],
+        ["registrationPassword", "registrationPasswordError"],
+        ["confirmPassword", "confirmPasswordError"],
         ["companyName", "companyNameError"],
         ["country", "countryError"],
-        [
-            "companyWebsite",
-            "companyWebsiteError"
-        ],
-        [
-            "yearsInBusiness",
-            "yearsInBusinessError"
-        ],
+        ["companyWebsite", "companyWebsiteError"],
+        ["yearsInBusiness", "yearsInBusinessError"],
         ["agencyAbout", "agencyAboutError"],
         ["instagram", "instagramError"],
         ["xProfile", "xProfileError"],
@@ -1208,113 +747,58 @@ function initializeRegistrationFieldClearing() {
         ["linkedin", "linkedinError"]
     ];
 
-    fields.forEach(
-        ([inputId, errorId]) => {
-            const input =
-                getElement(inputId);
+    fields.forEach(([id, errorId]) => {
+        const input = getElement(id);
+        if (!input) return;
 
-            if (!input) return;
+        const clear = () => {
+            clearInputError(input, errorId);
+            clearAuthMessage();
+        };
 
-            const clear = () => {
-                clearInputError(
-                    input,
-                    errorId
-                );
+        input.addEventListener("input", clear);
+        input.addEventListener("change", clear);
+    });
 
-                clearAuthMessage();
-            };
-
-            input.addEventListener(
-                "input",
-                clear
+    document.querySelectorAll(
+        'input[name="creatorNiches"], input[name="agencySize"]'
+    ).forEach((input) => {
+        input.addEventListener("change", () => {
+            setGroupError(
+                input.name === "creatorNiches"
+                    ? "creatorNichesError"
+                    : "agencySizeError",
+                ""
             );
-
-            input.addEventListener(
-                "change",
-                clear
-            );
-        }
-    );
-
-    const groupedInputs =
-        document.querySelectorAll(
-            'input[name="creatorNiches"], ' +
-            'input[name="agencySize"]'
-        );
-
-    groupedInputs.forEach((input) => {
-        input.addEventListener(
-            "change",
-            () => {
-                const errorId =
-                    input.name ===
-                    "creatorNiches"
-                        ? "creatorNichesError"
-                        : "agencySizeError";
-
-                const error =
-                    getElement(errorId);
-
-                if (error) {
-                    error.textContent = "";
-                }
-
-                clearAuthMessage();
-            }
-        );
+            clearAuthMessage();
+        });
     });
 
     [
-        [
-            "authorizedRepresentative",
-            "authorizedRepresentativeError"
-        ],
-        [
-            "acceptTerms",
-            "acceptTermsError"
-        ]
-    ].forEach(
-        ([checkboxId, errorId]) => {
-            const checkbox =
-                getElement(checkboxId);
-
-            checkbox?.addEventListener(
-                "change",
-                () => {
-                    const error =
-                        getElement(errorId);
-
-                    if (error) {
-                        error.textContent = "";
-                    }
-
-                    clearAuthMessage();
-                }
-            );
-        }
-    );
+        ["authorizedRepresentative", "authorizedRepresentativeError"],
+        ["acceptTerms", "acceptTermsError"]
+    ].forEach(([id, errorId]) => {
+        getElement(id)?.addEventListener("change", () => {
+            setGroupError(errorId, "");
+            clearAuthMessage();
+        });
+    });
 }
 
 /* =========================================================
    STEP VALIDATION
 ========================================================= */
 
-function validateRegistrationStep(
-    stepNumber
-) {
-    switch (stepNumber) {
+function validateRegistrationStep(number) {
+    switch (number) {
         case 1:
             return validateAgencyDetailsStep();
-
         case 2:
             return validateServicesStep();
-
         case 3:
             return validateExpertiseStep();
-
         case 4:
             return validateAboutStep();
-
         default:
             return false;
     }
@@ -1322,38 +806,34 @@ function validateRegistrationStep(
 
 function validateAgencyDetailsStep() {
     const results = [
-        validateRegistrationPlan(),
-
+        validateRequiredSelect(
+            "registrationPlan",
+            "registrationPlanError",
+            "Select a registration plan."
+        ),
         validateRequiredText(
             "firstName",
             "firstNameError",
             "First name is required."
         ),
-
         validateRequiredText(
             "lastName",
             "lastNameError",
             "Last name is required."
         ),
-
         validateRegistrationEmail(),
-
         validateRegistrationPassword(),
-
         validatePasswordConfirmation(),
-
         validateRequiredText(
             "companyName",
             "companyNameError",
             "Agency name is required."
         ),
-
         validateRequiredSelect(
             "country",
             "countryError",
             "Select your primary location."
         ),
-
         validateCompanyWebsite()
     ];
 
@@ -1361,180 +841,134 @@ function validateAgencyDetailsStep() {
 }
 
 function validateServicesStep() {
-    const selectedServices =
-        document.querySelectorAll(
-            'input[name="services"]:checked'
+    const selected = document.querySelectorAll(
+        'input[name="services"]:checked'
+    );
+
+    const otherCheckbox = getElement("otherServiceCheckbox");
+    const otherInput = getElement("otherService");
+
+    if (!selected.length) {
+        setGroupError(
+            "servicesError",
+            "Select at least one OnlyFans service."
         );
-
-    const error =
-        getElement("servicesError");
-
-    let valid =
-        selectedServices.length > 0;
-
-    if (!valid && error) {
-        error.textContent =
-            "Select at least one service.";
+        return false;
     }
-
-    const otherCheckbox =
-        getElement("otherServiceCheckbox");
-
-    const otherInput =
-        getElement("otherService");
 
     if (
         otherCheckbox?.checked &&
         !otherInput?.value.trim()
     ) {
-        otherInput?.classList.add("invalid");
-
-        if (error) {
-            error.textContent =
-                "Specify your additional service.";
-        }
-
-        valid = false;
+        setInputError(
+            otherInput,
+            "servicesError",
+            "Specify your additional OnlyFans service."
+        );
+        return false;
     }
 
-    if (valid && error) {
-        error.textContent = "";
+    if (otherInput) {
+        otherInput.classList.remove("invalid");
+        otherInput.removeAttribute("aria-invalid");
     }
 
-    return valid;
+    setGroupError("servicesError", "");
+    return true;
 }
 
 function validateExpertiseStep() {
-    const selectedNiches =
-        document.querySelectorAll(
-            'input[name="creatorNiches"]:checked'
-        );
+    const niches = document.querySelectorAll(
+        'input[name="creatorNiches"]:checked'
+    );
+    const countries = document.querySelectorAll(
+        'input[name="countriesServed"]:checked'
+    );
+    const size = document.querySelector(
+        'input[name="agencySize"]:checked'
+    );
 
-    const selectedCountries =
-        document.querySelectorAll(
-            'input[name="countriesServed"]:checked'
-        );
+    const otherCheckbox = getElement("otherNicheCheckbox");
+    const otherInput = getElement("otherNiche");
 
-    const selectedSize =
-        document.querySelector(
-            'input[name="agencySize"]:checked'
-        );
+    let nichesValid = niches.length > 0;
 
-    const nicheError =
-        getElement("creatorNichesError");
-
-    const countryError =
-        getElement("countriesServedError");
-
-    const sizeError =
-        getElement("agencySizeError");
-
-    let nichesValid =
-        selectedNiches.length > 0;
-
-    const countriesValid =
-        selectedCountries.length > 0;
-
-    const sizeValid =
-        Boolean(selectedSize);
-
-    if (nicheError) {
-        nicheError.textContent =
-            nichesValid
-                ? ""
-                : "Select at least one creator niche.";
-    }
-
-    if (countryError) {
-        countryError.textContent =
-            countriesValid
-                ? ""
-                : "Select at least one country or region.";
-    }
-
-    if (sizeError) {
-        sizeError.textContent =
-            sizeValid
-                ? ""
-                : "Select your agency size.";
-    }
-
-    const otherNicheCheckbox =
-        getElement("otherNicheCheckbox");
-
-    const otherNicheInput =
-        getElement("otherNiche");
+    setGroupError(
+        "creatorNichesError",
+        nichesValid
+            ? ""
+            : "Select at least one OnlyFans creator specialty."
+    );
 
     if (
-        otherNicheCheckbox?.checked &&
-        !otherNicheInput?.value.trim()
+        otherCheckbox?.checked &&
+        !otherInput?.value.trim()
     ) {
-        otherNicheInput?.classList.add(
-            "invalid"
+        setInputError(
+            otherInput,
+            "creatorNichesError",
+            "Specify the additional OnlyFans creator specialty."
         );
-
-        if (nicheError) {
-            nicheError.textContent =
-                "Specify the additional creator niche.";
-        }
-
         nichesValid = false;
+    } else if (otherInput) {
+        otherInput.classList.remove("invalid");
+        otherInput.removeAttribute("aria-invalid");
     }
 
-    const yearsValid =
-        validateRequiredSelect(
-            "yearsInBusiness",
-            "yearsInBusinessError",
-            "Select how long the agency has operated."
-        );
+    setGroupError(
+        "countriesServedError",
+        countries.length
+            ? ""
+            : "Select at least one country or region."
+    );
+
+    setGroupError(
+        "agencySizeError",
+        size ? "" : "Select your agency size."
+    );
+
+    const yearsValid = validateRequiredSelect(
+        "yearsInBusiness",
+        "yearsInBusinessError",
+        "Select how long the agency has operated."
+    );
 
     return (
         nichesValid &&
-        countriesValid &&
-        sizeValid &&
+        countries.length > 0 &&
+        Boolean(size) &&
         yearsValid
     );
 }
 
 function validateAboutStep() {
-    const aboutValid =
-        validateMinimumText(
-            "agencyAbout",
-            "agencyAboutError",
-            80,
-            "Write at least 80 characters about your agency."
-        );
+    const aboutValid = validateMinimumText(
+        "agencyAbout",
+        "agencyAboutError",
+        80,
+        "Write at least 80 characters about your agency."
+    );
 
-    const socialFields = [
+    const socialResults = [
         ["instagram", "instagramError"],
         ["xProfile", "xProfileError"],
         ["tiktok", "tiktokError"],
         ["linkedin", "linkedinError"]
-    ];
+    ].map(([id, errorId]) => {
+        return validateOptionalWebsite(id, errorId);
+    });
 
-    const socialResults =
-        socialFields.map(
-            ([inputId, errorId]) => {
-                return validateOptionalWebsite(
-                    inputId,
-                    errorId
-                );
-            }
-        );
+    const representativeValid = validateRequiredCheckbox(
+        "authorizedRepresentative",
+        "authorizedRepresentativeError",
+        "Confirm that you are authorized to represent this agency."
+    );
 
-    const representativeValid =
-        validateRequiredCheckbox(
-            "authorizedRepresentative",
-            "authorizedRepresentativeError",
-            "Confirm that you are authorized to represent the agency."
-        );
-
-    const termsValid =
-        validateRequiredCheckbox(
-            "acceptTerms",
-            "acceptTermsError",
-            "You must accept the terms to submit the agency."
-        );
+    const termsValid = validateRequiredCheckbox(
+        "acceptTerms",
+        "acceptTermsError",
+        "Accept the terms before submitting."
+    );
 
     return (
         aboutValid &&
@@ -1545,166 +979,93 @@ function validateAboutStep() {
 }
 
 /* =========================================================
-   VALIDATION HELPERS
+   FIELD VALIDATION
 ========================================================= */
 
-function validateRequiredText(
-    inputId,
+function validateRequiredText(id, errorId, message) {
+    const input = getElement(id);
+    if (!input) return false;
+
+    if (!input.value.trim()) {
+        setInputError(input, errorId, message);
+        return false;
+    }
+
+    clearInputError(input, errorId);
+    return true;
+}
+
+function validateMinimumText(
+    id,
     errorId,
+    minimumLength,
     message
 ) {
-    const input =
-        getElement(inputId);
+    const input = getElement(id);
+    if (!input) return false;
 
+    if (input.value.trim().length < minimumLength) {
+        setInputError(input, errorId, message);
+        return false;
+    }
+
+    clearInputError(input, errorId);
+    return true;
+}
+
+function validateRequiredSelect(id, errorId, message) {
+    const input = getElement(id);
+    if (!input) return false;
+
+    if (!input.value) {
+        setInputError(input, errorId, message);
+        return false;
+    }
+
+    clearInputError(input, errorId);
+    return true;
+}
+
+function validateRequiredCheckbox(id, errorId, message) {
+    const checkbox = getElement(id);
+    if (!checkbox) return false;
+
+    setGroupError(
+        errorId,
+        checkbox.checked ? "" : message
+    );
+
+    return checkbox.checked;
+}
+
+function validateRegistrationEmail() {
+    const input = getElement("registrationEmail");
     if (!input) return false;
 
     if (!input.value.trim()) {
         setInputError(
             input,
-            errorId,
-            message
-        );
-
-        return false;
-    }
-
-    clearInputError(
-        input,
-        errorId
-    );
-
-    return true;
-}
-
-function validateMinimumText(
-    inputId,
-    errorId,
-    minimumLength,
-    message
-) {
-    const input =
-        getElement(inputId);
-
-    if (!input) return false;
-
-    if (
-        input.value.trim().length <
-        minimumLength
-    ) {
-        setInputError(
-            input,
-            errorId,
-            message
-        );
-
-        return false;
-    }
-
-    clearInputError(
-        input,
-        errorId
-    );
-
-    return true;
-}
-
-function validateRequiredSelect(
-    inputId,
-    errorId,
-    message
-) {
-    const select =
-        getElement(inputId);
-
-    if (!select) return false;
-
-    if (!select.value) {
-        setInputError(
-            select,
-            errorId,
-            message
-        );
-
-        return false;
-    }
-
-    clearInputError(
-        select,
-        errorId
-    );
-
-    return true;
-}
-
-function validateRequiredCheckbox(
-    checkboxId,
-    errorId,
-    message
-) {
-    const checkbox =
-        getElement(checkboxId);
-
-    const error =
-        getElement(errorId);
-
-    if (!checkbox) return false;
-
-    if (!checkbox.checked) {
-        if (error) {
-            error.textContent = message;
-        }
-
-        return false;
-    }
-
-    if (error) {
-        error.textContent = "";
-    }
-
-    return true;
-}
-
-function validateRegistrationEmail() {
-    const input =
-        getElement("registrationEmail");
-
-    if (!input) return false;
-
-    const email =
-        input.value.trim();
-
-    if (!email) {
-        setInputError(
-            input,
             "registrationEmailError",
             "Business email is required."
         );
-
         return false;
     }
 
-    if (!isValidEmail(email)) {
+    if (!isValidEmail(input.value)) {
         setInputError(
             input,
             "registrationEmailError",
             "Enter a valid business email."
         );
-
         return false;
     }
 
-    clearInputError(
-        input,
-        "registrationEmailError"
-    );
-
+    clearInputError(input, "registrationEmailError");
     return true;
 }
 
 function validateCompanyWebsite() {
-    const input =
-        getElement("companyWebsite");
-
+    const input = getElement("companyWebsite");
     if (!input) return true;
 
     if (!isValidWebsite(input.value)) {
@@ -1713,33 +1074,16 @@ function validateCompanyWebsite() {
             "companyWebsiteError",
             "Use a complete address beginning with http:// or https://."
         );
-
         return false;
     }
 
-    clearInputError(
-        input,
-        "companyWebsiteError"
-    );
-
+    clearInputError(input, "companyWebsiteError");
     return true;
 }
 
-function validateOptionalWebsite(
-    inputId,
-    errorId
-) {
-    const input =
-        getElement(inputId);
-
-    if (!input || !input.value.trim()) {
-        clearInputError(
-            input,
-            errorId
-        );
-
-        return true;
-    }
+function validateOptionalWebsite(id, errorId) {
+    const input = getElement(id);
+    if (!input) return true;
 
     if (!isValidWebsite(input.value)) {
         setInputError(
@@ -1747,84 +1091,56 @@ function validateOptionalWebsite(
             errorId,
             "Enter a complete URL beginning with http:// or https://."
         );
-
         return false;
     }
 
-    clearInputError(
-        input,
-        errorId
-    );
-
+    clearInputError(input, errorId);
     return true;
 }
 
 function validateRegistrationPassword() {
-    const input =
-        getElement("registrationPassword");
-
+    const input = getElement("registrationPassword");
     if (!input) return false;
 
-    const password =
-        input.value;
-
-    if (!password) {
+    if (!input.value) {
         setInputError(
             input,
             "registrationPasswordError",
             "Password is required."
         );
-
         return false;
     }
 
-    if (password.length < 8) {
+    if (input.value.length < 8) {
         setInputError(
             input,
             "registrationPasswordError",
             "Use at least eight characters."
         );
-
         return false;
     }
 
-    const containsLetter =
-        /[A-Za-z]/.test(password);
-
-    const containsNumber =
-        /\d/.test(password);
-
     if (
-        !containsLetter ||
-        !containsNumber
+        !/[A-Za-z]/.test(input.value) ||
+        !/\d/.test(input.value)
     ) {
         setInputError(
             input,
             "registrationPasswordError",
             "Include at least one letter and one number."
         );
-
         return false;
     }
 
-    clearInputError(
-        input,
-        "registrationPasswordError"
-    );
-
+    clearInputError(input, "registrationPasswordError");
     return true;
 }
 
 function validatePasswordConfirmation() {
-    const password =
-        getElement("registrationPassword");
+    const password = getElement("registrationPassword");
+    const confirmation = getElement("confirmPassword");
 
-    const confirmation =
-        getElement("confirmPassword");
-
-    if (!password || !confirmation) {
-        return false;
-    }
+    if (!password || !confirmation) return false;
 
     if (!confirmation.value) {
         setInputError(
@@ -1832,86 +1148,62 @@ function validatePasswordConfirmation() {
             "confirmPasswordError",
             "Confirm your password."
         );
-
         return false;
     }
 
-    if (
-        password.value !==
-        confirmation.value
-    ) {
+    if (password.value !== confirmation.value) {
         setInputError(
             confirmation,
             "confirmPasswordError",
             "Passwords do not match."
         );
-
         return false;
     }
 
-    clearInputError(
-        confirmation,
-        "confirmPasswordError"
-    );
-
+    clearInputError(confirmation, "confirmPasswordError");
     return true;
 }
 
+/* =========================================================
+   WIZARD NAVIGATION HELPERS
+========================================================= */
+
 function focusFirstInvalidField() {
-    const activeStep =
-        document.querySelector(
-            ".wizard-step.active"
-        );
+    const step = document.querySelector(
+        ".wizard-step.active"
+    );
 
-    const firstInvalid =
-        activeStep?.querySelector(
-            ".invalid, input:invalid, select:invalid"
-        );
+    const invalid = step?.querySelector(".invalid");
 
-    firstInvalid?.focus();
+    if (invalid) {
+        invalid.focus();
+        return;
+    }
+
+    /*
+     * Group errors do not have an .invalid input.
+     * Focus their first related selection instead.
+     */
+    const groups = [
+        ["servicesError", 'input[name="services"]'],
+        ["creatorNichesError", 'input[name="creatorNiches"]'],
+        ["countriesServedError", 'input[name="countriesServed"]'],
+        ["agencySizeError", 'input[name="agencySize"]'],
+        ["authorizedRepresentativeError", "#authorizedRepresentative"],
+        ["acceptTermsError", "#acceptTerms"]
+    ];
+
+    for (const [errorId, selector] of groups) {
+        if (getElement(errorId)?.textContent) {
+            step?.querySelector(selector)?.focus();
+            return;
+        }
+    }
 }
 
 function scrollRegistrationToTop() {
-    const form =
-        getElement("registrationForm");
-
-    form?.scrollIntoView({
+    getElement("registrationForm")?.scrollIntoView({
         behavior: "smooth",
         block: "start"
     });
-}
-
-/* =========================================================
-   BUTTON LOADING
-========================================================= */
-
-function setButtonLoading(
-    buttonId,
-    isLoading,
-    buttonText
-) {
-    const button =
-        getElement(buttonId);
-
-    if (!button) return;
-
-    const textElement =
-        button.querySelector("span");
-
-    const iconElement =
-        button.querySelector("i");
-
-    button.disabled = isLoading;
-
-    if (textElement) {
-        textElement.textContent =
-            buttonText;
-    }
-
-    if (iconElement) {
-        iconElement.className =
-            isLoading
-                ? "fa-solid fa-spinner fa-spin"
-                : "fa-solid fa-arrow-right";
-    }
 }

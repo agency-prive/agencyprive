@@ -1,5 +1,5 @@
 /* =========================================================
-   AGENCY PRIVÉ — COMPARE AGENCIES
+   AGENCY PRIVÉ — COMPARE ONLYFANS AGENCIES
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -9,7 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =========================================================
    COMPARISON DATA
 
-   Real approved agencies will be loaded from Supabase.
+   Add approved, published OnlyFans management agencies here
+   or load them from Supabase.
+
+   Do not add sample agencies to the public comparison page.
 ========================================================= */
 
 const comparisonAgencies = [];
@@ -20,22 +23,12 @@ const comparisonAgencies = [];
 
 function initializeAgencyComparison() {
     const selectors = [
-        document.getElementById(
-            "compareAgencyOne"
-        ),
-        document.getElementById(
-            "compareAgencyTwo"
-        ),
-        document.getElementById(
-            "compareAgencyThree"
-        )
+        document.getElementById("compareAgencyOne"),
+        document.getElementById("compareAgencyTwo"),
+        document.getElementById("compareAgencyThree")
     ];
 
-    if (
-        selectors.some(
-            (selector) => !selector
-        )
-    ) {
+    if (selectors.some((selector) => !selector)) {
         return;
     }
 
@@ -43,71 +36,42 @@ function initializeAgencyComparison() {
         selectors,
 
         status:
-            document.getElementById(
-                "compareStatus"
-            ),
+            document.getElementById("compareStatus"),
 
         empty:
-            document.getElementById(
-                "compareEmptySection"
-            ),
+            document.getElementById("compareEmptySection"),
 
         comparison:
-            document.getElementById(
-                "comparisonSection"
-            ),
+            document.getElementById("comparisonSection"),
 
         profileGrid:
-            document.getElementById(
-                "comparisonProfileGrid"
-            ),
+            document.getElementById("comparisonProfileGrid"),
 
         table:
-            document.getElementById(
-                "comparisonTable"
-            ),
+            document.getElementById("comparisonTable"),
 
         reset:
-            document.getElementById(
-                "resetComparison"
-            )
+            document.getElementById("resetComparison")
     };
 
-    populateAgencySelectors(
-        selectors
-    );
+    populateAgencySelectors(selectors);
+    preventDuplicateSelections(selectors);
 
     selectors.forEach((selector) => {
-        selector.addEventListener(
-            "change",
-            () => {
-                preventDuplicateSelections(
-                    selectors
-                );
-
-                renderComparison(
-                    elements
-                );
-            }
-        );
+        selector.addEventListener("change", () => {
+            preventDuplicateSelections(selectors);
+            renderComparison(elements);
+        });
     });
 
-    elements.reset?.addEventListener(
-        "click",
-        () => {
-            selectors.forEach(
-                (selector) => {
-                    selector.value = "";
-                }
-            );
+    elements.reset?.addEventListener("click", () => {
+        selectors.forEach((selector) => {
+            selector.value = "";
+        });
 
-            preventDuplicateSelections(
-                selectors
-            );
-
-            renderComparison(elements);
-        }
-    );
+        preventDuplicateSelections(selectors);
+        renderComparison(elements);
+    });
 
     renderComparison(elements);
 }
@@ -116,91 +80,61 @@ function initializeAgencyComparison() {
    SELECTORS
 ========================================================= */
 
-function populateAgencySelectors(
-    selectors
-) {
-    const agenciesAreAvailable =
-        comparisonAgencies.length > 0;
+function populateAgencySelectors(selectors) {
+    const enoughAgencies =
+        comparisonAgencies.length >= 2;
 
-    selectors.forEach(
-        (selector, index) => {
-            selector.innerHTML = "";
+    selectors.forEach((selector, index) => {
+        selector.innerHTML = "";
 
-            const placeholder =
-                document.createElement(
-                    "option"
-                );
+        const placeholder =
+            document.createElement("option");
 
-            placeholder.value = "";
+        placeholder.value = "";
 
-            placeholder.textContent =
-                agenciesAreAvailable
-                    ? `Select agency ${
-                        index + 1
-                    }`
-                    : "No agencies available";
+        placeholder.textContent =
+            enoughAgencies
+                ? `Select agency ${index + 1}`
+                : "No agencies available to compare";
 
-            placeholder.selected = true;
+        selector.appendChild(placeholder);
+        selector.disabled = !enoughAgencies;
 
-            selector.appendChild(
-                placeholder
-            );
-
-            if (!agenciesAreAvailable) {
-                selector.disabled = true;
-                return;
-            }
-
-            selector.disabled = false;
-
-            comparisonAgencies.forEach(
-                (agency) => {
-                    const option =
-                        document.createElement(
-                            "option"
-                        );
-
-                    option.value =
-                        String(agency.id);
-
-                    option.textContent =
-                        agency.name;
-
-                    selector.appendChild(
-                        option
-                    );
-                }
-            );
+        if (!enoughAgencies) {
+            return;
         }
-    );
+
+        comparisonAgencies.forEach((agency) => {
+            const option =
+                document.createElement("option");
+
+            option.value =
+                String(agency.id);
+
+            option.textContent =
+                agency.name;
+
+            selector.appendChild(option);
+        });
+    });
 }
 
-function preventDuplicateSelections(
-    selectors
-) {
+function preventDuplicateSelections(selectors) {
     const selectedValues =
         selectors
-            .map(
-                (selector) =>
-                    selector.value
-            )
+            .map((selector) => selector.value)
             .filter(Boolean);
 
     selectors.forEach((selector) => {
-        Array.from(
-            selector.options
-        ).forEach((option) => {
+        Array.from(selector.options).forEach((option) => {
             if (!option.value) {
                 option.disabled = false;
                 return;
             }
 
             option.disabled =
-                selectedValues.includes(
-                    option.value
-                ) &&
-                selector.value !==
-                    option.value;
+                selectedValues.includes(option.value) &&
+                selector.value !== option.value;
         });
     });
 }
@@ -209,22 +143,20 @@ function preventDuplicateSelections(
    SELECTED AGENCIES
 ========================================================= */
 
-function getSelectedAgencies(
-    selectors
-) {
-    return selectors
-        .map((selector) => {
-            const selectedId =
-                Number(selector.value);
+function getSelectedAgencies(selectors) {
+    const selectedIds =
+        selectors
+            .map((selector) => selector.value)
+            .filter(Boolean);
 
-            return comparisonAgencies.find(
-                (agency) => {
-                    return (
-                        agency.id ===
-                        selectedId
-                    );
-                }
-            );
+    const uniqueIds =
+        [...new Set(selectedIds)];
+
+    return uniqueIds
+        .map((id) => {
+            return comparisonAgencies.find((agency) => {
+                return String(agency.id) === id;
+            });
         })
         .filter(Boolean);
 }
@@ -235,12 +167,10 @@ function getSelectedAgencies(
 
 function renderComparison(elements) {
     const selectedAgencies =
-        getSelectedAgencies(
-            elements.selectors
-        );
+        getSelectedAgencies(elements.selectors);
 
-    const agenciesAreAvailable =
-        comparisonAgencies.length > 0;
+    const availableCount =
+        comparisonAgencies.length;
 
     const hasComparison =
         selectedAgencies.length >= 2;
@@ -257,27 +187,25 @@ function renderComparison(elements) {
 
     if (elements.status) {
         elements.status.textContent =
-            agenciesAreAvailable
-                ? createStatusMessage(
-                    selectedAgencies.length
-                )
-                : "Agency comparison will become available when approved agencies are published.";
+            createStatusMessage(
+                selectedAgencies.length,
+                availableCount
+            );
     }
 
     updateEmptyComparisonMessage(
         elements,
-        agenciesAreAvailable
+        selectedAgencies.length,
+        availableCount
     );
 
     if (!hasComparison) {
         if (elements.profileGrid) {
-            elements.profileGrid.innerHTML =
-                "";
+            elements.profileGrid.innerHTML = "";
         }
 
         if (elements.table) {
-            elements.table.innerHTML =
-                "";
+            elements.table.innerHTML = "";
         }
 
         return;
@@ -302,58 +230,17 @@ function renderComparison(elements) {
             columnClass
         );
 
-    initializeRemoveButtons(
-        elements
-    );
-
-    elements.comparison.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
-}
-
-function updateEmptyComparisonMessage(
-    elements,
-    agenciesAreAvailable
-) {
-    if (!elements.empty) return;
-
-    const heading =
-        elements.empty.querySelector(
-            "h2, h3"
-        );
-
-    const description =
-        elements.empty.querySelector("p");
-
-    if (!agenciesAreAvailable) {
-        if (heading) {
-            heading.textContent =
-                "No agencies available to compare.";
-        }
-
-        if (description) {
-            description.textContent =
-                "Approved agencies will become available here after they are published.";
-        }
-
-        return;
-    }
-
-    if (heading) {
-        heading.textContent =
-            "Select agencies to compare.";
-    }
-
-    if (description) {
-        description.textContent =
-            "Choose at least two agencies to view a detailed side-by-side comparison.";
-    }
+    initializeRemoveButtons(elements);
 }
 
 function createStatusMessage(
-    selectedCount
+    selectedCount,
+    availableCount
 ) {
+    if (availableCount < 2) {
+        return "Agency comparison will be available when at least two OnlyFans management agencies have published profiles.";
+    }
+
     if (selectedCount === 0) {
         return "Select at least two agencies to begin comparing.";
     }
@@ -363,19 +250,59 @@ function createStatusMessage(
     }
 
     if (selectedCount === 2) {
-        return "Comparing two agencies. You may add one more.";
+        return availableCount >= 3
+            ? "Comparing two agencies. You may add one more."
+            : "Comparing two agencies.";
     }
 
-    return "Comparing the maximum of three agencies.";
+    return "Comparing three agencies.";
+}
+
+function updateEmptyComparisonMessage(
+    elements,
+    selectedCount,
+    availableCount
+) {
+    if (!elements.empty) return;
+
+    const heading =
+        elements.empty.querySelector("h2, h3");
+
+    const description =
+        elements.empty.querySelector("p");
+
+    if (availableCount < 2) {
+        if (heading) {
+            heading.textContent =
+                "Agency comparisons are coming soon";
+        }
+
+        if (description) {
+            description.textContent =
+                "Once at least two OnlyFans management agencies have published profiles, you can compare their services and business information here.";
+        }
+
+        return;
+    }
+
+    if (heading) {
+        heading.textContent =
+            selectedCount === 1
+                ? "Select one more agency"
+                : "Select two agencies";
+    }
+
+    if (description) {
+        description.textContent =
+            "Choose at least two published agencies to view a side-by-side comparison.";
+    }
 }
 
 /* =========================================================
    PROFILE CARDS
 ========================================================= */
 
-function createComparisonCard(
-    agency
-) {
+function createComparisonCard(agency) {
     const services =
         Array.isArray(agency.services)
             ? agency.services
@@ -386,48 +313,35 @@ function createComparisonCard(
             .map((service) => {
                 return `
                     <span>
-                        ${escapeCompareHtml(
-                            service
-                        )}
+                        ${escapeCompareHtml(service)}
                     </span>
                 `;
             })
             .join("");
 
-    const initials =
-        agency.initials || "AP";
-
     const name =
-        agency.name || "Unnamed Agency";
+        agency.name || "Agency";
 
     const location =
-        agency.location || "";
+        agency.location || "Location not provided";
 
     return `
         <article
             class="comparison-profile-card ${
-                agency.featured
-                    ? "featured"
-                    : ""
+                agency.featured ? "featured" : ""
             }"
         >
             <div class="comparison-card-heading">
 
                 <span class="comparison-monogram">
-                    ${escapeCompareHtml(
-                        initials
-                    )}
+                    ${escapeCompareHtml(agency.initials || "AP")}
                 </span>
 
                 <button
                     type="button"
                     class="remove-comparison-agency"
-                    data-agency-id="${
-                        agency.id
-                    }"
-                    aria-label="Remove ${escapeCompareHtml(
-                        name
-                    )}"
+                    data-agency-id="${escapeCompareHtml(agency.id)}"
+                    aria-label="Remove ${escapeCompareHtml(name)}"
                 >
                     <i class="fa-solid fa-xmark"></i>
                 </button>
@@ -440,23 +354,15 @@ function createComparisonCard(
 
             <span class="comparison-location">
                 <i class="fa-solid fa-location-dot"></i>
-
-                ${escapeCompareHtml(
-                    location
-                )}
+                ${escapeCompareHtml(location)}
             </span>
 
             <div class="comparison-services">
                 ${serviceTags}
             </div>
 
-            <a
-                href="agency-profile.html?id=${
-                    agency.id
-                }"
-            >
+            <a href="agency-profile.html?id=${encodeURIComponent(agency.id)}">
                 View Full Profile
-
                 <i class="fa-solid fa-arrow-right"></i>
             </a>
         </article>
@@ -475,134 +381,131 @@ function createComparisonTable(
         {
             label: "Client rating",
 
-            values: agencies.map(
-                (agency) => {
-                    const rating =
-                        Number(
-                            agency.rating
-                        ) || 0;
+            values: agencies.map((agency) => {
+                const rating =
+                    Number(agency.rating);
 
-                    const reviews =
-                        Number(
-                            agency.reviews
-                        ) || 0;
+                const reviews =
+                    Number(agency.reviews);
 
-                    return `
-                        <i class="fa-solid fa-star"></i>
-
-                        ${rating.toFixed(1)}
-
-                        (${reviews}
-                        ${
-                            reviews === 1
-                                ? "review"
-                                : "reviews"
-                        })
-                    `;
+                if (
+                    !Number.isFinite(rating) ||
+                    rating <= 0 ||
+                    !Number.isInteger(reviews) ||
+                    reviews <= 0
+                ) {
+                    return "No published reviews";
                 }
-            )
+
+                return `
+                    <i class="fa-solid fa-star"></i>
+                    ${rating.toFixed(1)}
+                    (${reviews} ${
+                        reviews === 1
+                            ? "review"
+                            : "reviews"
+                    })
+                `;
+            })
         },
         {
             label: "Verification",
 
-            values: agencies.map(
-                (agency) => {
-                    return agency.verified
-                        ? `
-                            <i class="fa-solid fa-circle-check"></i>
-                            Verified
-                        `
-                        : "Not verified";
-                }
-            )
+            values: agencies.map((agency) => {
+                return agency.verified === true
+                    ? '<i class="fa-solid fa-circle-check"></i> Verified'
+                    : "Not verified";
+            })
         },
         {
             label: "Years active",
 
-            values: agencies.map(
-                (agency) => {
-                    const years =
-                        Number(
-                            agency.years
-                        ) || 0;
+            values: agencies.map((agency) => {
+                const years =
+                    Number(agency.years);
 
-                    return `${years} ${
-                        years === 1
-                            ? "year"
-                            : "years"
-                    }`;
+                if (
+                    !Number.isFinite(years) ||
+                    years < 0 ||
+                    agency.years === null ||
+                    agency.years === ""
+                ) {
+                    return "Not provided";
                 }
-            )
+
+                return `${years} ${
+                    years === 1 ? "year" : "years"
+                }`;
+            })
         },
         {
             label: "Team size",
 
-            values: agencies.map(
-                (agency) => {
-                    return escapeCompareHtml(
-                        agency.size || ""
-                    );
-                }
-            )
+            values: agencies.map((agency) => {
+                return escapeCompareHtml(
+                    agency.size || "Not provided"
+                );
+            })
         },
         {
             label: "Primary region",
 
-            values: agencies.map(
-                (agency) => {
-                    return escapeCompareHtml(
-                        agency.region || ""
-                    );
-                }
-            )
+            values: agencies.map((agency) => {
+                return escapeCompareHtml(
+                    agency.region || "Not provided"
+                );
+            })
         },
         {
             label: "Profile quality",
 
-            values: agencies.map(
-                (agency) => {
-                    const profileQuality =
-                        Number(
-                            agency.profileQuality
-                        ) || 0;
+            values: agencies.map((agency) => {
+                const quality =
+                    Number(agency.profileQuality);
 
-                    return `${profileQuality}%`;
+                if (
+                    !Number.isFinite(quality) ||
+                    agency.profileQuality === null ||
+                    agency.profileQuality === ""
+                ) {
+                    return "Not available";
                 }
-            )
+
+                return `${Math.max(
+                    0,
+                    Math.min(100, quality)
+                )}%`;
+            })
         },
         {
             label: "Typical response",
 
-            values: agencies.map(
-                (agency) => {
-                    return escapeCompareHtml(
-                        agency.responseTime ||
-                            "Not available"
-                    );
-                }
-            )
+            values: agencies.map((agency) => {
+                return escapeCompareHtml(
+                    agency.responseTime ||
+                    "Not available"
+                );
+            })
         },
         {
-            label: "Services listed",
+            label: "OnlyFans services",
 
-            values: agencies.map(
-                (agency) => {
-                    const services =
-                        Array.isArray(
-                            agency.services
-                        )
-                            ? agency.services
-                            : [];
+            values: agencies.map((agency) => {
+                const services =
+                    Array.isArray(agency.services)
+                        ? agency.services
+                        : [];
 
-                    return `${
-                        services.length
-                    } ${
-                        services.length === 1
-                            ? "service"
-                            : "services"
-                    }`;
+                if (!services.length) {
+                    return "Not provided";
                 }
-            )
+
+                return services
+                    .map((service) => {
+                        return escapeCompareHtml(service);
+                    })
+                    .join(", ");
+            })
         }
     ];
 
@@ -619,8 +522,7 @@ function createComparisonTable(
                         <div class="comparison-value">
                             <strong>
                                 ${escapeCompareHtml(
-                                    agency.name ||
-                                        "Unnamed Agency"
+                                    agency.name || "Agency"
                                 )}
                             </strong>
                         </div>
@@ -638,9 +540,7 @@ function createComparisonTable(
                     <div class="comparison-row ${columnClass}">
 
                         <div class="comparison-label">
-                            ${escapeCompareHtml(
-                                row.label
-                            )}
+                            ${escapeCompareHtml(row.label)}
                         </div>
 
                         ${row.values
@@ -658,55 +558,38 @@ function createComparisonTable(
             })
             .join("");
 
-    return (
-        headerRow +
-        informationRows
-    );
+    return headerRow + informationRows;
 }
 
 /* =========================================================
    REMOVE SELECTED AGENCY
 ========================================================= */
 
-function initializeRemoveButtons(
-    elements
-) {
-    document
+function initializeRemoveButtons(elements) {
+    elements.profileGrid
         .querySelectorAll(
             ".remove-comparison-agency"
         )
         .forEach((button) => {
-            button.addEventListener(
-                "click",
-                () => {
-                    const agencyId =
-                        button.dataset
-                            .agencyId;
+            button.addEventListener("click", () => {
+                const agencyId =
+                    button.dataset.agencyId;
 
-                    const matchingSelector =
-                        elements.selectors.find(
-                            (selector) => {
-                                return (
-                                    selector.value ===
-                                    agencyId
-                                );
-                            }
-                        );
+                const matchingSelector =
+                    elements.selectors.find((selector) => {
+                        return selector.value === agencyId;
+                    });
 
-                    if (matchingSelector) {
-                        matchingSelector.value =
-                            "";
-                    }
-
-                    preventDuplicateSelections(
-                        elements.selectors
-                    );
-
-                    renderComparison(
-                        elements
-                    );
+                if (matchingSelector) {
+                    matchingSelector.value = "";
                 }
-            );
+
+                preventDuplicateSelections(
+                    elements.selectors
+                );
+
+                renderComparison(elements);
+            });
         });
 }
 

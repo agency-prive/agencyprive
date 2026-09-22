@@ -1,8 +1,10 @@
 /* =========================================================
-   AGENCY PRIVÉ — LOCAL TRANSLATIONS
+   AGENCY PRIVÉ — LOCAL UI TRANSLATIONS
 
-   Translation keys are used by elements containing:
-   data-translate="translationKey"
+   Elements with data-translate="key" use these strings.
+
+   Only the keys listed here are translated. Other page text
+   remains in its original language until translated separately.
 ========================================================= */
 
 const translations = {
@@ -14,18 +16,18 @@ const translations = {
         navForAgencies: "For Agencies",
         navLogin: "Log in",
         getDemo: "Get a Demo",
-        startTrial: "Start Free Trial"
+        startTrial: "Create Free Profile"
     },
 
     tl: {
-        navAgencies: "Mga Agency",
+        navAgencies: "Mga Ahensiya",
         navRankings: "Mga Ranggo",
         navCompare: "Paghambingin",
         navInsights: "Mga Artikulo",
-        navForAgencies: "Para sa mga Agency",
+        navForAgencies: "Para sa mga Ahensiya",
         navLogin: "Mag-log in",
-        getDemo: "Humingi ng Demo",
-        startTrial: "Simulan ang Libreng Trial"
+        getDemo: "Tingnan ang Demo",
+        startTrial: "Gumawa ng Libreng Profile"
     },
 
     es: {
@@ -35,8 +37,8 @@ const translations = {
         navInsights: "Artículos",
         navForAgencies: "Para agencias",
         navLogin: "Iniciar sesión",
-        getDemo: "Solicitar una demo",
-        startTrial: "Iniciar prueba gratuita"
+        getDemo: "Ver la demostración",
+        startTrial: "Crear perfil gratuito"
     },
 
     fr: {
@@ -46,8 +48,8 @@ const translations = {
         navInsights: "Analyses",
         navForAgencies: "Pour les agences",
         navLogin: "Se connecter",
-        getDemo: "Demander une démo",
-        startTrial: "Commencer l’essai gratuit"
+        getDemo: "Voir la démo",
+        startTrial: "Créer un profil gratuit"
     },
 
     de: {
@@ -57,8 +59,8 @@ const translations = {
         navInsights: "Einblicke",
         navForAgencies: "Für Agenturen",
         navLogin: "Anmelden",
-        getDemo: "Demo anfordern",
-        startTrial: "Kostenlos testen"
+        getDemo: "Demo ansehen",
+        startTrial: "Kostenloses Profil erstellen"
     },
 
     pt: {
@@ -68,8 +70,8 @@ const translations = {
         navInsights: "Conteúdos",
         navForAgencies: "Para agências",
         navLogin: "Entrar",
-        getDemo: "Solicitar demonstração",
-        startTrial: "Iniciar teste gratuito"
+        getDemo: "Ver demonstração",
+        startTrial: "Criar perfil gratuito"
     },
 
     ja: {
@@ -77,26 +79,29 @@ const translations = {
         navRankings: "ランキング",
         navCompare: "比較",
         navInsights: "インサイト",
-        navForAgencies: "企業向け",
+        navForAgencies: "エージェンシー向け",
         navLogin: "ログイン",
-        getDemo: "デモを申し込む",
-        startTrial: "無料トライアルを開始"
+        getDemo: "デモを見る",
+        startTrial: "無料プロフィールを作成"
     },
 
     zh: {
-        navAgencies: "公司目录",
+        navAgencies: "机构目录",
         navRankings: "排名",
         navCompare: "比较",
         navInsights: "行业资讯",
-        navForAgencies: "公司服务",
+        navForAgencies: "机构服务",
         navLogin: "登录",
-        getDemo: "申请演示",
-        startTrial: "开始免费试用"
+        getDemo: "查看演示",
+        startTrial: "创建免费资料"
     }
 };
 
 /* =========================================================
-   LANGUAGE INFORMATION
+   SUPPORTED LANGUAGE INFORMATION
+
+   Add a language here only after its strings are also
+   available in translations above.
 ========================================================= */
 
 const languageInformation = {
@@ -138,74 +143,88 @@ const languageInformation = {
     zh: {
         code: "ZH",
         direction: "ltr"
-    },
-
-    ar: {
-        code: "AR",
-        direction: "rtl"
     }
 };
+
+/* =========================================================
+   LANGUAGE HELPERS
+========================================================= */
+
+function getSupportedLanguage(languageCode) {
+    if (
+        typeof languageCode === "string" &&
+        Object.prototype.hasOwnProperty.call(
+            translations,
+            languageCode
+        )
+    ) {
+        return languageCode;
+    }
+
+    return "en";
+}
+
+function saveLanguagePreference(languageCode) {
+    try {
+        localStorage.setItem(
+            "agencyPriveLanguage",
+            languageCode
+        );
+    } catch {
+        // The selector still works if browser storage is blocked.
+    }
+}
+
+function loadLanguagePreference() {
+    try {
+        return localStorage.getItem(
+            "agencyPriveLanguage"
+        );
+    } catch {
+        return null;
+    }
+}
 
 /* =========================================================
    SET WEBSITE LANGUAGE
 ========================================================= */
 
 function setWebsiteLanguage(languageCode) {
-    const selectedLanguage =
-        translations[languageCode] ||
-        translations.en;
+    const supportedCode = getSupportedLanguage(
+        languageCode
+    );
 
-    const translationElements =
-        document.querySelectorAll(
-            "[data-translate]"
-        );
+    const selectedStrings = translations[
+        supportedCode
+    ];
 
-    translationElements.forEach((element) => {
-        const translationKey =
-            element.dataset.translate;
+    document.querySelectorAll(
+        "[data-translate]"
+    ).forEach((element) => {
+        const key = element.dataset.translate;
 
         const translatedValue =
-            selectedLanguage[translationKey] ||
-            translations.en[translationKey];
+            selectedStrings[key] ??
+            translations.en[key];
 
-        if (translatedValue) {
-            element.textContent =
-                translatedValue;
+        if (typeof translatedValue === "string") {
+            element.textContent = translatedValue;
         }
     });
 
-    updateDocumentLanguage(languageCode);
-
-    updateLanguageCode(languageCode);
-
-    localStorage.setItem(
-        "agencyPriveLanguage",
-        languageCode
-    );
-}
-
-/* =========================================================
-   UPDATE HTML LANGUAGE AND DIRECTION
-========================================================= */
-
-function updateDocumentLanguage(languageCode) {
-    const information =
-        languageInformation[languageCode];
-
-    const supportedCode =
-        translations[languageCode]
-            ? languageCode
-            : "en";
-
-    document.documentElement.lang =
-        supportedCode;
+    document.documentElement.lang = supportedCode;
 
     document.documentElement.dir =
-        information?.direction || "ltr";
+        languageInformation[supportedCode]
+            .direction;
+
+    updateLanguageCode(supportedCode);
+    updateSelectedLanguageOption(supportedCode);
+    saveLanguagePreference(supportedCode);
 }
 
 /* =========================================================
-   UPDATE GLOBE BUTTON
+   UPDATE LANGUAGE BUTTON AND MENU
 ========================================================= */
 
 function updateLanguageCode(languageCode) {
@@ -216,21 +235,31 @@ function updateLanguageCode(languageCode) {
 
     if (!currentLanguage) return;
 
-    const selectedOption =
-        document.querySelector(
-            `[data-language="${languageCode}"] small`
+    currentLanguage.textContent =
+        languageInformation[languageCode]
+            ?.code || "EN";
+}
+
+function updateSelectedLanguageOption(
+    languageCode
+) {
+    document.querySelectorAll(
+        "[data-language]"
+    ).forEach((button) => {
+        const selected =
+            button.dataset.language ===
+            languageCode;
+
+        button.classList.toggle(
+            "selected",
+            selected
         );
 
-    if (selectedOption) {
-        currentLanguage.textContent =
-            selectedOption.textContent;
-
-        return;
-    }
-
-    currentLanguage.textContent =
-        languageInformation[languageCode]?.code ||
-        "EN";
+        button.setAttribute(
+            "aria-selected",
+            String(selected)
+        );
+    });
 }
 
 /* =========================================================
@@ -240,17 +269,15 @@ function updateLanguageCode(languageCode) {
 document.addEventListener(
     "DOMContentLoaded",
     () => {
-        const savedLanguage =
-            localStorage.getItem(
-                "agencyPriveLanguage"
-            ) || "en";
-
-        setWebsiteLanguage(savedLanguage);
+        setWebsiteLanguage(
+            loadLanguagePreference() || "en"
+        );
     }
 );
 
 /*
- * This allows main.js to call the function.
+ * main.js can call this function when the user selects
+ * another supported language.
  */
 window.setWebsiteLanguage =
     setWebsiteLanguage;

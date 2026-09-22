@@ -10,57 +10,61 @@
 
     <meta
         name="description"
-        content="Log in to your Agency Privé company workspace."
+        content="Log in to the Agency Privé workspace for OnlyFans management agencies."
     >
 
-    <title>Log In | Agency Privé</title>
+    <title>Agency Login | Agency Privé</title>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
     <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
         rel="stylesheet"
     >
 
-    <!-- Font Awesome -->
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     >
 
-    <!-- Stylesheets -->
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/auth.css">
 </head>
 
 <body class="auth-page">
-
     <a href="#loginForm" class="skip-link">
         Skip to login form
     </a>
 
     <main class="auth-layout">
 
-        <!-- =====================================================
-             LEFT BRAND PANEL
-        ====================================================== -->
-
+        <!-- LEFT BRAND PANEL -->
         <section class="auth-brand-panel">
+            <div
+                class="auth-brand-decoration auth-decoration-one"
+                aria-hidden="true"
+            ></div>
 
-            <div class="auth-brand-decoration auth-decoration-one"></div>
-            <div class="auth-brand-decoration auth-decoration-two"></div>
+            <div
+                class="auth-brand-decoration auth-decoration-two"
+                aria-hidden="true"
+            ></div>
 
             <div class="auth-brand-content">
-
-                <!-- Code-based logo: no image background -->
                 <a
                     href="index.html"
                     class="auth-logo"
                     aria-label="Agency Privé homepage"
                 >
-                    <span class="auth-logo-monogram" aria-hidden="true">
+                    <span
+                        class="auth-logo-monogram"
+                        aria-hidden="true"
+                    >
                         <span class="auth-monogram-a">A</span>
                         <span class="auth-monogram-p">P</span>
                         <span class="auth-monogram-star">✦</span>
@@ -68,13 +72,15 @@
 
                     <span class="auth-logo-wordmark">
                         <strong>AGENCY PRIVÉ</strong>
-                        <small>THE GLOBAL AGENCY DIRECTORY</small>
+                        <small>
+                            THE ONLYFANS AGENCY DIRECTORY
+                        </small>
                     </span>
                 </a>
 
                 <div class="auth-brand-message">
                     <p class="auth-eyebrow">
-                        THE GLOBAL AGENCY DIRECTORY
+                        FOR ONLYFANS MANAGEMENT AGENCIES
                     </p>
 
                     <h1>
@@ -84,73 +90,76 @@
                     </h1>
 
                     <p class="auth-brand-description">
-                        Manage your agency profile, verification,
-                        visibility, analytics, and inquiries from one
-                        private company workspace.
+                        Your Agency Privé workspace is being built
+                        for managing an OnlyFans agency profile,
+                        reviewing inquiries, and tracking
+                        directory activity.
                     </p>
                 </div>
 
                 <div class="auth-brand-footer">
                     <span>DISCOVER</span>
-                    <i class="fa-solid fa-circle"></i>
+                    <i class="fa-solid fa-circle" aria-hidden="true"></i>
                     <span>COMPARE</span>
-                    <i class="fa-solid fa-circle"></i>
+                    <i class="fa-solid fa-circle" aria-hidden="true"></i>
                     <span>CONNECT</span>
                 </div>
-
             </div>
         </section>
 
-        <!-- =====================================================
-             LOGIN PANEL
-        ====================================================== -->
-
+        <!-- LOGIN PANEL -->
         <section class="auth-form-panel">
-
             <div class="auth-form-container">
-
                 <a href="index.html" class="return-link">
                     <i class="fa-solid fa-arrow-left"></i>
                     <span>RETURN TO HOMEPAGE</span>
                 </a>
 
-                <!-- Mobile logo -->
                 <a
                     href="index.html"
                     class="mobile-auth-logo"
                     aria-label="Agency Privé homepage"
                 >
-                    <span class="mobile-logo-monogram">AP</span>
+                    <span class="mobile-logo-monogram">
+                        AP
+                    </span>
 
                     <span>
                         <strong>AGENCY PRIVÉ</strong>
-                        <small>THE GLOBAL AGENCY DIRECTORY</small>
+                        <small>
+                            THE ONLYFANS AGENCY DIRECTORY
+                        </small>
                     </span>
                 </a>
 
                 <div class="auth-heading">
                     <p class="auth-section-label">
-                        COMPANY ACCESS
+                        AGENCY ACCESS
                     </p>
 
                     <h2>Welcome back.</h2>
 
                     <p>
-                        Enter the account details connected to your
-                        company workspace.
+                        Agency account login will be available
+                        when authentication is connected.
+                        You can explore the workspace preview now.
                     </p>
                 </div>
 
+                <!-- ID MUST MATCH js/auth.js -->
                 <div
-                    class="form-message"
-                    id="formMessage"
-                    role="alert"
+                    class="auth-message"
+                    id="authMessage"
+                    role="status"
                     aria-live="polite"
                 ></div>
 
-                <form id="loginForm" class="auth-form" novalidate>
-
-                    <!-- Email -->
+                <form
+                    id="loginForm"
+                    class="auth-form"
+                    novalidate
+                >
+                    <!-- EMAIL -->
                     <div class="form-group">
                         <label for="email">
                             EMAIL ADDRESS
@@ -166,23 +175,30 @@
                                 type="email"
                                 id="email"
                                 name="email"
-                                placeholder="name@company.com"
+                                placeholder="name@agency.com"
                                 autocomplete="email"
                                 required
                             >
                         </div>
 
-                        <small class="field-error" id="emailError"></small>
+                        <small
+                            class="field-error"
+                            id="emailError"
+                        ></small>
                     </div>
 
-                    <!-- Password -->
+                    <!-- PASSWORD -->
                     <div class="form-group">
                         <div class="label-row">
                             <label for="password">
                                 PASSWORD
                             </label>
 
-                            <a href="forgot-password.html" class="forgot-link">
+                            <a
+                                href="#"
+                                class="forgot-link"
+                                id="forgotPassword"
+                            >
                                 Forgot password?
                             </a>
                         </div>
@@ -213,14 +229,17 @@
                             </button>
                         </div>
 
-                        <small class="field-error" id="passwordError"></small>
+                        <small
+                            class="field-error"
+                            id="passwordError"
+                        ></small>
                     </div>
 
-                    <!-- Remember email -->
+                    <!-- REMEMBER EMAIL -->
                     <label class="remember-option">
                         <input
                             type="checkbox"
-                            id="rememberEmail"
+                            id="rememberMe"
                             name="rememberEmail"
                         >
 
@@ -228,10 +247,11 @@
                             <i class="fa-solid fa-check"></i>
                         </span>
 
-                        <span>Remember my email on this device</span>
+                        <span>
+                            Remember my email on this device
+                        </span>
                     </label>
 
-                    <!-- Login button -->
                     <button
                         type="submit"
                         class="auth-submit-button"
@@ -240,7 +260,6 @@
                         <span>LOG IN TO DASHBOARD</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </button>
-
                 </form>
 
                 <div class="auth-divider">
@@ -252,7 +271,7 @@
                 <button
                     type="button"
                     class="google-login-button"
-                    id="googleLoginButton"
+                    id="googleLogin"
                 >
                     <svg
                         viewBox="0 0 24 24"
@@ -282,10 +301,12 @@
                 </button>
 
                 <div class="register-prompt">
-                    <p>Don’t have an Agency Privé account?</p>
+                    <p>
+                        Represent an OnlyFans management agency?
+                    </p>
 
-                    <a href="register.html">
-                        CREATE YOUR FREE PROFILE
+                    <a href="register.html?plan=free">
+                        VIEW FREE PROFILE FORM
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
                 </div>
@@ -293,78 +314,55 @@
                 <div class="auth-benefits">
                     <div>
                         <i class="fa-solid fa-check"></i>
-                        <span>Free profile forever</span>
+                        <span>Free plan: $0/month</span>
                     </div>
 
                     <div>
                         <i class="fa-solid fa-check"></i>
-                        <span>7-day premium trial</span>
+                        <span>
+                            Independent verification review
+                        </span>
                     </div>
 
                     <div>
                         <i class="fa-solid fa-check"></i>
-                        <span>No credit card required</span>
+                        <span>
+                            No payment collected in preview
+                        </span>
                     </div>
                 </div>
 
                 <footer class="auth-form-footer">
                     <p>
-                        © <span id="currentYear"></span> Agency Privé
+                        © <span id="currentYear"></span>
+                        Agency Privé
                     </p>
 
                     <div>
-                        <a href="#">Privacy</a>
-                        <a href="#">Terms</a>
+                        <a href="index.html">
+                            Home
+                        </a>
+
+                        <a href="for-agencies.html">
+                            For Agencies
+                        </a>
                     </div>
                 </footer>
-
             </div>
         </section>
-
     </main>
 
     <script>
-        const currentYear = document.getElementById("currentYear");
+        const currentYear = document.getElementById(
+            "currentYear"
+        );
 
         if (currentYear) {
-            currentYear.textContent = new Date().getFullYear();
-        }
-
-        const passwordInput = document.getElementById("password");
-        const passwordToggle = document.getElementById("passwordToggle");
-
-        if (passwordInput && passwordToggle) {
-            passwordToggle.addEventListener("click", function () {
-                const passwordIsHidden =
-                    passwordInput.type === "password";
-
-                passwordInput.type =
-                    passwordIsHidden ? "text" : "password";
-
-                passwordToggle.setAttribute(
-                    "aria-pressed",
-                    String(passwordIsHidden)
-                );
-
-                passwordToggle.setAttribute(
-                    "aria-label",
-                    passwordIsHidden
-                        ? "Hide password"
-                        : "Show password"
-                );
-
-                const icon = passwordToggle.querySelector("i");
-
-                if (icon) {
-                    icon.className = passwordIsHidden
-                        ? "fa-regular fa-eye-slash"
-                        : "fa-regular fa-eye";
-                }
-            });
+            currentYear.textContent =
+                new Date().getFullYear();
         }
     </script>
 
-    <!-- Keep this if your existing login functionality uses auth.js -->
     <script src="js/auth.js"></script>
 </body>
 </html>

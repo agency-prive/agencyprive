@@ -1,73 +1,14 @@
 /* =========================================================
    AGENCY PRIVÉ — FOR AGENCIES
+
+   Plan prices are displayed directly in for-agencies.html.
+   No annual billing rates are advertised on this page.
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
-    initializeBillingToggle();
     initializeFaq();
     initializeProcessSteps();
 });
-
-/* =========================================================
-   BILLING TOGGLE
-========================================================= */
-
-function initializeBillingToggle() {
-    const billingButtons =
-        document.querySelectorAll(
-            "[data-billing]"
-        );
-
-    const price =
-        document.getElementById(
-            "premiumPrice"
-        );
-
-    const period =
-        document.getElementById(
-            "premiumPeriod"
-        );
-
-    if (
-        !billingButtons.length ||
-        !price ||
-        !period
-    ) {
-        return;
-    }
-
-    billingButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-            const billingType =
-                button.dataset.billing;
-
-            billingButtons.forEach(
-                (currentButton) => {
-                    currentButton.classList.toggle(
-                        "active",
-                        currentButton === button
-                    );
-                }
-            );
-
-            if (billingType === "annual") {
-                price.textContent =
-                    `$${price.dataset.annual}`;
-
-                period.textContent =
-                    "per month, billed annually";
-
-                return;
-            }
-
-            price.textContent =
-                `$${price.dataset.monthly}`;
-
-            period.textContent =
-                "per month";
-        });
-    });
-}
 
 /* =========================================================
    FAQ
@@ -75,9 +16,7 @@ function initializeBillingToggle() {
 
 function initializeFaq() {
     const faqItems =
-        document.querySelectorAll(
-            ".faq-item"
-        );
+        document.querySelectorAll(".faq-item");
 
     faqItems.forEach((item) => {
         const button =
@@ -85,26 +24,27 @@ function initializeFaq() {
 
         if (!button) return;
 
+        button.setAttribute(
+            "aria-expanded",
+            item.classList.contains("open")
+                ? "true"
+                : "false"
+        );
+
         button.addEventListener("click", () => {
             const willOpen =
-                !item.classList.contains(
-                    "open"
-                );
+                !item.classList.contains("open");
 
-            faqItems.forEach(
-                (currentItem) => {
-                    currentItem.classList.remove(
-                        "open"
+            faqItems.forEach((currentItem) => {
+                currentItem.classList.remove("open");
+
+                currentItem
+                    .querySelector("button")
+                    ?.setAttribute(
+                        "aria-expanded",
+                        "false"
                     );
-
-                    currentItem
-                        .querySelector("button")
-                        ?.setAttribute(
-                            "aria-expanded",
-                            "false"
-                        );
-                }
-            );
+            });
 
             if (willOpen) {
                 item.classList.add("open");
@@ -131,19 +71,16 @@ function initializeProcessSteps() {
     if (!processItems.length) return;
 
     processItems.forEach((item) => {
-        item.addEventListener(
-            "mouseenter",
-            () => {
-                processItems.forEach(
-                    (currentItem) => {
-                        currentItem.classList.remove(
-                            "active"
-                        );
-                    }
-                );
+        item.addEventListener("mouseenter", () => {
+            processItems.forEach(
+                (currentItem) => {
+                    currentItem.classList.remove(
+                        "active"
+                    );
+                }
+            );
 
-                item.classList.add("active");
-            }
-        );
+            item.classList.add("active");
+        });
     });
 }

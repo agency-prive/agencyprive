@@ -9,9 +9,11 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =========================================================
    AGENCY DIRECTORY DATA
 
-   This remains empty until agencies are loaded from Supabase.
+   Add approved agency records here or load them from Supabase.
+   No sample agencies are presented as real listings.
 ========================================================= */
 
+const agencies = [];
 
 /* =========================================================
    DIRECTORY STATE
@@ -325,6 +327,44 @@ function renderDirectory(state, elements) {
     elements.grid.hidden =
         noResults;
 
+    if (noResults) {
+        const heading =
+            elements.empty.querySelector("h2");
+
+        const description =
+            elements.empty.querySelector("p");
+
+        const hasFilters =
+            Boolean(
+                state.search ||
+                state.location ||
+                state.service ||
+                state.verified ||
+                state.featured ||
+                state.size ||
+                state.experience
+            );
+
+        if (heading) {
+            heading.textContent =
+                hasFilters
+                    ? "No agencies match your filters"
+                    : "Agency listings are coming soon";
+        }
+
+        if (description) {
+            description.textContent =
+                hasFilters
+                    ? "Try changing your search terms or clearing the filters."
+                    : "OnlyFans management agencies will appear here once their profiles are published.";
+        }
+
+        if (elements.emptyClear) {
+            elements.emptyClear.hidden =
+                !hasFilters;
+        }
+    }
+
     renderPagination(
         state,
         elements,
@@ -338,7 +378,7 @@ function createAgencyCard(agency) {
     if (agency.featured) {
         badges.push(`
             <span class="badge badge-select">
-                PRIVÉ SELECT
+                FEATURED
             </span>
         `);
     }

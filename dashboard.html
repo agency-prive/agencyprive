@@ -3,150 +3,521 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Agency Privé agency dashboard">
-    <title>Agency Dashboard | Agency Privé</title>
+
+    <meta
+        name="description"
+        content="Agency Privé workspace preview for OnlyFans management agencies."
+    >
+
+    <title>Agency Workspace Preview | Agency Privé</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
+
 <body>
-    <a class="skip-link" href="#dashboardContent">Skip to dashboard</a>
+    <a class="skip-link" href="#dashboardContent">
+        Skip to dashboard
+    </a>
 
     <div class="dashboard-shell">
-        <aside class="dashboard-sidebar" id="dashboardSidebar">
+        <aside
+            class="dashboard-sidebar"
+            id="dashboardSidebar"
+        >
             <div class="sidebar-header">
-                <a href="index.html" class="dashboard-logo" aria-label="Agency Privé homepage">
-                    <img src="assets/images/logo.png" alt="Agency Privé">
+                <a
+                    href="index.html"
+                    class="dashboard-logo"
+                    aria-label="Agency Privé homepage"
+                >
+                    <img
+                        src="assets/images/logo.png"
+                        alt="Agency Privé"
+                    >
                 </a>
-                <button class="sidebar-close" id="sidebarClose" type="button" aria-label="Close navigation">
+
+                <button
+                    class="sidebar-close"
+                    id="sidebarClose"
+                    type="button"
+                    aria-label="Close navigation"
+                >
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
             <div class="agency-mini-profile">
-                <div class="agency-avatar">NW</div>
+                <div class="agency-avatar" id="sidebarAgencyAvatar">
+                    AP
+                </div>
+
                 <div>
-                    <strong>Northwest Studio</strong>
-                    <span><i class="fa-solid fa-circle-check"></i> Profile in review</span>
+                    <strong id="sidebarAgencyName">
+                        Agency workspace
+                    </strong>
+
+                    <span id="sidebarAgencyStatus">
+                        Preview only
+                    </span>
                 </div>
             </div>
 
-            <nav class="dashboard-navigation" aria-label="Dashboard navigation">
-                <span class="navigation-label">Workspace</span>
-                <a class="active" href="#overview"><i class="fa-solid fa-border-all"></i><span>Overview</span></a>
-                <a href="#profile"><i class="fa-regular fa-building"></i><span>Agency Profile</span><small>72%</small></a>
-                <a href="#portfolio"><i class="fa-regular fa-images"></i><span>Portfolio</span></a>
-                <a href="#services"><i class="fa-solid fa-layer-group"></i><span>Services</span></a>
-                <span class="navigation-label">Activity</span>
-                <a href="#inquiries"><i class="fa-regular fa-envelope"></i><span>Inquiries</span><b>3</b></a>
-                <a href="#analytics"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></a>
-                <a href="#verification"><i class="fa-solid fa-shield-halved"></i><span>Verification</span></a>
+            <nav
+                class="dashboard-navigation"
+                aria-label="Dashboard navigation"
+            >
+                <span class="navigation-label">
+                    Workspace
+                </span>
+
+                <a class="active" href="#overview">
+                    <i class="fa-solid fa-border-all"></i>
+                    <span>Overview</span>
+                </a>
+
+                <a href="#profile">
+                    <i class="fa-regular fa-building"></i>
+                    <span>Agency Profile</span>
+                </a>
+
+                <a href="#portfolio">
+                    <i class="fa-regular fa-images"></i>
+                    <span>Portfolio</span>
+                </a>
+
+                <a href="#services">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>OnlyFans Services</span>
+                </a>
+
+                <span class="navigation-label">
+                    Activity
+                </span>
+
+                <a href="#inquiries">
+                    <i class="fa-regular fa-envelope"></i>
+                    <span>Inquiries</span>
+                </a>
+
+                <a href="#analytics">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+
+                <a href="#verification">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Verification</span>
+                </a>
             </nav>
 
             <div class="sidebar-bottom">
-                <a href="#subscription"><i class="fa-regular fa-gem"></i><span>Plan & Billing</span></a>
-                <a href="#settings"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
-                <button type="button" id="logoutButton"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Log out</span></button>
+                <a href="#subscription">
+                    <i class="fa-regular fa-gem"></i>
+                    <span>Plan &amp; Billing</span>
+                </a>
+
+                <a href="#settings">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+
+                <button
+                    type="button"
+                    id="logoutButton"
+                >
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Log out</span>
+                </button>
             </div>
         </aside>
 
         <div class="dashboard-main">
             <header class="dashboard-topbar">
-                <button class="sidebar-open" id="sidebarOpen" type="button" aria-label="Open navigation">
+                <button
+                    class="sidebar-open"
+                    id="sidebarOpen"
+                    type="button"
+                    aria-label="Open navigation"
+                >
                     <i class="fa-solid fa-bars"></i>
                 </button>
+
                 <div class="topbar-title">
-                    <span>AGENCY WORKSPACE</span>
-                    <strong>Dashboard</strong>
+                    <span>ONLYFANS AGENCY WORKSPACE</span>
+                    <strong>Dashboard Preview</strong>
                 </div>
+
                 <div class="topbar-actions">
-                    <a class="preview-link" href="agency-profile.html"><i class="fa-regular fa-eye"></i> Preview profile</a>
-                    <button class="notification-button" type="button" aria-label="Notifications">
-                        <i class="fa-regular fa-bell"></i><span>2</span>
-                    </button>
-                    <button class="account-button" type="button" aria-label="Open account menu">CW</button>
+                    <a
+                        class="preview-link"
+                        href="agencies.html"
+                    >
+                        <i class="fa-regular fa-eye"></i>
+                        Browse directory
+                    </a>
                 </div>
             </header>
 
-            <main class="dashboard-content" id="dashboardContent">
-                <section class="welcome-row" id="overview">
+            <main
+                class="dashboard-content"
+                id="dashboardContent"
+            >
+                <!-- WELCOME -->
+                <section
+                    class="welcome-row"
+                    id="overview"
+                >
                     <div>
-                        <span class="eyebrow">WEDNESDAY, SEPTEMBER 16</span>
-                        <h1>Good afternoon, Charles.</h1>
-                        <p>Here is what is happening with your agency profile today.</p>
+                        <span class="eyebrow">
+                            AGENCY PRIVÉ PREVIEW
+                        </span>
+
+                        <h1>Your agency workspace.</h1>
+
+                        <p>
+                            Explore the workspace planned for
+                            OnlyFans management agencies. Account
+                            information and activity will appear
+                            after authentication and database
+                            integration are complete.
+                        </p>
                     </div>
-                    <a href="#profile" class="primary-button"><span>Complete profile</span><i class="fa-solid fa-arrow-right"></i></a>
+
+                    <a
+                        href="register.html"
+                        class="primary-button"
+                    >
+                        <span>View registration</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
                 </section>
 
-                <section class="trial-banner">
-                    <div class="trial-icon"><i class="fa-regular fa-gem"></i></div>
+                <!-- ACCESS NOTICE -->
+                <section
+                    class="trial-banner"
+                    id="subscription"
+                    aria-label="Workspace availability"
+                >
+                    <div class="trial-icon">
+                        <i class="fa-regular fa-gem"></i>
+                    </div>
+
                     <div class="trial-copy">
-                        <span>PRIVÉ PREMIUM TRIAL</span>
-                        <strong>6 days remaining</strong>
-                        <p>Premium presentation, analytics, portfolio tools, and enhanced directory visibility are active.</p>
+                        <span>PLANS &amp; ACCESS</span>
+
+                        <strong>
+                            Free, Privé, Select, and Elite
+                        </strong>
+
+                        <p>
+                            Free: $0/month · Privé: $49/month ·
+                            Select: $129/month · Elite:
+                            $299/month launch price. Selecting a
+                            plan does not activate billing or a
+                            trial while this workspace is a
+                            preview.
+                        </p>
                     </div>
-                    <div class="trial-progress" aria-label="One of seven trial days used">
-                        <div><span style="width: 14%"></span></div>
-                        <small>Day 1 of 7</small>
-                    </div>
-                    <a href="#subscription">View plan</a>
+
+                    <a href="for-agencies.html#plans">
+                        View plans
+                    </a>
                 </section>
 
-                <section class="metrics-grid" aria-label="Profile statistics">
-                    <article class="metric-card"><div><span>PROFILE VIEWS</span><i class="fa-regular fa-eye"></i></div><strong>248</strong><p><b>+18%</b> from last week</p></article>
-                    <article class="metric-card"><div><span>INQUIRIES</span><i class="fa-regular fa-envelope"></i></div><strong>12</strong><p><b>+3</b> this week</p></article>
-                    <article class="metric-card"><div><span>PROFILE SAVES</span><i class="fa-regular fa-bookmark"></i></div><strong>36</strong><p><b>+9%</b> from last week</p></article>
-                    <article class="metric-card"><div><span>SEARCH APPEARANCES</span><i class="fa-solid fa-magnifying-glass"></i></div><strong>1,482</strong><p><b>+24%</b> from last week</p></article>
+                <!-- METRICS -->
+                <section
+                    class="metrics-grid"
+                    aria-label="Future profile statistics"
+                >
+                    <article class="metric-card">
+                        <div>
+                            <span>PROFILE VIEWS</span>
+                            <i class="fa-regular fa-eye"></i>
+                        </div>
+
+                        <strong>—</strong>
+
+                        <p>
+                            Available after profiles are published
+                            and analytics are connected.
+                        </p>
+                    </article>
+
+                    <article class="metric-card">
+                        <div>
+                            <span>INQUIRIES</span>
+                            <i class="fa-regular fa-envelope"></i>
+                        </div>
+
+                        <strong>—</strong>
+
+                        <p>
+                            Available after the inquiry system is
+                            connected.
+                        </p>
+                    </article>
+
+                    <article class="metric-card">
+                        <div>
+                            <span>PROFILE SAVES</span>
+                            <i class="fa-regular fa-bookmark"></i>
+                        </div>
+
+                        <strong>—</strong>
+
+                        <p>
+                            Available when agency activity tracking
+                            is connected.
+                        </p>
+                    </article>
+
+                    <article class="metric-card">
+                        <div>
+                            <span>SEARCH APPEARANCES</span>
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+
+                        <strong>—</strong>
+
+                        <p>
+                            Available after directory search
+                            analytics are connected.
+                        </p>
+                    </article>
                 </section>
 
+                <!-- WORKSPACE CARDS -->
                 <section class="dashboard-grid">
-                    <article class="dashboard-card profile-card" id="profile">
+
+                    <!-- PROFILE -->
+                    <article
+                        class="dashboard-card profile-card"
+                        id="profile"
+                    >
                         <div class="card-heading">
-                            <div><span>PROFILE STRENGTH</span><h2>Complete your agency profile</h2></div>
-                            <div class="completion-ring" style="--progress:72"><strong>72%</strong></div>
+                            <div>
+                                <span>AGENCY PROFILE</span>
+                                <h2>
+                                    Present your OnlyFans agency
+                                </h2>
+                            </div>
                         </div>
-                        <p class="card-intro">Complete these details to improve visibility and build trust with prospective clients.</p>
+
+                        <p class="card-intro">
+                            A published profile will display your
+                            agency information, OnlyFans services,
+                            creator specialties, and supported
+                            locations. Completion status will
+                            reflect your actual saved details
+                            once registration is connected.
+                        </p>
+
                         <div class="completion-list">
-                            <button class="completed" type="button"><i class="fa-solid fa-check"></i><span><strong>Agency information</strong><small>Name, website, and primary location</small></span><em>Complete</em></button>
-                            <button class="completed" type="button"><i class="fa-solid fa-check"></i><span><strong>Services and expertise</strong><small>Services, creator niches, and regions</small></span><em>Complete</em></button>
-                            <button type="button"><i class="fa-solid fa-plus"></i><span><strong>Add portfolio work</strong><small>Showcase results and case studies</small></span><em>Add now</em></button>
-                            <button type="button"><i class="fa-solid fa-plus"></i><span><strong>Request verification</strong><small>Submit business information for review</small></span><em>Start</em></button>
+                            <a href="register.html">
+                                <i class="fa-solid fa-plus"></i>
+
+                                <span>
+                                    <strong>
+                                        Agency information
+                                    </strong>
+
+                                    <small>
+                                        Name, location, website,
+                                        and description
+                                    </small>
+                                </span>
+
+                                <em>View form</em>
+                            </a>
+
+                            <a href="register.html">
+                                <i class="fa-solid fa-plus"></i>
+
+                                <span>
+                                    <strong>
+                                        OnlyFans services and
+                                        expertise
+                                    </strong>
+
+                                    <small>
+                                        Management services,
+                                        creator specialties,
+                                        and regions
+                                    </small>
+                                </span>
+
+                                <em>View form</em>
+                            </a>
                         </div>
                     </article>
 
-                    <article class="dashboard-card activity-card" id="analytics">
-                        <div class="card-heading compact"><div><span>LAST 7 DAYS</span><h2>Profile activity</h2></div><button type="button" aria-label="More options"><i class="fa-solid fa-ellipsis"></i></button></div>
-                        <div class="chart-summary"><strong>248</strong><span>TOTAL PROFILE VIEWS</span></div>
-                        <div class="bar-chart" aria-label="Mock profile views chart">
-                            <div style="--value:42%"><span>M</span></div><div style="--value:58%"><span>T</span></div><div style="--value:47%"><span>W</span></div><div style="--value:76%"><span>T</span></div><div style="--value:65%"><span>F</span></div><div style="--value:91%"><span>S</span></div><div class="current" style="--value:82%"><span>S</span></div>
+                    <!-- ANALYTICS -->
+                    <article
+                        class="dashboard-card activity-card"
+                        id="analytics"
+                    >
+                        <div class="card-heading compact">
+                            <div>
+                                <span>ANALYTICS</span>
+                                <h2>Profile activity</h2>
+                            </div>
                         </div>
-                        <div class="chart-footer"><span><i></i> Profile views</span><a href="#analytics">Full analytics <i class="fa-solid fa-arrow-right"></i></a></div>
+
+                        <div class="chart-summary">
+                            <strong>—</strong>
+                            <span>
+                                NO PROFILE ACTIVITY DATA YET
+                            </span>
+                        </div>
+
+                        <p class="card-intro">
+                            Profile views and other activity
+                            will be shown here when a real
+                            agency profile is published and
+                            tracking is connected.
+                        </p>
                     </article>
 
-                    <article class="dashboard-card inquiries-card" id="inquiries">
-                        <div class="card-heading compact"><div><span>LEAD MANAGEMENT</span><h2>Recent inquiries</h2></div><a href="#inquiries">View all</a></div>
-                        <div class="inquiry-list">
-                            <button type="button"><span class="lead-avatar">AM</span><span><strong>Alex Morgan</strong><small>Interested in full-service management</small></span><time>12 min</time></button>
-                            <button type="button"><span class="lead-avatar">SK</span><span><strong>Sam King</strong><small>Asked about marketing and growth</small></span><time>2 hr</time></button>
-                            <button type="button"><span class="lead-avatar">JR</span><span><strong>Jordan Reed</strong><small>Requested a consultation</small></span><time>1 day</time></button>
+                    <!-- INQUIRIES -->
+                    <article
+                        class="dashboard-card inquiries-card"
+                        id="inquiries"
+                    >
+                        <div class="card-heading compact">
+                            <div>
+                                <span>LEAD MANAGEMENT</span>
+                                <h2>Agency inquiries</h2>
+                            </div>
                         </div>
+
+                        <p class="card-intro">
+                            There are no inquiries to display.
+                            This inbox will become available
+                            after inquiry delivery and agency
+                            accounts are connected.
+                        </p>
                     </article>
 
-                    <article class="dashboard-card verification-card" id="verification">
-                        <div class="verification-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                        <span>VERIFICATION</span><h2>Build more trust</h2>
-                        <p>Verified agencies receive a trust badge and additional visibility throughout the directory.</p>
-                        <button class="secondary-button" type="button">Begin verification <i class="fa-solid fa-arrow-right"></i></button>
+                    <!-- VERIFICATION -->
+                    <article
+                        class="dashboard-card verification-card"
+                        id="verification"
+                    >
+                        <div class="verification-icon">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+
+                        <span>INDEPENDENT VERIFICATION</span>
+
+                        <h2>Verification requires review</h2>
+
+                        <p>
+                            Agency Privé verification checks
+                            business information separately from
+                            paid plans. A subscription does not
+                            grant a verified badge or determine
+                            independent rankings.
+                        </p>
                     </article>
+
+                    <!-- PORTFOLIO -->
+                    <article
+                        class="dashboard-card"
+                        id="portfolio"
+                    >
+                        <div class="card-heading compact">
+                            <div>
+                                <span>PORTFOLIO</span>
+                                <h2>Work and case studies</h2>
+                            </div>
+                        </div>
+
+                        <p class="card-intro">
+                            Approved agency accounts will be
+                            able to present authorized examples
+                            of their work. No portfolio has been
+                            added to this preview.
+                        </p>
+                    </article>
+
+                    <!-- SERVICES -->
+                    <article
+                        class="dashboard-card"
+                        id="services"
+                    >
+                        <div class="card-heading compact">
+                            <div>
+                                <span>ONLYFANS SERVICES</span>
+                                <h2>Describe what you provide</h2>
+                            </div>
+                        </div>
+
+                        <p class="card-intro">
+                            Management, content support,
+                            subscriber retention, promotion,
+                            and analytics can be selected in
+                            the registration form.
+                        </p>
+
+                        <a
+                            href="register.html"
+                            class="secondary-button"
+                        >
+                            View services
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </article>
+
+                    <!-- SETTINGS -->
+                    <article
+                        class="dashboard-card"
+                        id="settings"
+                    >
+                        <div class="card-heading compact">
+                            <div>
+                                <span>ACCOUNT SETTINGS</span>
+                                <h2>Settings are not available yet</h2>
+                            </div>
+                        </div>
+
+                        <p class="card-intro">
+                            Account settings will become
+                            available when authentication and
+                            agency profile storage are
+                            connected.
+                        </p>
+                    </article>
+
                 </section>
             </main>
         </div>
     </div>
 
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-    <div class="dashboard-toast" id="dashboardToast" role="status" aria-live="polite"></div>
+    <div
+        class="sidebar-overlay"
+        id="sidebarOverlay"
+    ></div>
+
+    <div
+        class="dashboard-toast"
+        id="dashboardToast"
+        role="status"
+        aria-live="polite"
+    ></div>
+
     <script src="js/dashboard.js"></script>
 </body>
 </html>

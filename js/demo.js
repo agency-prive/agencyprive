@@ -1,8 +1,8 @@
 /* =========================================================
-   AGENCY PRIVÉ — DEMO REQUEST JAVASCRIPT
+   AGENCY PRIVÉ — DEMO FORM PREVIEW
 
    Frontend validation only.
-   Requests will be submitted to Supabase later.
+   No request is submitted, emailed, or saved.
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -15,43 +15,29 @@ document.addEventListener("DOMContentLoaded", () => {
    HELPERS
 ========================================================= */
 
-function getDemoElement(elementId) {
-    return document.getElementById(elementId);
+function getDemoElement(id) {
+    return document.getElementById(id);
 }
 
-function isValidDemoEmail(emailAddress) {
-    const emailPattern =
-        /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-    return emailPattern.test(
-        emailAddress.trim()
+function isValidDemoEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(
+        value.trim()
     );
 }
 
-function isValidDemoWebsite(websiteAddress) {
-    if (!websiteAddress.trim()) {
-        return true;
-    }
+function isValidDemoWebsite(value) {
+    if (!value.trim()) return true;
 
     try {
-        const website =
-            new URL(websiteAddress.trim());
+        const url = new URL(value.trim());
 
         return (
-            website.protocol === "http:" ||
-            website.protocol === "https:"
+            url.protocol === "http:" ||
+            url.protocol === "https:"
         );
     } catch {
         return false;
     }
-}
-
-function simulateDemoRequest(
-    duration = 900
-) {
-    return new Promise((resolve) => {
-        window.setTimeout(resolve, duration);
-    });
 }
 
 /* =========================================================
@@ -60,33 +46,27 @@ function simulateDemoRequest(
 
 function showDemoMessage(
     message,
-    messageType = "information"
+    type = "information"
 ) {
-    const messageElement =
-        getDemoElement("demoMessage");
+    const element = getDemoElement("demoMessage");
+    if (!element) return;
 
-    if (!messageElement) return;
+    element.textContent = message;
+    element.className =
+        `demo-message show ${type}`;
 
-    messageElement.textContent = message;
-
-    messageElement.className =
-        `demo-message show ${messageType}`;
-
-    messageElement.scrollIntoView({
+    element.scrollIntoView({
         behavior: "smooth",
         block: "nearest"
     });
 }
 
 function clearDemoMessage() {
-    const messageElement =
-        getDemoElement("demoMessage");
+    const element = getDemoElement("demoMessage");
+    if (!element) return;
 
-    if (!messageElement) return;
-
-    messageElement.textContent = "";
-    messageElement.className =
-        "demo-message";
+    element.textContent = "";
+    element.className = "demo-message";
 }
 
 /* =========================================================
@@ -95,45 +75,29 @@ function clearDemoMessage() {
 
 function setDemoFieldError(
     input,
-    errorElementId,
+    errorId,
     message
 ) {
-    const errorElement =
-        getDemoElement(errorElementId);
-
     if (input) {
         input.classList.add("invalid");
-
         input.setAttribute(
             "aria-invalid",
             "true"
         );
     }
 
-    if (errorElement) {
-        errorElement.textContent =
-            message;
-    }
+    const error = getDemoElement(errorId);
+    if (error) error.textContent = message;
 }
 
-function clearDemoFieldError(
-    input,
-    errorElementId
-) {
-    const errorElement =
-        getDemoElement(errorElementId);
-
+function clearDemoFieldError(input, errorId) {
     if (input) {
         input.classList.remove("invalid");
-
-        input.removeAttribute(
-            "aria-invalid"
-        );
+        input.removeAttribute("aria-invalid");
     }
 
-    if (errorElement) {
-        errorElement.textContent = "";
-    }
+    const error = getDemoElement(errorId);
+    if (error) error.textContent = "";
 }
 
 /* =========================================================
@@ -141,134 +105,62 @@ function clearDemoFieldError(
 ========================================================= */
 
 function initializeDemoForm() {
-    const form =
-        getDemoElement("demoForm");
-
+    const form = getDemoElement("demoForm");
     if (!form) return;
 
     const fields = [
-        {
-            inputId: "demoFirstName",
-            errorId: "demoFirstNameError"
-        },
-        {
-            inputId: "demoLastName",
-            errorId: "demoLastNameError"
-        },
-        {
-            inputId: "demoEmail",
-            errorId: "demoEmailError"
-        },
-        {
-            inputId: "demoAgencyName",
-            errorId: "demoAgencyNameError"
-        },
-        {
-            inputId: "demoAgencySize",
-            errorId: "demoAgencySizeError"
-        },
-        {
-            inputId: "demoPlan",
-            errorId: "demoPlanError"
-        },
-        {
-            inputId: "demoWebsite",
-            errorId: "demoWebsiteError"
-        },
-        {
-            inputId: "demoGoals",
-            errorId: "demoGoalsError"
-        }
+        ["demoFirstName", "demoFirstNameError"],
+        ["demoLastName", "demoLastNameError"],
+        ["demoEmail", "demoEmailError"],
+        ["demoAgencyName", "demoAgencyNameError"],
+        ["demoAgencySize", "demoAgencySizeError"],
+        ["demoPlan", "demoPlanError"],
+        ["demoWebsite", "demoWebsiteError"],
+        ["demoGoals", "demoGoalsError"]
     ];
 
-    fields.forEach((field) => {
-        const input =
-            getDemoElement(field.inputId);
-
+    fields.forEach(([inputId, errorId]) => {
+        const input = getDemoElement(inputId);
         if (!input) return;
 
-        const clearError = () => {
-            clearDemoFieldError(
-                input,
-                field.errorId
-            );
-
+        const clear = () => {
+            clearDemoFieldError(input, errorId);
             clearDemoMessage();
         };
 
-        input.addEventListener(
-            "input",
-            clearError
-        );
-
-        input.addEventListener(
-            "change",
-            clearError
-        );
+        input.addEventListener("input", clear);
+        input.addEventListener("change", clear);
     });
 
-    const consent =
-        getDemoElement("demoConsent");
+    const consent = getDemoElement("demoConsent");
 
-    consent?.addEventListener(
-        "change",
-        () => {
-            const consentError =
-                getDemoElement(
-                    "demoConsentError"
-                );
+    consent?.addEventListener("change", () => {
+        clearDemoFieldError(
+            consent,
+            "demoConsentError"
+        );
+        clearDemoMessage();
+    });
 
-            if (consentError) {
-                consentError.textContent = "";
-            }
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        clearDemoMessage();
 
-            clearDemoMessage();
-        }
-    );
-
-    form.addEventListener(
-        "submit",
-        async (event) => {
-            event.preventDefault();
-
-            clearDemoMessage();
-
-            const formIsValid =
-                validateDemoForm();
-
-            if (!formIsValid) {
-                showDemoMessage(
-                    "Please complete the highlighted fields before requesting your demo.",
-                    "error"
-                );
-
-                focusFirstDemoError();
-                return;
-            }
-
-            setDemoButtonLoading(true);
-
-            /*
-             * This delay is temporary.
-             *
-             * It will eventually be replaced by:
-             *
-             * supabase
-             *     .from("demo_requests")
-             *     .insert(...)
-             *
-             * No demo information is currently stored.
-             */
-            await simulateDemoRequest(1000);
-
-            setDemoButtonLoading(false);
-
+        if (!validateDemoForm()) {
             showDemoMessage(
-                "Your demo request form is working. Supabase must be connected before requests can be submitted.",
-                "information"
+                "Please complete the highlighted fields.",
+                "error"
             );
+
+            focusFirstDemoError();
+            return;
         }
-    );
+
+        showDemoMessage(
+            "Your details pass the form checks. This is a preview: no demo request has been sent or saved. You can explore the workspace preview using the link below.",
+            "information"
+        );
+    });
 }
 
 /* =========================================================
@@ -294,7 +186,7 @@ function validateDemoForm() {
         validateDemoRequiredText(
             "demoAgencyName",
             "demoAgencyNameError",
-            "Agency name is required."
+            "OnlyFans agency name is required."
         ),
 
         validateDemoRequiredSelect(
@@ -320,211 +212,164 @@ function validateDemoForm() {
 }
 
 /* =========================================================
-   REQUIRED TEXT
+   REQUIRED TEXT AND SELECT
 ========================================================= */
 
 function validateDemoRequiredText(
     inputId,
     errorId,
-    errorMessage
+    message
 ) {
-    const input =
-        getDemoElement(inputId);
-
+    const input = getDemoElement(inputId);
     if (!input) return false;
 
     if (!input.value.trim()) {
         setDemoFieldError(
             input,
             errorId,
-            errorMessage
+            message
         );
-
         return false;
     }
 
-    clearDemoFieldError(
-        input,
-        errorId
-    );
-
+    clearDemoFieldError(input, errorId);
     return true;
 }
-
-/* =========================================================
-   REQUIRED SELECT
-========================================================= */
 
 function validateDemoRequiredSelect(
     selectId,
     errorId,
-    errorMessage
+    message
 ) {
-    const select =
-        getDemoElement(selectId);
-
+    const select = getDemoElement(selectId);
     if (!select) return false;
 
     if (!select.value) {
         setDemoFieldError(
             select,
             errorId,
-            errorMessage
+            message
         );
-
         return false;
     }
 
-    clearDemoFieldError(
-        select,
-        errorId
-    );
-
+    clearDemoFieldError(select, errorId);
     return true;
 }
 
 /* =========================================================
-   EMAIL VALIDATION
+   EMAIL
 ========================================================= */
 
 function validateDemoEmail() {
-    const emailInput =
-        getDemoElement("demoEmail");
+    const input = getDemoElement("demoEmail");
+    if (!input) return false;
 
-    if (!emailInput) return false;
-
-    const emailValue =
-        emailInput.value.trim();
-
-    if (!emailValue) {
+    if (!input.value.trim()) {
         setDemoFieldError(
-            emailInput,
+            input,
             "demoEmailError",
             "Business email is required."
         );
-
         return false;
     }
 
-    if (!isValidDemoEmail(emailValue)) {
+    if (!isValidDemoEmail(input.value)) {
         setDemoFieldError(
-            emailInput,
+            input,
             "demoEmailError",
             "Enter a valid business email address."
         );
-
         return false;
     }
 
     clearDemoFieldError(
-        emailInput,
+        input,
         "demoEmailError"
     );
-
     return true;
 }
 
 /* =========================================================
-   WEBSITE VALIDATION
+   WEBSITE
 ========================================================= */
 
 function validateDemoWebsite() {
-    const websiteInput =
-        getDemoElement("demoWebsite");
+    const input = getDemoElement("demoWebsite");
+    if (!input) return true;
 
-    if (!websiteInput) return true;
-
-    if (
-        !isValidDemoWebsite(
-            websiteInput.value
-        )
-    ) {
+    if (!isValidDemoWebsite(input.value)) {
         setDemoFieldError(
-            websiteInput,
+            input,
             "demoWebsiteError",
-            "Enter a complete address beginning with http:// or https://."
+            "Enter a complete URL beginning with http:// or https://."
         );
-
         return false;
     }
 
     clearDemoFieldError(
-        websiteInput,
+        input,
         "demoWebsiteError"
     );
-
     return true;
 }
 
 /* =========================================================
-   GOALS VALIDATION
+   GOALS
 ========================================================= */
 
 function validateDemoGoals() {
-    const goalsInput =
-        getDemoElement("demoGoals");
+    const input = getDemoElement("demoGoals");
+    if (!input) return false;
 
-    if (!goalsInput) return false;
+    const value = input.value.trim();
 
-    const goalsValue =
-        goalsInput.value.trim();
-
-    if (!goalsValue) {
+    if (!value) {
         setDemoFieldError(
-            goalsInput,
+            input,
             "demoGoalsError",
-            "Tell us what you would like to explore during the demo."
+            "Tell us what you would like to explore."
         );
-
         return false;
     }
 
-    if (goalsValue.length < 20) {
+    if (value.length < 20) {
         setDemoFieldError(
-            goalsInput,
+            input,
             "demoGoalsError",
             "Please provide at least 20 characters."
         );
-
         return false;
     }
 
     clearDemoFieldError(
-        goalsInput,
+        input,
         "demoGoalsError"
     );
-
     return true;
 }
 
 /* =========================================================
-   CONSENT VALIDATION
+   CONSENT
 ========================================================= */
 
 function validateDemoConsent() {
-    const consent =
-        getDemoElement("demoConsent");
+    const input = getDemoElement("demoConsent");
+    if (!input) return false;
 
-    const consentError =
-        getDemoElement(
-            "demoConsentError"
+    if (!input.checked) {
+        setDemoFieldError(
+            input,
+            "demoConsentError",
+            "Confirm your contact preference to continue."
         );
-
-    if (!consent) return false;
-
-    if (!consent.checked) {
-        if (consentError) {
-            consentError.textContent =
-                "Confirm that we may contact you about the demo request.";
-        }
-
         return false;
     }
 
-    if (consentError) {
-        consentError.textContent = "";
-    }
-
+    clearDemoFieldError(
+        input,
+        "demoConsentError"
+    );
     return true;
 }
 
@@ -533,32 +378,19 @@ function validateDemoConsent() {
 ========================================================= */
 
 function initializeDemoCharacterCounter() {
-    const goalsInput =
-        getDemoElement("demoGoals");
-
-    const characterCount =
-        getDemoElement(
-            "demoCharacterCount"
-        );
-
-    if (
-        !goalsInput ||
-        !characterCount
-    ) {
-        return;
-    }
-
-    const updateCounter = () => {
-        characterCount.textContent =
-            goalsInput.value.length;
-    };
-
-    goalsInput.addEventListener(
-        "input",
-        updateCounter
+    const input = getDemoElement("demoGoals");
+    const counter = getDemoElement(
+        "demoCharacterCount"
     );
 
-    updateCounter();
+    if (!input || !counter) return;
+
+    const update = () => {
+        counter.textContent = input.value.length;
+    };
+
+    input.addEventListener("input", update);
+    update();
 }
 
 /* =========================================================
@@ -566,72 +398,23 @@ function initializeDemoCharacterCounter() {
 ========================================================= */
 
 function preselectRequestedPlan() {
-    const planSelect =
-        getDemoElement("demoPlan");
+    const select = getDemoElement("demoPlan");
+    if (!select) return;
 
-    if (!planSelect) return;
+    const requested = new URLSearchParams(
+        window.location.search
+    ).get("plan")?.trim().toLowerCase();
 
-    const parameters =
-        new URLSearchParams(
-            window.location.search
-        );
-
-    const requestedPlan =
-        parameters.get("plan");
-
-    const supportedPlans = [
+    const supportedPlans = new Set([
         "free",
         "prive",
         "select",
         "elite",
         "not-sure"
-    ];
+    ]);
 
-    if (
-        requestedPlan &&
-        supportedPlans.includes(
-            requestedPlan
-        )
-    ) {
-        planSelect.value =
-            requestedPlan;
-    }
-}
-
-/* =========================================================
-   BUTTON LOADING
-========================================================= */
-
-function setDemoButtonLoading(
-    isLoading
-) {
-    const button =
-        getDemoElement(
-            "demoSubmitButton"
-        );
-
-    if (!button) return;
-
-    const textElement =
-        button.querySelector("span");
-
-    const iconElement =
-        button.querySelector("i");
-
-    button.disabled = isLoading;
-
-    if (textElement) {
-        textElement.textContent =
-            isLoading
-                ? "Sending Request..."
-                : "Request My Demo";
-    }
-
-    if (iconElement) {
-        iconElement.className =
-            isLoading
-                ? "fa-solid fa-spinner fa-spin"
-                : "fa-solid fa-arrow-right";
+    if (supportedPlans.has(requested)) {
+        select.value = requested;
     }
 }
 
@@ -640,11 +423,7 @@ function setDemoButtonLoading(
 ========================================================= */
 
 function focusFirstDemoError() {
-    const firstInvalid =
-        document.querySelector(
-            "#demoForm .invalid, " +
-            "#demoConsent:not(:checked)"
-        );
-
-    firstInvalid?.focus();
+    document
+        .querySelector("#demoForm .invalid")
+        ?.focus();
 }

@@ -1,390 +1,633 @@
+/* =========================================================
+   AGENCY PRIVÉ — ONLYFANS AGENCY PROFILE
+
+   Approved agency profiles will be loaded from Supabase.
+   Do not add fictional agencies or verification claims here.
+========================================================= */
+
 document.addEventListener("DOMContentLoaded", () => {
     initializeAgencyProfile();
-    initializeProfileNavigation();
-    initializeContactModal();
-    initializeSaveAgency();
-    initializeReportButton();
 });
 
 /* =========================================================
-   SAMPLE AGENCY DATA
+   PROFILE DATA
+
+   Supabase integration will replace this empty collection.
+   Only published, approved OnlyFans agencies should be shown.
 ========================================================= */
 
-const agencyProfiles = {
-    1: {
-        name: "Northstar Vision",
-        initials: "NV",
-        tagline:
-            "Creator management and digital growth, built around measurable performance.",
-        location: "Los Angeles, United States",
-        experience: "6 years in business",
-        size: "11–50 team members",
-        sidebarSize: "11–50",
-        sidebarYears: "6 years",
-        languages: "English, Spanish",
-        founded: "2019",
-        teamSize: "24",
-        countryCount: "12",
-        responseTime: "1 day",
-        website: "https://example.com",
-        description:
-            "Northstar Vision helps creators build structured, sustainable digital businesses. Its team combines account management, creative planning, audience development, brand positioning, and performance reporting in one coordinated service.",
-        secondaryDescription:
-            "The agency works closely with each client to develop an individual strategy based on their audience, objectives, and preferred platforms.",
-        services: [
-            {
-                name: "Creator Management",
-                description:
-                    "Day-to-day support, planning, and account coordination.",
-                icon: "fa-solid fa-user-tie"
-            },
-            {
-                name: "Audience Growth",
-                description:
-                    "Cross-platform strategy designed to grow relevant audiences.",
-                icon: "fa-solid fa-arrow-trend-up"
-            },
-            {
-                name: "Content Strategy",
-                description:
-                    "Editorial planning, creative direction, and campaign support.",
-                icon: "fa-regular fa-lightbulb"
-            },
-            {
-                name: "Brand Development",
-                description:
-                    "Positioning, identity, partnerships, and long-term planning.",
-                icon: "fa-solid fa-pen-ruler"
-            },
-            {
-                name: "Analytics & Reporting",
-                description:
-                    "Clear performance reporting and ongoing optimization.",
-                icon: "fa-solid fa-chart-line"
-            },
-            {
-                name: "Business Strategy",
-                description:
-                    "Commercial planning and sustainable revenue development.",
-                icon: "fa-solid fa-briefcase"
-            }
-        ],
-        expertise: [
-            "Influencers",
-            "Lifestyle Creators",
-            "Fitness Creators",
-            "Fashion Creators",
-            "Gaming Creators",
-            "Models",
-            "Personal Brands"
-        ],
-        countries: [
-            "United States",
-            "Canada",
-            "United Kingdom",
-            "Australia",
-            "Germany",
-            "France"
-        ]
-    },
-
-    2: {
-        name: "Luminary Media",
-        initials: "LM",
-        tagline:
-            "Creative strategy and creator representation for ambitious digital brands.",
-        location: "London, United Kingdom",
-        experience: "8 years in business",
-        size: "11–50 team members",
-        sidebarSize: "11–50",
-        sidebarYears: "8 years",
-        languages: "English, French",
-        founded: "2017",
-        teamSize: "31",
-        countryCount: "9",
-        responseTime: "2 days",
-        website: "https://example.com",
-        description:
-            "Luminary Media is a multidisciplinary creator agency focused on representation, creative development, brand partnerships, and international growth.",
-        secondaryDescription:
-            "Its team combines strategic planning with hands-on campaign support for creators and companies across major digital platforms.",
-        services: [
-            {
-                name: "Talent Management",
-                description:
-                    "Representation and long-term career support.",
-                icon: "fa-solid fa-users"
-            },
-            {
-                name: "Brand Partnerships",
-                description:
-                    "Partnership sourcing and campaign coordination.",
-                icon: "fa-solid fa-handshake"
-            },
-            {
-                name: "Creative Direction",
-                description:
-                    "Creative concepts and visual campaign planning.",
-                icon: "fa-solid fa-wand-magic-sparkles"
-            },
-            {
-                name: "Social Media Strategy",
-                description:
-                    "Cross-platform publishing and audience strategy.",
-                icon: "fa-solid fa-share-nodes"
-            }
-        ],
-        expertise: [
-            "Fashion Creators",
-            "Lifestyle Creators",
-            "Influencers",
-            "Models",
-            "Creative Professionals"
-        ],
-        countries: [
-            "United Kingdom",
-            "France",
-            "Germany",
-            "Spain",
-            "United States"
-        ]
-    },
-
-    3: {
-        name: "Atlas Agency",
-        initials: "AA",
-        tagline:
-            "International talent representation and scalable audience development.",
-        location: "Toronto, Canada",
-        experience: "5 years in business",
-        size: "2–10 team members",
-        sidebarSize: "2–10",
-        sidebarYears: "5 years",
-        languages: "English, French",
-        founded: "2020",
-        teamSize: "9",
-        countryCount: "7",
-        responseTime: "1–2 days",
-        website: "https://example.com",
-        description:
-            "Atlas Agency supports independent creators with focused management, campaign strategy, commercial partnerships, and international market development.",
-        secondaryDescription:
-            "The boutique team maintains a selective client list to provide direct and highly personalized support.",
-        services: [
-            {
-                name: "Talent Management",
-                description:
-                    "Personalized representation and account support.",
-                icon: "fa-solid fa-user-group"
-            },
-            {
-                name: "Campaign Strategy",
-                description:
-                    "Campaign planning across multiple digital channels.",
-                icon: "fa-solid fa-bullhorn"
-            },
-            {
-                name: "Audience Development",
-                description:
-                    "Organic audience research and growth planning.",
-                icon: "fa-solid fa-chart-simple"
-            },
-            {
-                name: "Brand Positioning",
-                description:
-                    "Clear positioning and commercial identity development.",
-                icon: "fa-solid fa-compass"
-            }
-        ],
-        expertise: [
-            "Gaming Creators",
-            "Lifestyle Creators",
-            "Fitness Creators",
-            "Influencers"
-        ],
-        countries: [
-            "Canada",
-            "United States",
-            "United Kingdom",
-            "Australia"
-        ]
-    },
-
-    4: {
-        name: "Studio Kindred",
-        initials: "SK",
-        tagline:
-            "Content production and brand direction for emerging creator businesses.",
-        location: "Sydney, Australia",
-        experience: "4 years in business",
-        size: "2–10 team members",
-        sidebarSize: "2–10",
-        sidebarYears: "4 years",
-        languages: "English",
-        founded: "2021",
-        teamSize: "7",
-        countryCount: "5",
-        responseTime: "2 days",
-        website: "https://example.com",
-        description:
-            "Studio Kindred is a boutique creative agency helping creators develop recognizable brands through content strategy, production, design, and platform planning.",
-        secondaryDescription:
-            "Its collaborative approach is designed for creators who need a consistent visual identity and practical publishing system.",
-        services: [
-            {
-                name: "Content Production",
-                description:
-                    "End-to-end support for digital content production.",
-                icon: "fa-solid fa-camera"
-            },
-            {
-                name: "Creative Direction",
-                description:
-                    "Visual concepts and consistent creative systems.",
-                icon: "fa-solid fa-palette"
-            },
-            {
-                name: "Brand Development",
-                description:
-                    "Brand identity and market positioning.",
-                icon: "fa-solid fa-pen-nib"
-            },
-            {
-                name: "Content Planning",
-                description:
-                    "Structured editorial and publishing calendars.",
-                icon: "fa-regular fa-calendar"
-            }
-        ],
-        expertise: [
-            "Lifestyle Creators",
-            "Fashion Creators",
-            "Fitness Creators",
-            "Creative Professionals"
-        ],
-        countries: [
-            "Australia",
-            "New Zealand",
-            "Singapore",
-            "United Kingdom"
-        ]
-    }
-};
+const agencyProfiles = [];
 
 /* =========================================================
-   PROFILE RENDERING
+   INITIALIZE
 ========================================================= */
 
 function initializeAgencyProfile() {
-    const parameters = new URLSearchParams(
-        window.location.search
+    const unavailable = document.getElementById(
+        "profileUnavailable"
     );
 
-    const agencyId = parameters.get("id") || "1";
+    const profileContent = document.getElementById(
+        "agencyProfileContent"
+    );
 
-    const agency =
-        agencyProfiles[agencyId] ||
-        agencyProfiles[1];
+    if (!unavailable || !profileContent) return;
 
-    setText("agencyName", agency.name);
-    setText("breadcrumbAgencyName", agency.name);
-    setText("agencyLogo", agency.initials);
-    setText("agencyTagline", agency.tagline);
-    setText("agencyLocation", agency.location);
-    setText("agencyExperience", agency.experience);
-    setText("agencySize", agency.size);
+    const agencyId = new URLSearchParams(
+        window.location.search
+    ).get("id");
 
-    setText("agencyDescription", agency.description);
+    const agency = agencyProfiles.find((profile) => {
+        return (
+            String(profile.id) === agencyId &&
+            profile.status === "published" &&
+            profile.approved === true &&
+            profile.platform === "onlyfans"
+        );
+    });
+
+    if (!agency) {
+        showUnavailableProfile(unavailable, profileContent);
+        return;
+    }
+
+    renderAgencyProfile(agency);
+
+    unavailable.hidden = true;
+    profileContent.hidden = false;
+
+    initializeProfileNavigation();
+    initializeSaveAgency(agency.id);
+
+    /*
+     * Inquiries and reports remain hidden until their submission
+     * endpoints exist. Do not show a form that cannot send messages.
+     */
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+function showUnavailableProfile(
+    unavailable,
+    profileContent
+) {
+    unavailable.hidden = false;
+    profileContent.hidden = true;
+
+    document.title =
+        "Agency Profile Unavailable | Agency Privé";
+}
+
+/* =========================================================
+   PROFILE RENDER
+========================================================= */
+
+function renderAgencyProfile(agency) {
+    const name = String(agency.name || "").trim();
+
+    if (!name) return;
+
+    setText("agencyName", name);
+    setText("breadcrumbAgencyName", name);
+
+    const initials = String(
+        agency.initials ||
+        name
+            .split(/\s+/)
+            .slice(0, 2)
+            .map((word) => word.charAt(0))
+            .join("")
+    ).slice(0, 3);
+
+    setText("agencyLogo", initials.toUpperCase());
+
+    setOptionalText(
+        "agencyTagline",
+        agency.tagline
+    );
+
+    setOptionalText(
+        "agencyLocation",
+        agency.location,
+        "agencyLocationItem"
+    );
+
+    setOptionalText(
+        "agencyExperience",
+        agency.experience,
+        "agencyExperienceItem"
+    );
+
+    setOptionalText(
+        "agencySize",
+        agency.size,
+        "agencySizeItem"
+    );
+
     setText(
+        "agencyDescription",
+        agency.description ||
+        "This agency has not provided an overview."
+    );
+
+    setOptionalText(
         "agencyDescriptionSecondary",
         agency.secondaryDescription
     );
 
-    setText("profileFounded", agency.founded);
-    setText("profileTeamSize", agency.teamSize);
-    setText("profileCountries", agency.countryCount);
-    setText("profileResponse", agency.responseTime);
+    renderOptionalStat(
+        "profileFounded",
+        "profileFoundedItem",
+        agency.founded
+    );
 
-    setText("sidebarHeadquarters", agency.location);
-    setText("sidebarSize", agency.sidebarSize);
-    setText("sidebarYears", agency.sidebarYears);
-    setText("sidebarLanguages", agency.languages);
+    renderOptionalStat(
+        "profileTeamSize",
+        "profileTeamSizeItem",
+        agency.teamSize
+    );
 
-    const websiteLink =
-        document.getElementById("agencyWebsite");
+    /*
+     * Count the listed countries instead of displaying a
+     * manually entered number that may contradict the list.
+     */
+    const countries = Array.isArray(agency.countries)
+        ? agency.countries.filter(Boolean)
+        : [];
 
-    if (websiteLink) {
-        websiteLink.href = agency.website;
+    renderOptionalStat(
+        "profileCountries",
+        "profileCountriesItem",
+        countries.length ? countries.length : null
+    );
+
+    renderOptionalStat(
+        "profileResponse",
+        "profileResponseItem",
+        agency.responseTime
+    );
+
+    const statGrid = document.getElementById(
+        "profileStatGrid"
+    );
+
+    if (statGrid) {
+        statGrid.hidden = ![
+            "profileFoundedItem",
+            "profileTeamSizeItem",
+            "profileCountriesItem",
+            "profileResponseItem"
+        ].some((id) => {
+            const item = document.getElementById(id);
+            return item && !item.hidden;
+        });
     }
 
-    document.title =
-        `${agency.name} | Agency Privé`;
+    setOptionalText(
+        "sidebarHeadquarters",
+        agency.location,
+        "sidebarHeadquartersItem"
+    );
 
+    setOptionalText(
+        "sidebarSize",
+        agency.sidebarSize || agency.size,
+        "sidebarSizeItem"
+    );
+
+    setOptionalText(
+        "sidebarYears",
+        agency.sidebarYears || agency.experience,
+        "sidebarYearsItem"
+    );
+
+    setOptionalText(
+        "sidebarLanguages",
+        formatLanguages(agency.languages),
+        "sidebarLanguagesItem"
+    );
+
+    renderVerification(agency);
+    renderWebsite(agency.website);
     renderServices(agency.services);
     renderExpertise(agency.expertise);
-    renderLocations(agency.countries);
+    renderLocations(countries);
+    renderSocialProfiles(agency.socials);
+    renderRelatedAgencies(agency);
+
+    document.title = `${name} | Agency Privé`;
 }
 
-function setText(elementId, value) {
-    const element =
-        document.getElementById(elementId);
+function setText(id, value) {
+    const element = document.getElementById(id);
+    if (element) element.textContent = String(value ?? "");
+}
+
+function setOptionalText(id, value, wrapperId =Id = id) {
+    const element = document.getElementById(id);
+    const wrapper = document.getElementById(wrapperId);
+
+    const hasValue =
+        value !== null &&
+        value !== undefined &&
+        String(value).trim() !== "";
 
     if (element) {
-        element.textContent = value;
+        element.textContent = hasValue
+            ? String(value)
+            : "";
+    }
+
+    if (wrapper) {
+        wrapper.hidden = !hasValue;
     }
 }
 
+function renderOptionalStat(id, wrapperId, value) {
+    setOptionalText(id, value, wrapperId);
+}
+
+function formatLanguages(languages) {
+    if (Array.isArray(languages)) {
+        return languages
+            .filter(Boolean)
+            .join(", ");
+    }
+
+    return languages || "";
+}
+
+/* =========================================================
+   VERIFICATION AND SPONSORED PLACEMENT
+========================================================= */
+
+function renderVerification(agency) {
+    const verifiedBadge = document.getElementById(
+        "profileVerifiedBadge"
+    );
+
+    const featuredBadge = document.getElementById(
+        "profileFeaturedBadge"
+    );
+
+    const description = document.getElementById(
+        "verificationDescription"
+    );
+
+    const checklist = document.getElementById(
+        "verificationChecklist"
+    );
+
+    const isVerified =
+        agency.verificationStatus === "verified";
+
+    if (verifiedBadge) {
+        verifiedBadge.hidden = !isVerified;
+    }
+
+    /*
+     * This badge describes paid placement only. It never
+     * implies that the agency is verified or independently ranked.
+     */
+    if (featuredBadge) {
+        featuredBadge.hidden =
+            agency.sponsored !== true;
+    }
+
+    if (description) {
+        description.textContent = isVerified
+            ? "Agency Privé has reviewed this agency's business identity. Verification does not guarantee service quality or outcomes."
+            : "This agency has not received an Agency Privé verification badge. A paid plan does not grant verification.";
+    }
+
+    if (checklist) {
+        checklist.replaceChildren();
+
+        /*
+         * No individual verification checks are displayed until
+         * confirmed review details are available from the database.
+         */
+        checklist.hidden = true;
+    }
+}
+
+/* =========================================================
+   WEBSITE LINK
+========================================================= */
+
+function renderWebsite(value) {
+    const link = document.getElementById(
+        "agencyWebsite"
+    );
+
+    if (!link) return;
+
+    const url = getSafeExternalUrl(value);
+
+    link.hidden = !url;
+
+    if (url) {
+        link.href = url;
+    } else {
+        link.removeAttribute("href");
+    }
+}
+
+function getSafeExternalUrl(value) {
+    if (typeof value !== "string" || !value.trim()) {
+        return null;
+    }
+
+    try {
+        const url = new URL(value.trim());
+
+        if (
+            url.protocol !== "https:" &&
+            url.protocol !== "http:"
+        ) {
+            return null;
+        }
+
+        return url.href;
+    } catch {
+        return null;
+    }
+}
+
+/* =========================================================
+   SERVICES
+========================================================= */
+
 function renderServices(services) {
-    const container =
-        document.getElementById("servicesGrid");
+    const container = document.getElementById(
+        "servicesGrid"
+    );
 
     if (!container) return;
 
-    container.innerHTML = services
-        .map(
-            (service) => `
-                <article class="service-card">
-                    <div class="service-card-icon">
-                        <i class="${service.icon}"></i>
-                    </div>
+    container.replaceChildren();
 
-                    <div>
-                        <h3>${service.name}</h3>
-                        <p>${service.description}</p>
-                    </div>
-                </article>
-            `
-        )
-        .join("");
+    const list = Array.isArray(services)
+        ? services
+        : [];
+
+    if (!list.length) {
+        const message = document.createElement("p");
+        message.textContent =
+            "No OnlyFans services have been listed yet.";
+        container.appendChild(message);
+        return;
+    }
+
+    list.forEach((service) => {
+        const name = typeof service === "string"
+            ? service
+            : service?.name;
+
+        if (!name) return;
+
+        const card = document.createElement("article");
+        card.className = "service-card";
+
+        const iconWrapper = document.createElement("div");
+        iconWrapper.className = "service-card-icon";
+
+        const icon = document.createElement("i");
+        icon.className = "fa-solid fa-check";
+        icon.setAttribute("aria-hidden", "true");
+        iconWrapper.appendChild(icon);
+
+        const content = document.createElement("div");
+
+        const heading = document.createElement("h3");
+        heading.textContent = name;
+        content.appendChild(heading);
+
+        const description =
+            typeof service === "object"
+                ? service.description
+                : "";
+
+        if (description) {
+            const paragraph = document.createElement("p");
+            paragraph.textContent = description;
+            content.appendChild(paragraph);
+        }
+
+        card.append(iconWrapper, content);
+        container.appendChild(card);
+    });
 }
+
+/* =========================================================
+   CREATOR SPECIALTIES
+========================================================= */
 
 function renderExpertise(expertise) {
-    const container =
-        document.getElementById("expertiseTags");
+    const container = document.getElementById(
+        "expertiseTags"
+    );
 
     if (!container) return;
 
-    container.innerHTML = expertise
-        .map((item) => `<span>${item}</span>`)
-        .join("");
+    container.replaceChildren();
+
+    const list = Array.isArray(expertise)
+        ? expertise.filter(Boolean)
+        : [];
+
+    if (!list.length) {
+        const message = document.createElement("p");
+        message.textContent =
+            "No OnlyFans creator specialties have been listed yet.";
+        container.appendChild(message);
+        return;
+    }
+
+    list.forEach((specialty) => {
+        const tag = document.createElement("span");
+        tag.textContent = String(specialty);
+        container.appendChild(tag);
+    });
 }
 
+/* =========================================================
+   LOCATIONS
+========================================================= */
+
 function renderLocations(countries) {
-    const container =
-        document.getElementById("locationList");
+    const container = document.getElementById(
+        "locationList"
+    );
 
     if (!container) return;
 
-    container.innerHTML = countries
-        .map(
-            (country) => `
-                <div>
-                    <i class="fa-solid fa-location-dot"></i>
-                    <span>${country}</span>
-                </div>
-            `
-        )
-        .join("");
+    container.replaceChildren();
+
+    if (!countries.length) {
+        const message = document.createElement("p");
+        message.textContent =
+            "No service regions have been listed yet.";
+        container.appendChild(message);
+        return;
+    }
+
+    countries.forEach((country) => {
+        const item = document.createElement("div");
+
+        const icon = document.createElement("i");
+        icon.className = "fa-solid fa-location-dot";
+        icon.setAttribute("aria-hidden", "true");
+
+        const label = document.createElement("span");
+        label.textContent = String(country);
+
+        item.append(icon, label);
+        container.appendChild(item);
+    });
+}
+
+/* =========================================================
+   SOCIAL LINKS
+========================================================= */
+
+function renderSocialProfiles(socials) {
+    const card = document.getElementById(
+        "profileSocialCard"
+    );
+
+    const container = document.getElementById(
+        "profileSocials"
+    );
+
+    if (!card || !container) return;
+
+    container.replaceChildren();
+
+    const supported = [
+        ["instagram", "Instagram", "fa-brands fa-instagram"],
+        ["x", "X", "fa-brands fa-x-twitter"],
+        ["tiktok", "TikTok", "fa-brands fa-tiktok"],
+        ["linkedin", "LinkedIn", "fa-brands fa-linkedin-in"]
+    ];
+
+    supported.forEach(([key, label, iconClass]) => {
+        const url = getSafeExternalUrl(
+            socials?.[key]
+        );
+
+        if (!url) return;
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.setAttribute("aria-label", label);
+
+        const icon = document.createElement("i");
+        icon.className = iconClass;
+        icon.setAttribute("aria-hidden", "true");
+
+        link.append(icon, document.createTextNode(label));
+        container.appendChild(link);
+    });
+
+    card.hidden = container.childElementCount === 0;
+}
+
+/* =========================================================
+   RELATED AGENCIES
+
+   Only actual approved, published OnlyFans agencies qualify.
+========================================================= */
+
+function renderRelatedAgencies(currentAgency) {
+    const section = document.getElementById(
+        "relatedAgenciesSection"
+    );
+
+    const grid = document.getElementById(
+        "relatedAgencyGrid"
+    );
+
+    if (!section || !grid) return;
+
+    grid.replaceChildren();
+
+    const related = agencyProfiles
+        .filter((agency) => {
+            return (
+                String(agency.id) !==
+                    String(currentAgency.id) &&
+                agency.status === "published" &&
+                agency.approved === true &&
+                agency.platform === "onlyfans"
+            );
+        })
+        .slice(0, 3);
+
+    related.forEach((agency) => {
+        if (!agency.name) return;
+
+        const card = document.createElement("article");
+        card.className = "related-agency-card";
+
+        const logo = document.createElement("div");
+        logo.className = "related-agency-logo";
+        logo.textContent = String(
+            agency.initials ||
+            agency.name
+                .split(/\s+/)
+                .slice(0, 2)
+                .map((word) => word.charAt(0))
+                .join("")
+        ).slice(0, 3).toUpperCase();
+
+        card.appendChild(logo);
+
+        if (
+            agency.verificationStatus ===
+            "verified"
+        ) {
+            const badge = document.createElement("span");
+            badge.className = "badge badge-verified";
+            badge.textContent = "Verified";
+            card.appendChild(badge);
+        }
+
+        const heading = document.createElement("h3");
+        heading.textContent = agency.name;
+        card.appendChild(heading);
+
+        if (agency.tagline) {
+            const description = document.createElement("p");
+            description.textContent = agency.tagline;
+            card.appendChild(description);
+        }
+
+        const link = document.createElement("a");
+        link.href =
+            `agency-profile.html?id=${encodeURIComponent(
+                agency.id
+            )}`;
+
+        link.appendChild(
+            document.createTextNode("View Profile ")
+        );
+
+        const icon = document.createElement("i");
+        icon.className = "fa-solid fa-arrow-right";
+        icon.setAttribute("aria-hidden", "true");
+
+        link.appendChild(icon);
+        card.appendChild(link);
+
+        grid.appendChild(card);
+    });
+
+    section.hidden = grid.childElementCount === 0;
 }
 
 /* =========================================================
@@ -398,19 +641,21 @@ function initializeProfileNavigation() {
         )
     );
 
+    if (!links.length) return;
+
     const sections = links
-        .map((link) =>
-            document.querySelector(
+        .map((link) => {
+            return document.querySelector(
                 link.getAttribute("href")
-            )
-        )
+            );
+        })
         .filter(Boolean);
 
     links.forEach((link) => {
         link.addEventListener("click", () => {
-            links.forEach((item) =>
-                item.classList.remove("active")
-            );
+            links.forEach((item) => {
+                item.classList.remove("active");
+            });
 
             link.classList.add("active");
         });
@@ -422,21 +667,22 @@ function initializeProfileNavigation() {
 
     const observer = new IntersectionObserver(
         (entries) => {
-            const visibleEntry = entries
+            const visible = entries
                 .filter((entry) => entry.isIntersecting)
-                .sort(
-                    (first, second) =>
+                .sort((first, second) => {
+                    return (
                         second.intersectionRatio -
                         first.intersectionRatio
-                )[0];
+                    );
+                })[0];
 
-            if (!visibleEntry) return;
+            if (!visible) return;
 
             links.forEach((link) => {
                 link.classList.toggle(
                     "active",
                     link.getAttribute("href") ===
-                        `#${visibleEntry.target.id}`
+                        `#${visible.target.id}`
                 );
             });
         },
@@ -452,148 +698,26 @@ function initializeProfileNavigation() {
 }
 
 /* =========================================================
-   CONTACT MODAL
-========================================================= */
-
-function initializeContactModal() {
-    const modal =
-        document.getElementById("contactModal");
-
-    const openButton =
-        document.getElementById(
-            "contactAgencyButton"
-        );
-
-    const closeButton =
-        document.getElementById(
-            "closeContactModal"
-        );
-
-    const form =
-        document.getElementById(
-            "agencyContactForm"
-        );
-
-    const message =
-        document.getElementById(
-            "contactFormMessage"
-        );
-
-    if (!modal || !openButton || !closeButton) {
-        return;
-    }
-
-    const openModal = () => {
-        modal.classList.add("open");
-        modal.setAttribute("aria-hidden", "false");
-        document.body.classList.add(
-            "profile-modal-open"
-        );
-
-        window.setTimeout(() => {
-            document
-                .getElementById("contactName")
-                ?.focus();
-        }, 100);
-    };
-
-    const closeModal = () => {
-        modal.classList.remove("open");
-        modal.setAttribute("aria-hidden", "true");
-        document.body.classList.remove(
-            "profile-modal-open"
-        );
-
-        openButton.focus();
-    };
-
-    openButton.addEventListener("click", openModal);
-    closeButton.addEventListener("click", closeModal);
-
-    modal.addEventListener("click", (event) => {
-        if (event.target === modal) {
-            closeModal();
-        }
-    });
-
-    document.addEventListener("keydown", (event) => {
-        if (
-            event.key === "Escape" &&
-            modal.classList.contains("open")
-        ) {
-            closeModal();
-        }
-    });
-
-    form?.addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        const name =
-            document.getElementById(
-                "contactName"
-            );
-
-        const email =
-            document.getElementById(
-                "contactEmail"
-            );
-
-        const contactMessage =
-            document.getElementById(
-                "contactMessage"
-            );
-
-        if (
-            !name?.value.trim() ||
-            !email?.value.trim() ||
-            !contactMessage?.value.trim()
-        ) {
-            if (message) {
-                message.textContent =
-                    "Complete all fields before sending your inquiry.";
-
-                message.className =
-                    "contact-form-message show";
-            }
-
-            return;
-        }
-
-        if (message) {
-            message.textContent =
-                "Your inquiry form is working. Connect your database or email service before accepting real messages.";
-
-            message.className =
-                "contact-form-message show success";
-        }
-
-        form.reset();
-    });
-}
-
-/* =========================================================
    SAVE AGENCY
+
+   Saves this agency ID in this browser only.
 ========================================================= */
 
-function initializeSaveAgency() {
-    const button =
-        document.getElementById(
-            "saveAgencyButton"
-        );
+function initializeSaveAgency(agencyId) {
+    const button = document.getElementById(
+        "saveAgencyButton"
+    );
 
-    if (!button) return;
+    if (!button || !agencyId) return;
 
-    const parameters =
-        new URLSearchParams(window.location.search);
-
-    const agencyId =
-        parameters.get("id") || "1";
+    button.hidden = false;
 
     const storageKey =
         `agencyPriveSavedAgency-${agencyId}`;
 
-    const updateButton = (saved) => {
+    function updateButton(saved) {
         button.classList.toggle("saved", saved);
+
         button.setAttribute(
             "aria-pressed",
             String(saved)
@@ -613,44 +737,39 @@ function initializeSaveAgency() {
                 ? "Agency Saved"
                 : "Save Agency";
         }
-    };
+    }
 
-    let isSaved =
-        localStorage.getItem(storageKey) === "true";
+    let saved = false;
 
-    updateButton(isSaved);
+    try {
+        saved =
+            localStorage.getItem(storageKey) ===
+            "true";
+    } catch {
+        // Saving may be unavailable in private browsing.
+    }
+
+    updateButton(saved);
 
     button.addEventListener("click", () => {
-        isSaved = !isSaved;
+        saved = !saved;
 
-        if (isSaved) {
-            localStorage.setItem(
-                storageKey,
-                "true"
-            );
-        } else {
-            localStorage.removeItem(storageKey);
+        try {
+            if (saved) {
+                localStorage.setItem(
+                    storageKey,
+                    "true"
+                );
+            } else {
+                localStorage.removeItem(
+                    storageKey
+                );
+            }
+
+            updateButton(saved);
+        } catch {
+            saved = !saved;
+            updateButton(saved);
         }
-
-        updateButton(isSaved);
-    });
-}
-
-/* =========================================================
-   REPORT PROFILE
-========================================================= */
-
-function initializeReportButton() {
-    const button =
-        document.getElementById(
-            "reportProfileButton"
-        );
-
-    if (!button) return;
-
-    button.addEventListener("click", () => {
-        button.textContent =
-            "Report form coming soon";
-        button.disabled = true;
     });
 }
