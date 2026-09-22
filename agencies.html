@@ -10,10 +10,10 @@
 
     <meta
         name="description"
-        content="Discover and compare OnlyFans management agencies by services, location, experience, and verification status on Agency Privé."
+        content="Discover and compare professional creator, talent, influencer, and social-media agencies on Agency Privé."
     >
 
-    <title>Discover OnlyFans Agencies | Agency Privé</title>
+    <title>Discover Agencies | Agency Privé</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
@@ -34,6 +34,7 @@
 
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/agencies.css">
+    <link rel="stylesheet" href="css/directory-enhancements.css">
 </head>
 
 <body>
@@ -205,18 +206,35 @@
 
                 <div class="directory-heading">
                     <span class="eyebrow">
-                        THE ONLYFANS AGENCY DIRECTORY
+                        THE GLOBAL AGENCY DIRECTORY
                     </span>
 
                     <h1>
                         Find your next
-                        <em>OnlyFans agency partner.</em>
+                        <em>agency partner.</em>
                     </h1>
 
                     <p>
-                        Discover and compare OnlyFans management agencies
-                        by services, location, team size, and experience.
+                        Search and compare professional agencies by
+                        expertise, location, team size, and services.
                     </p>
+                </div>
+
+                <div class="directory-statistics">
+                    <article>
+                        <strong>240+</strong>
+                        <span>Listed agencies</span>
+                    </article>
+
+                    <article>
+                        <strong>38</strong>
+                        <span>Countries represented</span>
+                    </article>
+
+                    <article>
+                        <strong>18</strong>
+                        <span>Service categories</span>
+                    </article>
                 </div>
 
             </div>
@@ -242,7 +260,7 @@
                             <input
                                 type="search"
                                 id="agencySearch"
-                                placeholder="Search OnlyFans agencies or services"
+                                placeholder="Search agencies or expertise"
                                 autocomplete="off"
                             >
                         </div>
@@ -250,7 +268,7 @@
 
                     <div class="directory-search-field">
                         <label for="locationFilter">
-                            Location
+                            Country / region
                         </label>
 
                         <select id="locationFilter">
@@ -267,44 +285,34 @@
                     </div>
 
                     <div class="directory-search-field">
+                        <label for="categoryFilter">Category</label>
+                        <select id="categoryFilter"><option value="">All categories</option><option>Creator management</option><option>Talent</option><option>Marketing</option><option>Production</option><option>PR</option></select>
+                    </div>
+
+                    <div class="directory-search-field">
                         <label for="serviceFilter">
                             Service
                         </label>
 
                         <select id="serviceFilter">
                             <option value="">All services</option>
-                            <option value="Full-Service OnlyFans Management">
-                                Full-Service OnlyFans Management
-                            </option>
-                            <option value="Account Management">
-                                Account Management
-                            </option>
                             <option value="Creator Management">
                                 Creator Management
                             </option>
-                            <option value="Chat Management">
-                                Chat Management
+                            <option value="Talent Management">
+                                Talent Management
                             </option>
-                            <option value="Sales & Conversion">
-                                Sales &amp; Conversion
+                            <option value="Influencer Marketing">
+                                Influencer Marketing
                             </option>
-                            <option value="PPV / Paid Message Strategy">
-                                PPV / Paid Message Strategy
-                            </option>
-                            <option value="Fan Retention & Re-Engagement">
-                                Fan Retention &amp; Re-Engagement
-                            </option>
-                            <option value="Revenue Optimization">
-                                Revenue Optimization
-                            </option>
-                            <option value="Social Media Marketing">
-                                Social Media Marketing
+                            <option value="Social Media">
+                                Social Media
                             </option>
                             <option value="Content Strategy">
                                 Content Strategy
                             </option>
-                            <option value="Creator Recruitment">
-                                Creator Recruitment
+                            <option value="Brand Partnerships">
+                                Brand Partnerships
                             </option>
                         </select>
                     </div>
@@ -343,7 +351,13 @@
                     </div>
 
                     <fieldset class="filter-group">
-                        <legend>Verification</legend>
+                        <legend>Creator niche</legend>
+                        <label for="nicheFilter" class="filter-select-label">Area of expertise</label>
+                        <select id="nicheFilter"><option value="">All niches</option><option>Fashion</option><option>Fitness</option><option>Gaming</option><option>Lifestyle</option><option>Beauty</option><option>Adult creators</option></select>
+                    </fieldset>
+
+                    <fieldset class="filter-group">
+                        <legend>Trust and availability</legend>
 
                         <label>
                             <input
@@ -358,8 +372,12 @@
                                 type="checkbox"
                                 id="featuredFilter"
                             >
-                            <span>Featured agencies</span>
+                            <span>Featured / Sponsored placement</span>
                         </label>
+                        <label><input type="checkbox" id="reviewsFilter"><span>Has published reviews</span></label>
+                        <label><input type="checkbox" id="contactFilter"><span>Accepting inquiries</span></label>
+                        <p class="filter-disclosure">Verification requires independent review. Paid placement is labelled and does not affect verification or ratings. <a href="trust.html">How our trust labels work</a>.</p>
+                        
                     </fieldset>
 
                     <fieldset class="filter-group">
@@ -413,7 +431,8 @@
                     </fieldset>
 
                     <fieldset class="filter-group">
-                        <legend>Minimum experience</legend>
+                        <legend>Years in business</legend>
+                        <label for="experienceFilter" class="filter-select-label">Minimum years</label>
 
                         <select id="experienceFilter">
                             <option value="0">Any experience</option>
@@ -452,25 +471,16 @@
                             <span>Sort by</span>
 
                             <select id="sortFilter">
-                                <option value="featured">
-                                    Featured
-                                </option>
-
-                                <option value="rating">
-                                    Highest rated
-                                </option>
-
-                                <option value="experience">
-                                    Most experienced
-                                </option>
-
-                                <option value="name">
-                                    Agency name
-                                </option>
+                                <option value="name">Agency name (A–Z)</option>
+                                <option value="rating">Highest rated (reviewed first)</option>
+                                <option value="experience">Most experienced</option>
+                                <option value="newest">Recently approved</option>
                             </select>
                         </label>
 
                     </div>
+
+                    <details class="sort-explanation"><summary>How sorting works</summary><p>Agency name sorts alphabetically. Highest rated uses published review averages, with agencies without reviews last; ties use review count, then name. Most experienced uses disclosed years in business. Recently approved uses approval date. Featured / Sponsored is separately labelled and does not change these sort orders. <a href="trust.html">Read our methodology</a>.</p></details>
 
                     <div
                         class="agency-card-grid"
@@ -487,8 +497,7 @@
                         <h2>No agencies found</h2>
 
                         <p>
-                            Try changing your search terms or clearing
-                            one or more filters.
+                            Approved agencies will appear here after review.
                         </p>
 
                         <button
@@ -526,9 +535,8 @@
                     </h2>
 
                     <p>
-                        Create a free profile for your OnlyFans management
-                        agency and make it easier for creators to discover
-                        your services.
+                        Create your permanent free profile and start
+                        a seven-day premium trial.
                     </p>
                 </div>
 
@@ -567,9 +575,8 @@
                     </a>
 
                     <p class="footer-description">
-                        An independent directory for discovering,
-                        researching, and comparing OnlyFans
-                        management agencies.
+                        An independent global directory for discovering,
+                        researching, and comparing professional agencies.
                     </p>
 
                     <div class="footer-socials">

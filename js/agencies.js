@@ -1,644 +1,121 @@
-/* =========================================================
-   AGENCY PRIVÉ — AGENCY DIRECTORY
-========================================================= */
+/* Agency Privé directory. Only approved, published records belong here. */
+let agencies = [];
 
-document.addEventListener("DOMContentLoaded", () => {
-    initializeAgencyDirectory();
+document.addEventListener('DOMContentLoaded', async () => {
+    const form = document.getElementById('agencySearchForm');
+    const grid = document.getElementById('agencyCardGrid');
+    if (!form || !grid) return;
+    const ids = ['agencySearch','categoryFilter','locationFilter','serviceFilter','nicheFilter',
+        'verifiedFilter','featuredFilter','reviewsFilter','contactFilter','experienceFilter','sortFilter'];
+    const fields = Object.fromEntries(ids.map(id => [id, document.getElementById(id)]));
+    const empty = document.getElementById('directoryEmptyState');
+    const count = document.getElementById('resultCount');
+    const pagination = document.getElementById('directoryPagination');
+    const filters = document.getElementById('directoryFilters');
+    const overlay = document.getElementById('filterOverlay');
+    let page = 1;
+    const pageSize = 6;
+    const params = new URLSearchParams(location.search);
+    for (const [key, id] of [['search','agencySearch'],['location','locationFilter'],['category','categoryFilter'],['service','serviceFilter'],['niche','nicheFilter']]) {
+        const field = fields[id];
+        if (field && [...(field.options || [])].some(option => option.value === params.get(key))) field.value = params.get(key);
+        if (id === 'agencySearch' && field) field.value = params.get(key) || '';
+    }
+    const getSize = () => document.querySelector('input[name="agencySize"]:checked')?.value || '';
+    const normalize = value => String(value ?? '').toLocaleLowerCase().trim();
+    const list = value => Array.isArray(value) ? value : [];
+    const matches = (values, selected) => !selected || list(values).some(value => normalize(value) === normalize(selected));
+    const years = agency => Number(agency.yearsInBusiness ?? agency.years) || 0;
+    const reviewCount = agency => Number(agency.reviewCount ?? agency.reviews) || 0;
+    const rating = agency => reviewCount(agency) ? Number(agency.rating) || 0 : -1;
+    const approvedAt = agency => Date.parse(agency.approvedAt || '') || 0;
+    const compareName = (a,b) => String(a.name).localeCompare(String(b.name));
+    const hasFilter = () => Boolean(fields.agencySearch?.value.trim() || fields.categoryFilter?.value || fields.locationFilter?.value || fields.serviceFilter?.value || fields.nicheFilter?.value || fields.verifiedFilter?.checked || fields.featuredFilter?.checked || fields.reviewsFilter?.checked || fields.contactFilter?.checked || getSize() || Number(fields.experienceFilter?.value));
+    function render() {
+        const search = normalize(fields.agencySearch?.value);
+        const results = agencies.filter(agency => agency.status === 'approved' && agency.published === true).filter(agency => {
+            const searchable = [agency.name,agency.description,agency.location,agency.country,agency.region,agency.category,...list(agency.services),...list(agency.niches)].map(normalize).join(' ');
+            return (!search || searchable.includes(search)) &&
+                (!fields.categoryFilter?.value || normalize(agency.category) === normalize(fields.categoryFilter.value)) &&
+                (!fields.locationFilter?.value || [agency.country,agency.region,agency.location].some(value => normalize(value) === normalize(fields.locationFilter.value))) &&
+                matches(agency.services, fields.serviceFilter?.value) &&
+                matches(agency.niches, fields.nicheFilter?.value) &&
+                (!fields.verifiedFilter?.checked || agency.verificationStatus === 'verified') &&
+                (!fields.featuredFilter?.checked || agency.sponsored === true) &&
+                (!fields.reviewsFilter?.checked || reviewCount(agency) > 0) &&
+                (!fields.contactFilter?.checked || agency.acceptingInquiries === true) &&
+                (!getSize() || normalize(agency.size) === normalize(getSize())) &&
+                years(agency) >= Number(fields.experienceFilter?.value || 0);
+        });
+        const sort = fields.sortFilter?.value || 'name';
+        results.sort((a,b) => {
+            if (sort === 'rating') return rating(b)-rating(a) || reviewCount(b)-reviewCount(a) || compareName(a,b);
+            if (sort === 'experience') return years(b)-years(a) || compareName(a,b);
+            if (sort === 'newest') return approvedAt(b)-approvedAt(a) || compareName(a,b);
+            return compareName(a,b);
+        });
+        count.textContent = String(results.length);
+        const pages = Math.ceil(results.length / pageSize);
+        page = Math.max(1, Math.min(page,pages || 1));
+        grid.replaceChildren(...results.slice((page-1)*pageSize,page*pageSize).map(card));
+        grid.hidden = results.length === 0;
+        empty.hidden = results.length !== 0;
+        empty.querySelector('h2').textContent = hasFilter() ? 'No matching agencies' : 'No approved agencies yet';
+        empty.querySelector('p').textContent = hasFilter() ? 'Try adjusting your filters or clearing your search.' : 'Agency profiles will appear after independent review and publication.';
+        document.getElementById('emptyClearFilters').hidden = !hasFilter();
+        pagination.replaceChildren();
+        if (pages > 1) for (let n=1;n<=pages;n++) {
+            const button = document.createElement('button'); button.type='button'; button.textContent=String(n);
+            button.setAttribute('aria-label',`Page ${n}`); if (n===page) button.setAttribute('aria-current','page');
+            button.addEventListener('click',()=>{page=n;render();document.querySelector('.agency-directory-section')?.scrollIntoView();});
+            pagination.append(button);
+        }
+    }
+    function node(tag, className, value) { const item=document.createElement(tag); if(className)item.className=className;item.textContent=String(value ?? '');return item; }
+    function card(agency) {
+        const article=node('article','agency-card','');
+        const top=node('div','agency-card-top','');
+        const identity=node('div','agency-identity','');
+        identity.append(node('div','agency-monogram',agency.initials || String(agency.name || '').slice(0,2).toUpperCase()));
+        const heading=document.createElement('div');heading.append(node('h2','agency-name',agency.name),node('span','agency-location',agency.location || agency.country || 'Location not listed'));identity.append(heading);top.append(identity);
+        const badges=node('div','agency-badges','');
+        if(agency.verificationStatus==='verified') badges.append(node('span','badge badge-verified','Verified'));
+        if(agency.topRated===true) badges.append(node('span','badge badge-top-rated','Top Rated'));
+        if(agency.sponsored===true) badges.append(node('span','badge badge-select','Featured / Sponsored'));
+        top.append(badges);article.append(top,node('p','agency-description',agency.description || ''));
+        const tags=node('div','agency-services','');list(agency.services).slice(0,3).forEach(service=>tags.append(node('span','',service)));article.append(tags);
+        const meta=node('div','agency-card-meta','');
+        for (const [value,label] of [[reviewCount(agency) ? `${rating(agency).toFixed(1)} · ${reviewCount(agency)}` : 'No reviews','Published reviews'],[years(agency)||'—','Years in business'],[agency.size||'—','Agency size']]) {const part=document.createElement('div');part.append(node('strong','',value),node('span','',label));meta.append(part);} article.append(meta);
+        if(agency.acceptingInquiries===true) article.append(node('p','agency-availability','Accepting inquiries'));
+        const link=node('a','agency-card-link','View Agency Profile →');
+        const key=String(agency.id || agency.slug || '');
+        if (/^[a-zA-Z0-9_-]+$/.test(key)) link.href=`agency-profile.html?id=${encodeURIComponent(key)}`;
+        else {link.removeAttribute('href');link.setAttribute('aria-disabled','true');}
+        article.append(link);return article;
+    }
+    function closeFilters(){filters?.classList.remove('open');overlay?.classList.remove('open');document.body.classList.remove('navigation-open');document.getElementById('mobileFilterButton')?.setAttribute('aria-expanded','false');}
+    function clear(){form.reset();document.getElementById('directoryFilters')?.querySelectorAll('input,select').forEach(input=>{if(input.type==='checkbox')input.checked=false;else if(input.type==='radio')input.checked=input.value==='';else input.selectedIndex=0;});fields.sortFilter.value='name';history.replaceState(null,'',location.pathname);page=1;closeFilters();render();}
+    form.addEventListener('submit',event=>{event.preventDefault();page=1;render();});
+    [...form.querySelectorAll('input,select'),...filters.querySelectorAll('input,select'),fields.sortFilter].forEach(input=>input?.addEventListener(input.type==='search'?'input':'change',()=>{page=1;render();}));
+    document.getElementById('clearFilters')?.addEventListener('click',clear);
+    document.getElementById('emptyClearFilters')?.addEventListener('click',clear);
+    const mobile=document.getElementById('mobileFilterButton');mobile?.setAttribute('aria-expanded','false');
+    mobile?.addEventListener('click',()=>{filters?.classList.add('open');overlay?.classList.add('open');document.body.classList.add('navigation-open');mobile.setAttribute('aria-expanded','true');});
+    overlay?.addEventListener('click',closeFilters);
+    document.addEventListener('keydown',event=>{if(event.key==='Escape')closeFilters();});
+    try {
+        const response = await fetch('data/approved-agencies.json', {cache:'no-store'});
+        if (!response.ok) throw new Error('Agency data unavailable');
+        const data = await response.json();
+        if (!Array.isArray(data)) throw new Error('Invalid agency data');
+        agencies = data.filter(a => a && a.status === 'approved' && a.published === true && /^[a-z0-9_-]{1,80}$/i.test(String(a.slug || '')))
+            .map(a => ({...a,id:a.slug,verificationStatus:a.verified === true ? 'verified' : 'unverified',
+                description:a.about || a.positioning || '',reviews:a.reviewCount,location:a.location || a.country}));
+    } catch (error) {
+        console.error('Could not load public agencies:', error);
+        empty.querySelector('h2').textContent = 'Directory unavailable';
+        empty.querySelector('p').textContent = 'We could not load approved agency information. Please try again later.';
+        grid.hidden = true;empty.hidden = false;return;
+    }
+    render();
 });
-
-/* =========================================================
-   AGENCY DIRECTORY DATA
-
-   Add approved agency records here or load them from Supabase.
-   No sample agencies are presented as real listings.
-========================================================= */
-
-const agencies = [];
-
-/* =========================================================
-   DIRECTORY STATE
-========================================================= */
-
-function initializeAgencyDirectory() {
-    const cardGrid =
-        document.getElementById("agencyCardGrid");
-
-    if (!cardGrid) return;
-
-    const state = {
-        search: "",
-        location: "",
-        service: "",
-        verified: false,
-        featured: false,
-        size: "",
-        experience: 0,
-        sort: "featured",
-        page: 1,
-        pageSize: 6
-    };
-
-    const elements = {
-        form: document.getElementById("agencySearchForm"),
-        search: document.getElementById("agencySearch"),
-        location: document.getElementById("locationFilter"),
-        service: document.getElementById("serviceFilter"),
-        verified: document.getElementById("verifiedFilter"),
-        featured: document.getElementById("featuredFilter"),
-        experience: document.getElementById("experienceFilter"),
-        sort: document.getElementById("sortFilter"),
-        count: document.getElementById("resultCount"),
-        grid: cardGrid,
-        empty: document.getElementById("directoryEmptyState"),
-        pagination: document.getElementById("directoryPagination"),
-        clear: document.getElementById("clearFilters"),
-        emptyClear: document.getElementById("emptyClearFilters"),
-        filters: document.getElementById("directoryFilters"),
-        filterButton: document.getElementById("mobileFilterButton"),
-        overlay: document.getElementById("filterOverlay")
-    };
-
-    initializeStateFromUrl(state, elements);
-    initializeDirectoryEvents(state, elements);
-    renderDirectory(state, elements);
-}
-
-/* =========================================================
-   URL VALUES
-========================================================= */
-
-function initializeStateFromUrl(state, elements) {
-    const parameters =
-        new URLSearchParams(window.location.search);
-
-    state.search =
-        parameters.get("search") || "";
-
-    state.location =
-        parameters.get("location") || "";
-
-    elements.search.value = state.search;
-    elements.location.value = state.location;
-}
-
-/* =========================================================
-   EVENTS
-========================================================= */
-
-function initializeDirectoryEvents(state, elements) {
-    elements.form?.addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        state.search =
-            elements.search.value.trim();
-
-        state.location =
-            elements.location.value;
-
-        state.service =
-            elements.service.value;
-
-        state.page = 1;
-
-        renderDirectory(state, elements);
-    });
-
-    elements.search?.addEventListener("input", () => {
-        state.search =
-            elements.search.value.trim();
-
-        state.page = 1;
-
-        renderDirectory(state, elements);
-    });
-
-    elements.location?.addEventListener("change", () => {
-        state.location =
-            elements.location.value;
-
-        state.page = 1;
-
-        renderDirectory(state, elements);
-    });
-
-    elements.service?.addEventListener("change", () => {
-        state.service =
-            elements.service.value;
-
-        state.page = 1;
-
-        renderDirectory(state, elements);
-    });
-
-    elements.verified?.addEventListener("change", () => {
-        state.verified =
-            elements.verified.checked;
-
-        state.page = 1;
-
-        renderDirectory(state, elements);
-    });
-
-    elements.featured?.addEventListener("change", () => {
-        state.featured =
-            elements.featured.checked;
-
-        state.page = 1;
-
-        renderDirectory(state, elements);
-    });
-
-    document
-        .querySelectorAll('input[name="agencySize"]')
-        .forEach((input) => {
-            input.addEventListener("change", () => {
-                state.size =
-                    document.querySelector(
-                        'input[name="agencySize"]:checked'
-                    )?.value || "";
-
-                state.page = 1;
-
-                renderDirectory(state, elements);
-            });
-        });
-
-    elements.experience?.addEventListener("change", () => {
-        state.experience =
-            Number(elements.experience.value);
-
-        state.page = 1;
-
-        renderDirectory(state, elements);
-    });
-
-    elements.sort?.addEventListener("change", () => {
-        state.sort =
-            elements.sort.value;
-
-        state.page = 1;
-
-        renderDirectory(state, elements);
-    });
-
-    elements.clear?.addEventListener("click", () => {
-        clearDirectoryFilters(state, elements);
-    });
-
-    elements.emptyClear?.addEventListener("click", () => {
-        clearDirectoryFilters(state, elements);
-    });
-
-    elements.filterButton?.addEventListener("click", () => {
-        toggleMobileFilters(elements, true);
-    });
-
-    elements.overlay?.addEventListener("click", () => {
-        toggleMobileFilters(elements, false);
-    });
-
-    document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-            toggleMobileFilters(elements, false);
-        }
-    });
-}
-
-/* =========================================================
-   FILTERING AND SORTING
-========================================================= */
-
-function getFilteredAgencies(state) {
-    const normalizedSearch =
-        state.search.toLowerCase();
-
-    const filtered = agencies.filter((agency) => {
-        const searchableText = [
-            agency.name,
-            agency.location,
-            agency.description,
-            ...agency.services
-        ]
-            .join(" ")
-            .toLowerCase();
-
-        const matchesSearch =
-            !normalizedSearch ||
-            searchableText.includes(normalizedSearch);
-
-        const matchesLocation =
-            !state.location ||
-            agency.location === state.location;
-
-        const matchesService =
-            !state.service ||
-            agency.services.includes(state.service);
-
-        const matchesVerified =
-            !state.verified ||
-            agency.verified;
-
-        const matchesFeatured =
-            !state.featured ||
-            agency.featured;
-
-        const matchesSize =
-            !state.size ||
-            agency.size === state.size;
-
-        const matchesExperience =
-            agency.years >= state.experience;
-
-        return (
-            matchesSearch &&
-            matchesLocation &&
-            matchesService &&
-            matchesVerified &&
-            matchesFeatured &&
-            matchesSize &&
-            matchesExperience
-        );
-    });
-
-    return sortAgencies(filtered, state.sort);
-}
-
-function sortAgencies(agencyList, sortValue) {
-    return [...agencyList].sort((first, second) => {
-        switch (sortValue) {
-            case "rating":
-                return second.rating - first.rating;
-
-            case "experience":
-                return second.years - first.years;
-
-            case "name":
-                return first.name.localeCompare(second.name);
-
-            case "featured":
-            default:
-                return (
-                    Number(second.featured) -
-                        Number(first.featured) ||
-                    second.rating - first.rating
-                );
-        }
-    });
-}
-
-/* =========================================================
-   RENDER
-========================================================= */
-
-function renderDirectory(state, elements) {
-    const results =
-        getFilteredAgencies(state);
-
-    const totalPages =
-        Math.ceil(results.length / state.pageSize);
-
-    if (state.page > totalPages && totalPages > 0) {
-        state.page = totalPages;
-    }
-
-    const startIndex =
-        (state.page - 1) * state.pageSize;
-
-    const visibleAgencies =
-        results.slice(
-            startIndex,
-            startIndex + state.pageSize
-        );
-
-    elements.count.textContent =
-        results.length;
-
-    elements.grid.innerHTML =
-        visibleAgencies
-            .map(createAgencyCard)
-            .join("");
-
-    const noResults =
-        results.length === 0;
-
-    elements.empty.hidden =
-        !noResults;
-
-    elements.grid.hidden =
-        noResults;
-
-    if (noResults) {
-        const heading =
-            elements.empty.querySelector("h2");
-
-        const description =
-            elements.empty.querySelector("p");
-
-        const hasFilters =
-            Boolean(
-                state.search ||
-                state.location ||
-                state.service ||
-                state.verified ||
-                state.featured ||
-                state.size ||
-                state.experience
-            );
-
-        if (heading) {
-            heading.textContent =
-                hasFilters
-                    ? "No agencies match your filters"
-                    : "Agency listings are coming soon";
-        }
-
-        if (description) {
-            description.textContent =
-                hasFilters
-                    ? "Try changing your search terms or clearing the filters."
-                    : "OnlyFans management agencies will appear here once their profiles are published.";
-        }
-
-        if (elements.emptyClear) {
-            elements.emptyClear.hidden =
-                !hasFilters;
-        }
-    }
-
-    renderPagination(
-        state,
-        elements,
-        totalPages
-    );
-}
-
-function createAgencyCard(agency) {
-    const badges = [];
-
-    if (agency.featured) {
-        badges.push(`
-            <span class="badge badge-select">
-                FEATURED
-            </span>
-        `);
-    }
-
-    if (agency.verified) {
-        badges.push(`
-            <span class="badge badge-verified">
-                <i class="fa-solid fa-circle-check"></i>
-                VERIFIED
-            </span>
-        `);
-    }
-
-    const serviceTags =
-        agency.services
-            .slice(0, 3)
-            .map((service) => {
-                return `<span>${escapeHtml(service)}</span>`;
-            })
-            .join("");
-
-    return `
-        <article class="agency-card">
-
-            <div class="agency-card-top">
-
-                <div class="agency-identity">
-                    <div class="agency-monogram">
-                        ${escapeHtml(agency.initials)}
-                    </div>
-
-                    <div>
-                        <h2 class="agency-name">
-                            ${escapeHtml(agency.name)}
-                        </h2>
-
-                        <span class="agency-location">
-                            <i class="fa-solid fa-location-dot"></i>
-                            ${escapeHtml(agency.location)}
-                        </span>
-                    </div>
-                </div>
-
-                <div class="agency-badges">
-                    ${badges.join("")}
-                </div>
-
-            </div>
-
-            <p class="agency-description">
-                ${escapeHtml(agency.description)}
-            </p>
-
-            <div class="agency-services">
-                ${serviceTags}
-            </div>
-
-            <div class="agency-card-meta">
-                <div>
-                    <strong>${agency.rating.toFixed(1)}</strong>
-                    <span>${agency.reviews} reviews</span>
-                </div>
-
-                <div>
-                    <strong>${agency.years}</strong>
-                    <span>Years active</span>
-                </div>
-
-                <div>
-                    <strong>${escapeHtml(agency.size)}</strong>
-                    <span>Team size</span>
-                </div>
-            </div>
-
-            <a
-                href="agency-profile.html?id=${agency.id}"
-                class="agency-card-link"
-            >
-                View Agency Profile
-                <i class="fa-solid fa-arrow-right"></i>
-            </a>
-
-        </article>
-    `;
-}
-
-/* =========================================================
-   PAGINATION
-========================================================= */
-
-function renderPagination(
-    state,
-    elements,
-    totalPages
-) {
-    elements.pagination.innerHTML = "";
-
-    if (totalPages <= 1) return;
-
-    const previousButton =
-        createPaginationButton(
-            '<i class="fa-solid fa-chevron-left"></i>',
-            state.page - 1,
-            state.page === 1
-        );
-
-    elements.pagination.appendChild(
-        previousButton
-    );
-
-    for (
-        let pageNumber = 1;
-        pageNumber <= totalPages;
-        pageNumber += 1
-    ) {
-        const button =
-            createPaginationButton(
-                pageNumber,
-                pageNumber,
-                false
-            );
-
-        button.classList.toggle(
-            "active",
-            pageNumber === state.page
-        );
-
-        elements.pagination.appendChild(
-            button
-        );
-    }
-
-    const nextButton =
-        createPaginationButton(
-            '<i class="fa-solid fa-chevron-right"></i>',
-            state.page + 1,
-            state.page === totalPages
-        );
-
-    elements.pagination.appendChild(
-        nextButton
-    );
-
-    elements.pagination
-        .querySelectorAll("button")
-        .forEach((button) => {
-            button.addEventListener("click", () => {
-                const requestedPage =
-                    Number(button.dataset.page);
-
-                if (
-                    !requestedPage ||
-                    requestedPage < 1 ||
-                    requestedPage > totalPages
-                ) {
-                    return;
-                }
-
-                state.page = requestedPage;
-
-                renderDirectory(
-                    state,
-                    elements
-                );
-
-                document
-                    .querySelector(
-                        ".agency-directory-section"
-                    )
-                    ?.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
-            });
-        });
-}
-
-function createPaginationButton(
-    content,
-    page,
-    disabled
-) {
-    const button =
-        document.createElement("button");
-
-    button.type = "button";
-    button.innerHTML = content;
-    button.dataset.page = page;
-    button.disabled = disabled;
-
-    return button;
-}
-
-/* =========================================================
-   CLEAR FILTERS
-========================================================= */
-
-function clearDirectoryFilters(state, elements) {
-    state.search = "";
-    state.location = "";
-    state.service = "";
-    state.verified = false;
-    state.featured = false;
-    state.size = "";
-    state.experience = 0;
-    state.sort = "featured";
-    state.page = 1;
-
-    elements.search.value = "";
-    elements.location.value = "";
-    elements.service.value = "";
-    elements.verified.checked = false;
-    elements.featured.checked = false;
-    elements.experience.value = "0";
-    elements.sort.value = "featured";
-
-    const allSizes =
-        document.querySelector(
-            'input[name="agencySize"][value=""]'
-        );
-
-    if (allSizes) {
-        allSizes.checked = true;
-    }
-
-    renderDirectory(state, elements);
-    toggleMobileFilters(elements, false);
-}
-
-/* =========================================================
-   MOBILE FILTERS
-========================================================= */
-
-function toggleMobileFilters(elements, open) {
-    elements.filters?.classList.toggle(
-        "open",
-        open
-    );
-
-    elements.overlay?.classList.toggle(
-        "open",
-        open
-    );
-
-    document.body.classList.toggle(
-        "navigation-open",
-        open
-    );
-}
-
-/* =========================================================
-   HTML SAFETY
-========================================================= */
-
-function escapeHtml(value) {
-    const element =
-        document.createElement("div");
-
-    element.textContent =
-        String(value);
-
-    return element.innerHTML;
-}

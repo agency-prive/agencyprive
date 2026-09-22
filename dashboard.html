@@ -1,523 +1,79 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta
-        name="description"
-        content="Agency Privé workspace preview for OnlyFans management agencies."
-    >
-
-    <title>Agency Workspace Preview | Agency Privé</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    >
-
-    <link rel="stylesheet" href="css/dashboard.css">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Agency Privé agency workspace for preparing profile and case study drafts and monitoring service availability.">
+  <title>Agency Workspace | Agency Privé</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="css/dashboard.css"><link rel="stylesheet" href="css/dashboard-enhancements.css">
+  <script defer src="js/dashboard.js"></script>
 </head>
-
 <body>
-    <a class="skip-link" href="#dashboardContent">
-        Skip to dashboard
-    </a>
-
-    <div class="dashboard-shell">
-        <aside
-            class="dashboard-sidebar"
-            id="dashboardSidebar"
-        >
-            <div class="sidebar-header">
-                <a
-                    href="index.html"
-                    class="dashboard-logo"
-                    aria-label="Agency Privé homepage"
-                >
-                    <img
-                        src="assets/images/logo.png"
-                        alt="Agency Privé"
-                    >
-                </a>
-
-                <button
-                    class="sidebar-close"
-                    id="sidebarClose"
-                    type="button"
-                    aria-label="Close navigation"
-                >
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <div class="agency-mini-profile">
-                <div class="agency-avatar" id="sidebarAgencyAvatar">
-                    AP
-                </div>
-
-                <div>
-                    <strong id="sidebarAgencyName">
-                        Agency workspace
-                    </strong>
-
-                    <span id="sidebarAgencyStatus">
-                        Preview only
-                    </span>
-                </div>
-            </div>
-
-            <nav
-                class="dashboard-navigation"
-                aria-label="Dashboard navigation"
-            >
-                <span class="navigation-label">
-                    Workspace
-                </span>
-
-                <a class="active" href="#overview">
-                    <i class="fa-solid fa-border-all"></i>
-                    <span>Overview</span>
-                </a>
-
-                <a href="#profile">
-                    <i class="fa-regular fa-building"></i>
-                    <span>Agency Profile</span>
-                </a>
-
-                <a href="#portfolio">
-                    <i class="fa-regular fa-images"></i>
-                    <span>Portfolio</span>
-                </a>
-
-                <a href="#services">
-                    <i class="fa-solid fa-layer-group"></i>
-                    <span>OnlyFans Services</span>
-                </a>
-
-                <span class="navigation-label">
-                    Activity
-                </span>
-
-                <a href="#inquiries">
-                    <i class="fa-regular fa-envelope"></i>
-                    <span>Inquiries</span>
-                </a>
-
-                <a href="#analytics">
-                    <i class="fa-solid fa-chart-line"></i>
-                    <span>Analytics</span>
-                </a>
-
-                <a href="#verification">
-                    <i class="fa-solid fa-shield-halved"></i>
-                    <span>Verification</span>
-                </a>
-            </nav>
-
-            <div class="sidebar-bottom">
-                <a href="#subscription">
-                    <i class="fa-regular fa-gem"></i>
-                    <span>Plan &amp; Billing</span>
-                </a>
-
-                <a href="#settings">
-                    <i class="fa-solid fa-gear"></i>
-                    <span>Settings</span>
-                </a>
-
-                <button
-                    type="button"
-                    id="logoutButton"
-                >
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                    <span>Log out</span>
-                </button>
-            </div>
-        </aside>
-
-        <div class="dashboard-main">
-            <header class="dashboard-topbar">
-                <button
-                    class="sidebar-open"
-                    id="sidebarOpen"
-                    type="button"
-                    aria-label="Open navigation"
-                >
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-
-                <div class="topbar-title">
-                    <span>ONLYFANS AGENCY WORKSPACE</span>
-                    <strong>Dashboard Preview</strong>
-                </div>
-
-                <div class="topbar-actions">
-                    <a
-                        class="preview-link"
-                        href="agencies.html"
-                    >
-                        <i class="fa-regular fa-eye"></i>
-                        Browse directory
-                    </a>
-                </div>
-            </header>
-
-            <main
-                class="dashboard-content"
-                id="dashboardContent"
-            >
-                <!-- WELCOME -->
-                <section
-                    class="welcome-row"
-                    id="overview"
-                >
-                    <div>
-                        <span class="eyebrow">
-                            AGENCY PRIVÉ PREVIEW
-                        </span>
-
-                        <h1>Your agency workspace.</h1>
-
-                        <p>
-                            Explore the workspace planned for
-                            OnlyFans management agencies. Account
-                            information and activity will appear
-                            after authentication and database
-                            integration are complete.
-                        </p>
-                    </div>
-
-                    <a
-                        href="register.html"
-                        class="primary-button"
-                    >
-                        <span>View registration</span>
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-                </section>
-
-                <!-- ACCESS NOTICE -->
-                <section
-                    class="trial-banner"
-                    id="subscription"
-                    aria-label="Workspace availability"
-                >
-                    <div class="trial-icon">
-                        <i class="fa-regular fa-gem"></i>
-                    </div>
-
-                    <div class="trial-copy">
-                        <span>PLANS &amp; ACCESS</span>
-
-                        <strong>
-                            Free, Privé, Select, and Elite
-                        </strong>
-
-                        <p>
-                            Free: $0/month · Privé: $49/month ·
-                            Select: $129/month · Elite:
-                            $299/month launch price. Selecting a
-                            plan does not activate billing or a
-                            trial while this workspace is a
-                            preview.
-                        </p>
-                    </div>
-
-                    <a href="for-agencies.html#plans">
-                        View plans
-                    </a>
-                </section>
-
-                <!-- METRICS -->
-                <section
-                    class="metrics-grid"
-                    aria-label="Future profile statistics"
-                >
-                    <article class="metric-card">
-                        <div>
-                            <span>PROFILE VIEWS</span>
-                            <i class="fa-regular fa-eye"></i>
-                        </div>
-
-                        <strong>—</strong>
-
-                        <p>
-                            Available after profiles are published
-                            and analytics are connected.
-                        </p>
-                    </article>
-
-                    <article class="metric-card">
-                        <div>
-                            <span>INQUIRIES</span>
-                            <i class="fa-regular fa-envelope"></i>
-                        </div>
-
-                        <strong>—</strong>
-
-                        <p>
-                            Available after the inquiry system is
-                            connected.
-                        </p>
-                    </article>
-
-                    <article class="metric-card">
-                        <div>
-                            <span>PROFILE SAVES</span>
-                            <i class="fa-regular fa-bookmark"></i>
-                        </div>
-
-                        <strong>—</strong>
-
-                        <p>
-                            Available when agency activity tracking
-                            is connected.
-                        </p>
-                    </article>
-
-                    <article class="metric-card">
-                        <div>
-                            <span>SEARCH APPEARANCES</span>
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </div>
-
-                        <strong>—</strong>
-
-                        <p>
-                            Available after directory search
-                            analytics are connected.
-                        </p>
-                    </article>
-                </section>
-
-                <!-- WORKSPACE CARDS -->
-                <section class="dashboard-grid">
-
-                    <!-- PROFILE -->
-                    <article
-                        class="dashboard-card profile-card"
-                        id="profile"
-                    >
-                        <div class="card-heading">
-                            <div>
-                                <span>AGENCY PROFILE</span>
-                                <h2>
-                                    Present your OnlyFans agency
-                                </h2>
-                            </div>
-                        </div>
-
-                        <p class="card-intro">
-                            A published profile will display your
-                            agency information, OnlyFans services,
-                            creator specialties, and supported
-                            locations. Completion status will
-                            reflect your actual saved details
-                            once registration is connected.
-                        </p>
-
-                        <div class="completion-list">
-                            <a href="register.html">
-                                <i class="fa-solid fa-plus"></i>
-
-                                <span>
-                                    <strong>
-                                        Agency information
-                                    </strong>
-
-                                    <small>
-                                        Name, location, website,
-                                        and description
-                                    </small>
-                                </span>
-
-                                <em>View form</em>
-                            </a>
-
-                            <a href="register.html">
-                                <i class="fa-solid fa-plus"></i>
-
-                                <span>
-                                    <strong>
-                                        OnlyFans services and
-                                        expertise
-                                    </strong>
-
-                                    <small>
-                                        Management services,
-                                        creator specialties,
-                                        and regions
-                                    </small>
-                                </span>
-
-                                <em>View form</em>
-                            </a>
-                        </div>
-                    </article>
-
-                    <!-- ANALYTICS -->
-                    <article
-                        class="dashboard-card activity-card"
-                        id="analytics"
-                    >
-                        <div class="card-heading compact">
-                            <div>
-                                <span>ANALYTICS</span>
-                                <h2>Profile activity</h2>
-                            </div>
-                        </div>
-
-                        <div class="chart-summary">
-                            <strong>—</strong>
-                            <span>
-                                NO PROFILE ACTIVITY DATA YET
-                            </span>
-                        </div>
-
-                        <p class="card-intro">
-                            Profile views and other activity
-                            will be shown here when a real
-                            agency profile is published and
-                            tracking is connected.
-                        </p>
-                    </article>
-
-                    <!-- INQUIRIES -->
-                    <article
-                        class="dashboard-card inquiries-card"
-                        id="inquiries"
-                    >
-                        <div class="card-heading compact">
-                            <div>
-                                <span>LEAD MANAGEMENT</span>
-                                <h2>Agency inquiries</h2>
-                            </div>
-                        </div>
-
-                        <p class="card-intro">
-                            There are no inquiries to display.
-                            This inbox will become available
-                            after inquiry delivery and agency
-                            accounts are connected.
-                        </p>
-                    </article>
-
-                    <!-- VERIFICATION -->
-                    <article
-                        class="dashboard-card verification-card"
-                        id="verification"
-                    >
-                        <div class="verification-icon">
-                            <i class="fa-solid fa-shield-halved"></i>
-                        </div>
-
-                        <span>INDEPENDENT VERIFICATION</span>
-
-                        <h2>Verification requires review</h2>
-
-                        <p>
-                            Agency Privé verification checks
-                            business information separately from
-                            paid plans. A subscription does not
-                            grant a verified badge or determine
-                            independent rankings.
-                        </p>
-                    </article>
-
-                    <!-- PORTFOLIO -->
-                    <article
-                        class="dashboard-card"
-                        id="portfolio"
-                    >
-                        <div class="card-heading compact">
-                            <div>
-                                <span>PORTFOLIO</span>
-                                <h2>Work and case studies</h2>
-                            </div>
-                        </div>
-
-                        <p class="card-intro">
-                            Approved agency accounts will be
-                            able to present authorized examples
-                            of their work. No portfolio has been
-                            added to this preview.
-                        </p>
-                    </article>
-
-                    <!-- SERVICES -->
-                    <article
-                        class="dashboard-card"
-                        id="services"
-                    >
-                        <div class="card-heading compact">
-                            <div>
-                                <span>ONLYFANS SERVICES</span>
-                                <h2>Describe what you provide</h2>
-                            </div>
-                        </div>
-
-                        <p class="card-intro">
-                            Management, content support,
-                            subscriber retention, promotion,
-                            and analytics can be selected in
-                            the registration form.
-                        </p>
-
-                        <a
-                            href="register.html"
-                            class="secondary-button"
-                        >
-                            View services
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-                    </article>
-
-                    <!-- SETTINGS -->
-                    <article
-                        class="dashboard-card"
-                        id="settings"
-                    >
-                        <div class="card-heading compact">
-                            <div>
-                                <span>ACCOUNT SETTINGS</span>
-                                <h2>Settings are not available yet</h2>
-                            </div>
-                        </div>
-
-                        <p class="card-intro">
-                            Account settings will become
-                            available when authentication and
-                            agency profile storage are
-                            connected.
-                        </p>
-                    </article>
-
-                </section>
-            </main>
+  <a class="skip-link" href="#dashboardContent">Skip to workspace</a>
+  <div class="dashboard-shell">
+    <aside class="dashboard-sidebar" id="dashboardSidebar" aria-label="Workspace sidebar">
+      <div class="sidebar-header"><a href="index.html" class="dashboard-logo" aria-label="Agency Privé homepage"><img src="assets/images/logo.png" alt="Agency Privé"></a><button class="sidebar-close" id="sidebarClose" type="button" aria-label="Close navigation"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div>
+      <div class="agency-mini-profile"><div class="agency-avatar" id="sidebarInitials">AP</div><div><strong id="sidebarAgencyName">Agency workspace</strong><span id="sidebarAgencyStatus">Local drafts only</span></div></div>
+      <nav class="dashboard-navigation" aria-label="Dashboard sections">
+        <span class="navigation-label">Workspace</span>
+        <a class="active" href="#overview"><i class="fa-solid fa-border-all" aria-hidden="true"></i><span>Overview</span></a>
+        <a href="#profile"><i class="fa-regular fa-building" aria-hidden="true"></i><span>Profile management</span></a>
+        <a href="#case-studies"><i class="fa-regular fa-images" aria-hidden="true"></i><span>Case studies</span></a>
+        <span class="navigation-label">Trust & conversations</span>
+        <a href="#reviews"><i class="fa-regular fa-star" aria-hidden="true"></i><span>Reviews</span></a>
+        <a href="#verification"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i><span>Verification</span></a>
+        <a href="#inquiries"><i class="fa-regular fa-envelope" aria-hidden="true"></i><span>Lead inbox</span></a>
+        <span class="navigation-label">Reach & reporting</span>
+        <a href="#analytics"><i class="fa-solid fa-chart-line" aria-hidden="true"></i><span>Analytics</span></a>
+        <a href="#placements"><i class="fa-solid fa-bullhorn" aria-hidden="true"></i><span>Featured placements</span></a>
+        <a href="#reports"><i class="fa-regular fa-file-lines" aria-hidden="true"></i><span>Performance reports</span></a>
+      </nav>
+      <div class="sidebar-bottom"><a href="#billing"><i class="fa-regular fa-gem" aria-hidden="true"></i><span>Plan & billing</span></a><a href="agencies.html"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i><span>Explore directory</span></a></div>
+    </aside>
+    <div class="dashboard-main">
+      <header class="dashboard-topbar"><button class="sidebar-open" id="sidebarOpen" type="button" aria-label="Open navigation" aria-expanded="false"><i class="fa-solid fa-bars" aria-hidden="true"></i></button><div class="topbar-title"><span>AGENCY PRIVÉ</span><strong>Agency workspace</strong></div><div class="topbar-actions"><a class="preview-link" href="agencies.html">Explore marketplace ↗</a><span class="workspace-status">LOCAL DRAFT MODE</span></div></header>
+      <main class="dashboard-content" id="dashboardContent">
+        <section class="welcome-row" id="overview"><div><span class="eyebrow">BUILD A TRUSTWORTHY PRESENCE</span><h1>Your agency workspace.</h1><p>Prepare your profile and case studies. Your drafts stay in this browser until secure accounts and publishing are connected.</p></div><a href="#profile" class="primary-button">Edit local draft →</a></section>
+        <div class="workspace-alert" role="note"><strong>Launch status</strong><p>This page is a local preparation workspace. No account is authenticated here. Your entries are saved only on this browser; they are not submitted, reviewed, public, or synced across devices. Avoid entering confidential client details.</p></div>
+        <section class="metrics-grid workspace-metrics" aria-label="Platform measurements">
+          <article class="metric-card"><div><span>PROFILE VIEWS</span><i class="fa-regular fa-eye" aria-hidden="true"></i></div><strong>—</strong><p>Awaiting event tracking</p></article>
+          <article class="metric-card"><div><span>SEARCH APPEARANCES</span><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></div><strong>—</strong><p>Awaiting search tracking</p></article>
+          <article class="metric-card"><div><span>WEBSITE CLICKS</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></div><strong>—</strong><p>Awaiting click tracking</p></article>
+          <article class="metric-card"><div><span>CONTACT EVENTS</span><i class="fa-regular fa-envelope" aria-hidden="true"></i></div><strong>—</strong><p>Awaiting inquiry delivery</p></article>
+        </section>
+        <div class="workspace-columns">
+          <section class="dashboard-card workspace-panel" id="profile" aria-labelledby="profileTitle"><div class="workspace-panel-heading"><div><span class="eyebrow">PROFILE MANAGEMENT</span><h2 id="profileTitle">Your profile draft</h2></div><span class="workspace-badge">LOCAL ONLY</span></div><p>Record basic information for later review. Saving does not publish an agency profile.</p>
+            <form id="profileDraftForm" class="workspace-form">
+              <label>Agency name <input id="draftName" name="name" autocomplete="organization" maxlength="100" required placeholder="Your agency name"></label>
+              <label>Primary country <input id="draftCountry" name="country" maxlength="100" required placeholder="Country or region"></label>
+              <label>Category <input id="draftCategory" name="category" maxlength="100" placeholder="e.g. creator management"></label>
+              <label>Positioning statement <input id="draftPositioning" name="positioning" maxlength="180" placeholder="What makes your agency distinctive?"></label>
+              <label>Services <span class="workspace-help">Comma separated</span><input id="draftServices" name="services" maxlength="500" placeholder="e.g. management, production"></label>
+              <label>Creator niches <span class="workspace-help">Comma separated</span><input id="draftNiches" name="niches" maxlength="500" placeholder="e.g. gaming, lifestyle"></label>
+              <label>About the agency <textarea id="draftAbout" name="about" rows="5" maxlength="2000" placeholder="Explain your services and experience"></textarea></label>
+              <div class="workspace-actions"><button type="submit" class="primary-button">Save draft</button><button id="discardProfile" type="button" class="workspace-quiet-button">Discard profile draft</button></div>
+              <p id="profileDraftMessage" class="workspace-feedback" role="status" aria-live="polite"></p>
+            </form>
+          </section>
+          <section class="dashboard-card workspace-panel" id="case-studies" aria-labelledby="caseTitle"><div class="workspace-panel-heading"><div><span class="eyebrow">CASE STUDIES</span><h2 id="caseTitle">Show how you work</h2></div><span class="workspace-badge">LOCAL ONLY</span></div><p>Prepare summaries without identifying clients or claiming results you cannot substantiate. Staff review will be needed before publication.</p>
+            <form id="caseStudyForm" class="workspace-form"><label>Title <input id="caseTitleInput" maxlength="100" required placeholder="Project or campaign title"></label><label>Service <input id="caseService" maxlength="100" placeholder="Service provided"></label><label>Summary <textarea id="caseSummary" rows="4" maxlength="1200" required placeholder="Describe the challenge, approach and outcome"></textarea></label><button type="submit" class="primary-button">Add local case study</button><p id="caseStudyMessage" class="workspace-feedback" role="status" aria-live="polite"></p></form>
+            <div id="caseStudyList" class="case-study-list" aria-live="polite"></div>
+          </section>
         </div>
+        <div class="workspace-columns">
+          <section class="dashboard-card workspace-panel" id="reviews"><div class="workspace-panel-heading"><div><span class="eyebrow">REVIEW MANAGEMENT</span><h2>Reviews & responses</h2></div><span class="workspace-badge">AWAITING SERVICE</span></div><p>No published reviews. Moderated reviews, agency responses, dispute handling and fraud checks require the secure review service.</p><a href="trust.html">Read review rules ↗</a></section>
+          <section class="dashboard-card workspace-panel" id="verification"><div class="workspace-panel-heading"><div><span class="eyebrow">VERIFICATION STATUS</span><h2>Independent review</h2></div><span class="workspace-badge">NOT REQUESTED</span></div><p>No verification request has been submitted from this workspace. A reviewer must check business identity, website control, representative authority and business presence before a badge can be awarded. Paying does not change this decision.</p><a href="trust.html">See verification criteria ↗</a></section>
+          <section class="dashboard-card workspace-panel" id="inquiries"><div class="workspace-panel-heading"><div><span class="eyebrow">LEAD / INQUIRY INBOX</span><h2>Conversations</h2></div><span class="workspace-badge">AWAITING SERVICE</span></div><p>No connected inbox. Inquiry submission, routing, notifications, replies and outcome tracking require authenticated accounts and secure delivery.</p></section>
+          <section class="dashboard-card workspace-panel" id="analytics"><div class="workspace-panel-heading"><div><span class="eyebrow">ANALYTICS</span><h2>Discovery & engagement</h2></div><span class="workspace-badge">NOT TRACKING</span></div><p>Profile views, search appearances, website clicks and contact events are unavailable until approved profiles and a consent aware event collection service are live. No sample metrics are shown as real results.</p></section>
+          <section class="dashboard-card workspace-panel" id="billing"><div class="workspace-panel-heading"><div><span class="eyebrow">PLAN & BILLING</span><h2>Subscription</h2></div><span class="workspace-badge">NOT CONNECTED</span></div><p>This workspace has no active subscription or payment history. Choosing a plan in the current registration interface does not charge you.</p><a href="for-agencies.html#plans">See intended plan features ↗</a></section>
+          <section class="dashboard-card workspace-panel" id="placements"><div class="workspace-panel-heading"><div><span class="eyebrow">FEATURED PLACEMENTS</span><h2>Paid exposure</h2></div><span class="workspace-badge">NO ACTIVE PLACEMENT</span></div><p>No placement can be managed here yet. Future campaigns need available inventory, an approved agency, a start and end date and clear Featured / Sponsored disclosure. They never affect organic rankings.</p></section>
+          <section class="dashboard-card workspace-panel" id="reports"><div class="workspace-panel-heading"><div><span class="eyebrow">PERFORMANCE REPORTS</span><h2>Measure what happens</h2></div><span class="workspace-badge">AWAITING DATA</span></div><p>Reports will summarize validated views, search exposure, contact activity and lead outcomes after event collection and inquiry tracking are operating. There is no report to generate yet.</p></section>
+        </div>
+      </main>
     </div>
-
-    <div
-        class="sidebar-overlay"
-        id="sidebarOverlay"
-    ></div>
-
-    <div
-        class="dashboard-toast"
-        id="dashboardToast"
-        role="status"
-        aria-live="polite"
-    ></div>
-
-    <script src="js/dashboard.js"></script>
+  </div>
+  <div id="sidebarOverlay" class="sidebar-overlay"></div>
 </body>
 </html>

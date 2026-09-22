@@ -1,0 +1,141 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/trust",
+      "destination": "/reviews",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/agencies/country/:country",
+      "destination": "/agencies?location=:country"
+    },
+    {
+      "source": "/agencies/service/:service",
+      "destination": "/agencies?service=:service"
+    },
+    {
+      "source": "/agencies/category/:category",
+      "destination": "/agencies?category=:category"
+    },
+    {
+      "source": "/agencies/:slug",
+      "destination": "/agency-profile?id=:slug"
+    },
+    {
+      "source": "/compare/:selection",
+      "destination": "/compare?agencies=:selection"
+    },
+    {
+      "source": "/rankings/:path*",
+      "destination": "/rankings"
+    },
+    {
+      "source": "/reviews/:path*",
+      "destination": "/reviews"
+    },
+    {
+      "source": "/insights/:category",
+      "destination": "/insights?category=:category"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    },
+    {
+      "source": "/dashboard",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/login",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
+    },
+    {
+      "source": "/register",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
+    },
+    {
+      "source": "/agencies/country/:country",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
+    },
+    {
+      "source": "/agencies/service/:service",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
+    },
+    {
+      "source": "/agencies/category/:category",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
+    },
+    {
+      "source": "/agencies/:slug",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
+    },
+    {
+      "source": "/compare/:selection",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
+    },
+    {
+      "source": "/insights/:category",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
+    }
+  ]
+}
