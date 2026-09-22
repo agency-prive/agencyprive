@@ -1091,6 +1091,49 @@
         </section>
 
         <!-- =================================================
+             INTERACTIVE PLAN PREVIEW
+        ================================================== -->
+
+        <section class="plan-preview-section" id="planPreview" aria-labelledby="planPreviewTitle">
+            <div class="container">
+                <div class="plan-preview-intro">
+                    <div>
+                        <span class="eyebrow">PICTURE YOUR AGENCY HERE</span>
+                        <h2 id="planPreviewTitle">See what your profile could become.</h2>
+                    </div>
+                    <p>Enter your agency name and explore how each plan presents your business. This is an illustrative preview; no account or performance data is created.</p>
+                </div>
+
+                <div class="plan-preview-layout">
+                    <div class="plan-preview-controls">
+                        <label for="planPreviewAgencyName">Your agency name</label>
+                        <input id="planPreviewAgencyName" type="text" maxlength="60" placeholder="Your Agency" autocomplete="organization">
+
+                        <p class="plan-preview-prompt">Choose a plan to explore</p>
+                        <div class="plan-preview-options" role="group" aria-label="Preview a plan">
+                            <button type="button" data-plan-preview="free" aria-pressed="true"><strong>Free</strong><span>$0 / forever</span></button>
+                            <button type="button" data-plan-preview="prive" aria-pressed="false"><strong>Privé</strong><span>$49 / month</span></button>
+                            <button type="button" data-plan-preview="select" aria-pressed="false"><strong>Privé Select</strong><span>$129 / month</span></button>
+                            <button type="button" data-plan-preview="elite" aria-pressed="false"><strong>Privé Elite</strong><span>$299 / month, launch price</span></button>
+                        </div>
+                        <p class="plan-preview-footnote">Verification requires independent review and is never included automatically with a paid plan. Featured placements are labelled.</p>
+                    </div>
+
+                    <div class="plan-preview-display" aria-live="polite" aria-atomic="true">
+                        <div class="plan-preview-display-top"><span>ILLUSTRATIVE PROFILE PREVIEW</span><span id="planPreviewTier">FREE</span></div>
+                        <div class="plan-preview-cover"><span id="planPreviewPlacement" hidden>FEATURED · PAID PLACEMENT</span></div>
+                        <div class="plan-preview-identity"><span class="plan-preview-monogram" id="planPreviewMonogram">YA</span><div><small>AGENCY PROFILE</small><h3 id="planPreviewName">Your Agency</h3><p>Services and location supplied by your agency</p></div></div>
+                        <div class="plan-preview-body">
+                            <p id="planPreviewDescription">Build a clear presence with your agency description, services, location, and links.</p>
+                            <ul id="planPreviewFeatures"><li>Agency description and services</li><li>Website and social links</li><li>Apply for independent verification</li></ul>
+                            <div class="plan-preview-summary"><span id="planPreviewPrice">$0 · forever</span><a id="planPreviewLink" href="register.html?plan=free">Create Free Profile <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================
              AGENCY PRIVÉ PRICING
         ================================================== -->
 
@@ -1569,6 +1612,7 @@
         </div>
     </footer>
 
+    <script src="js/plan-preview.js"></script>
     <script src="js/translations.js"></script>
     <script src="js/main.js"></script>
 </body>
